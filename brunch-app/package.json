@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "brunch watch --server",
-    "postinstall": "brunch build --optimize"
+    "postinstall": "brunch build && brunch build --production && brunch w -s"
   },
   "dependencies": {
     "javascript-brunch": "> 1.0 < 1.5",
