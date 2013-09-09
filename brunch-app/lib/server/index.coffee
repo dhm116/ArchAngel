@@ -21,7 +21,7 @@ class BrunchServer extends EventEmitter
         @app(req, res)
 
     start: (port, callback) ->
-        @server.listen port, callback
+        @server.listen process.env.PORT || port, callback
         if @config?.watched?
             filter @config.watched, exists, (files) =>
                 @ranger = cordell.ranger files, @config, @logger
