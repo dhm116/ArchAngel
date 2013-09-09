@@ -3,7 +3,7 @@
 nodeVersion="0.10.18"
 
 echo "Installing dependencies"
-sudo apt-get update -qq && apt-get install -qq g++ postgresql
+sudo apt-get update -qq && apt-get install -qq g++ postgresql git
 
 echo "Checking if NodeJS v$nodeVersion is installed"
 n=$(node --version 2>/dev/null)
