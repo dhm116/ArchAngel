@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "brunch watch --server",
-    "postinstall": "brunch build && brunch build --production && brunch w -s"
+    "postinstall": "brunch build && brunch build --production"
   },
   "dependencies": {
     "javascript-brunch": "> 1.0 < 1.5",
@@ -36,7 +36,8 @@
     "cordell": "*",
     "statik": ">= 1.1.0",
     "brunch": "*",
-    "supertest": "~0.7.1"
+    "supertest": "~0.7.1",
+    "coffee-script": "*"
   },
   "devDependencies": {
     "mocha": "*",
