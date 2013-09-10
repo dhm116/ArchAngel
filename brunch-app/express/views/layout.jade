@@ -14,13 +14,23 @@ html.no-js(lang='en')
     title= title
     meta(name='description', content='')
     meta(name='viewport', content='width=device-width')
-        
+
     block head
-    
+      link(rel='stylesheet', href='stylesheets/app.css')
+      //if IE 7
+          link(rel='stylesheet', href='stylesheets/font-awesome-ie7.min.css')
+      script(src='javascripts/head.js')
+
   body
     //if lt IE 7
       p.chromeframe.
         You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.
+    block navigation
+      include nav
+
     block content
 
-    block scripts      
+    block scripts
+      script(src='/socket.io/socket.io.js')
+      script(src='javascripts/vendor.js')
+      script(src='javascripts/app.js', defer, onload="require('initialize');")

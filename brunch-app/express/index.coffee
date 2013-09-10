@@ -26,7 +26,7 @@ app.configure 'development', ->
     app.use express.errorHandler()
     app.locals.pretty = true
 
-app.get '/', routes.index('Express', express.version)
+app.get '/', routes.index('Penn State ArchAngel Course Management System', express.version)
 app.get '/test', routes.test('Mocha Tests')
 
 ### Default 404 middleware ###

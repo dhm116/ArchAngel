@@ -58,7 +58,7 @@ exports.config =
         debug: 'brunch:server'
         persistent: true
         interval: 100
-        watched: ['public', 'express']
+        watched: ['public', 'express', 'vendor']
         ignore: /(^[.#]|(?:~)$)/
         source: /.*\.coffee$/
         linter:
