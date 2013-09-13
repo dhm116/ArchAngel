@@ -9,9 +9,10 @@ append navigation
             ul.nav.navbar-nav
               li.active
                 a(href='/') ArchAngel
-            p.navbar-text.navbar-right You are logged in as
+            p.navbar-text.navbar-right.logged-in You are logged in as
               i.icon-user.pad-left
-              a.pad-left(href='#') Some User
+              a.pad-left(href='#') #{user.name.first} #{user.name.last}
+                img.img-circle.pad-left(src=user.picture, height='70px')
             p.navbar-text.navbar-right |
             p.navbar-text.navbar-right Messages &nbsp;
               span.badge 2

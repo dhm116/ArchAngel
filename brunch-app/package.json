@@ -37,7 +37,8 @@
     "statik": ">= 1.1.0",
     "brunch": "*",
     "supertest": "~0.7.1",
-    "coffee-script": "*"
+    "coffee-script": "*",
+    "request-json": "~0.4.3"
   },
   "devDependencies": {
     "mocha": "*",

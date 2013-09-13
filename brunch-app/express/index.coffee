@@ -2,6 +2,9 @@ express = require 'express'
 {join} = require 'path'
 {config} = require './config'
 routes = require './routes'
+request = require 'request-json'
+
+randomuserme = request.newClient 'http://api.randomuser.me/'
 
 app = express()
 
@@ -25,6 +28,16 @@ app.configure ->
 app.configure 'development', ->
     app.use express.errorHandler()
     app.locals.pretty = true
+
+app.all '*', (req, res, next) =>
+    unless req.session.user
+        randomuserme.get '/', (err, result, body) =>
+            req.session.user  = body.results[0].user
+            res.locals.user = req.session.user
+            next()
+    else
+        res.locals.user = req.session.user
+        next()
 
 app.get '/', routes.index('Penn State ArchAngel Course Management System', express.version)
 app.get '/test', routes.test('Mocha Tests')
