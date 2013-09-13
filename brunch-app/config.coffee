@@ -6,6 +6,9 @@ exports.config =
             indentation:
                 value: 4
                 level: "error"
+            max_line_length:
+                value: 180
+                level: "warn"
     plugins:
         uglify:
             pattern: /\.js$/
@@ -58,7 +61,7 @@ exports.config =
         debug: 'brunch:server'
         persistent: true
         interval: 100
-        watched: ['public', 'express', 'vendor']
+        watched: ['express', 'vendor', 'app']
         ignore: /(^[.#]|(?:~)$)/
         source: /.*\.coffee$/
         linter:
@@ -69,6 +72,9 @@ exports.config =
                     indentation:
                         value: 4
                         level: "error"
+                    max_line_length:
+                        value: 180
+                        level: "warn"
         tester:
             enabled: on
             mocha:

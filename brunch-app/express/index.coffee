@@ -18,7 +18,7 @@ app.configure ->
     app.use express.compress()
     app.use express.cookieParser(config.cookie.secret)
     app.use express.session()
-    app.use express.csrf()
+    # app.use express.csrf()
     app.use app.router
     app.use express.static join __dirname, '..', 'public'
 
@@ -28,6 +28,11 @@ app.configure 'development', ->
 
 app.get '/', routes.index('Penn State ArchAngel Course Management System', express.version)
 app.get '/test', routes.test('Mocha Tests')
+app.get '/main', (req, res, next) =>
+    res.render 'main', {title: 'Penn State ArchAngel Course Management System', courses:['SWENG 500', 'SWENG 505']}
+
+app.post '/', (req, res, next) =>
+    res.redirect '/main'
 
 ### Default 404 middleware ###
 app.use routes.error('Page not found :(', 404)
