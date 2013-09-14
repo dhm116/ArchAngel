@@ -9,7 +9,7 @@ App =
 module.exports = _.extend App, Backbone.Events
 
 $ ->
-	
+
     # App is an Event Emmiter / mediator
     App.on 'initialize', (msg) ->
         console.log msg
@@ -31,3 +31,5 @@ $ ->
         App.Sockets.AppSocket.on 'msg', (msg) ->
             console.log 'Socket.io Msg: '+msg
         App.Sockets.AppSocket.emit 'initialize'
+
+    $('.dropdown').dropdown()

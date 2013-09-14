@@ -30,13 +30,20 @@ app.configure 'development', ->
     app.locals.pretty = true
 
 app.all '*', (req, res, next) =>
+
     unless req.session.user
-        randomuserme.get '/', (err, result, body) =>
-            req.session.user  = body.results[0].user
-            res.locals.user = req.session.user
+        randomuserme.get '/?results=10', (err, result, body) =>
+            if err
+                console.log err
+            else
+                req.session.user  = body.results[0].user
+                res.locals.user = req.session.user
+                req.session.people  = (result.user for result in body.results[1..])
+                res.locals.people = req.session.people
             next()
     else
         res.locals.user = req.session.user
+        res.locals.people = req.session.people
         next()
 
 app.get '/', routes.index('Penn State ArchAngel Course Management System', express.version)

@@ -1,18 +1,14 @@
 append navigation
-  .container
-      .navbar.navbar-default.navbar-fixed-top
-        .container
-          .navbar-header
-            a.navbar-brand(href='/')
-              img(src='http://webstyleguide.psu.edu/img/twoTone-border10.png')
-          .navbar-collapse.collapse
-            ul.nav.navbar-nav
-              li.active
-                a(href='/') ArchAngel
-            p.navbar-text.navbar-right.logged-in You are logged in as
-              i.icon-user.pad-left
-              a.pad-left(href='#') #{user.name.first} #{user.name.last}
-                img.img-circle.pad-left(src=user.picture, height='70px')
-            p.navbar-text.navbar-right |
-            p.navbar-text.navbar-right Messages &nbsp;
-              span.badge 2
+  .ui.menu.pointing
+    a.item.active(href='/')
+      img.ui.image.small.floated.move.up.more(src='http://webstyleguide.psu.edu/img/twoTone-border10.png')
+      span ArchAngel
+    .right.menu
+      a.item(href='#')
+        span
+          img.ui.avatar.image.move.up(src=user.picture)
+        span.full-name.pad-left #{user.name.first} #{user.name.last}
+      a.item(href='#')
+        i.icon-off
+          span.pad-left Log out
+    block navigation-items
