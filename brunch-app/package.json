@@ -38,7 +38,14 @@
     "brunch": "*",
     "supertest": "~0.7.1",
     "coffee-script": "*",
-    "request-json": "~0.4.3"
+    "request-json": "~0.4.3",
+    "node.io": "~0.5.1",
+    "underscore": "~1.5.2",
+    "jugglingdb": "~0.2.0-40",
+    "jugglingdb-redis": "0.0.2-2",
+    "resource-juggling": "git://github.com/dhm116/resource-juggling.git#fix_empty_where_query",
+    "express-resource": "~1.0.0",
+    "jugglingdb-postgres": "0.0.1-6"
   },
   "devDependencies": {
     "mocha": "*",
