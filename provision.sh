@@ -3,7 +3,7 @@
 nodeVersion="0.10.18"
 
 echo "Installing dependencies"
-sudo apt-get update -qq && apt-get install -qq g++ postgresql git
+sudo apt-get update -qq && apt-get install -qq g++ postgresql git redis-server
 
 echo "Checking if NodeJS v$nodeVersion is installed"
 n=$(node --version 2>/dev/null)
@@ -19,5 +19,6 @@ if [ "$n" != "v$nodeVersion" ]; then
 	sudo npm install -g coffee-script
 	sudo npm install -g express
 	sudo npm install -g brunch
+	sudo npm install -g mocha
 fi
 echo "All done"
