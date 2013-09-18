@@ -62,7 +62,7 @@ exports.config =
         persistent: true
         interval: 100
         watched: ['express', 'vendor', 'app']
-        ignore: /(^[.#]|(?:~)$)/
+        ignore: /(^[.#]|.*\.json|(?:~)$)/
         source: /.*\.coffee$/
         linter:
             enabled: on
