@@ -1,0 +1,65 @@
+extends layout
+
+block navigation
+
+append content
+	.ui.container
+		.ui.grid
+			.sixteen.wide.row
+			.sixteen.wide.row
+				.one.wide.column
+				.fourteen.wide.column
+					.ui.one.column.grid
+						.column
+							.ui.pile.blue.segment
+								h2.ui.header
+									i.icon.inverted.circular.check
+									span ArchAngel Test results
+								h4.ui.header
+									i.icon.chart
+									span Statistics
+								.ui.comments
+									each stat, name in results.stats
+										.comment
+											.avatar
+												i.icon.circular.minus
+											.content
+												a.author #{name}
+												.metadata
+													.date #{stat}
+			.page-break
+			.sixteen.wide.row
+				.one.wide.column
+				.fourteen.wide.column
+					.ui.one.column.grid
+						.column
+							.ui.pile.green.segment
+								h2.ui.header
+									i.icon.inverted.circular.print
+									span Details
+								.ui.threaded.comments
+									each tests, group in _.groupBy(results.tests, function(test){return test.classname;})
+										//- - var passed = _.where(results.passes, {classname: group})
+										- var failed = _.where(results.failures, {classname: group})
+										.comment
+											.avatar
+												i.icon.circular.minus
+											.content
+												a.author #{group}
+												.metadata
+													.ui.labels.small
+														if failed.length
+															.ui.label.red #{failed.length} failed
+														else
+															.ui.label #{failed.length} failed
+											.comments
+												each test in tests
+													- var passed = _.findWhere(results.passes, {title: test.title})
+													.comment
+														.avatar
+															unless passed
+																i.icon.circular.inverted.thumbs.down.red
+															else
+																i.icon.circular.inverted.thumbs.up.green
+														.content
+															a.author #{test.title}

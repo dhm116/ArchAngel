@@ -12,6 +12,7 @@ class BrunchServer extends EventEmitter
         @config[name] = value for name, value of config.server
         throw 'Must specify an app location under config.server.app' unless @config.app?
         @app = require join process.cwd(), @config.app
+
         @server = http.createServer @_listener
         # Expose the brunch logger
         @logger = logger

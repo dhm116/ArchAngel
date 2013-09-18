@@ -1,0 +1,246 @@
+{
+  "stats": {
+    "suites": 10,
+    "tests": 18,
+    "passes": 8,
+    "pending": 0,
+    "failures": 10,
+    "start": "2013-09-18T03:46:34.483Z",
+    "end": "2013-09-18T03:46:36.360Z",
+    "duration": 1877
+  },
+  "suites": [
+    "User interface tests",
+    "GET",
+    "POST",
+    "Instructor",
+    "login",
+    "identified",
+    "creates a",
+    "uploads a",
+    "create a course with",
+    "uses a forum to"
+  ],
+  "tests": [
+    {
+      "title": "/ respond with 200",
+      "fullTitle": "User interface tests GET / respond with 200",
+      "classname": "User interface tests GET",
+      "duration": 318
+    },
+    {
+      "title": "/test respond with 200",
+      "fullTitle": "User interface tests GET /test respond with 200",
+      "classname": "User interface tests GET",
+      "duration": 264
+    },
+    {
+      "title": "/error respond with 404",
+      "fullTitle": "User interface tests GET /error respond with 404",
+      "classname": "User interface tests GET",
+      "duration": 258
+    },
+    {
+      "title": "/courses responds with 200 ",
+      "fullTitle": "User interface tests GET /courses responds with 200 ",
+      "classname": "User interface tests GET",
+      "duration": 254
+    },
+    {
+      "title": "/courses responds with a list of courses",
+      "fullTitle": "User interface tests GET /courses responds with a list of courses",
+      "classname": "User interface tests GET",
+      "duration": 248
+    },
+    {
+      "title": "creates a course",
+      "fullTitle": "User interface tests POST creates a course",
+      "classname": "User interface tests POST",
+      "duration": 268
+    },
+    {
+      "title": "with an instructor account",
+      "fullTitle": "Instructor login with an instructor account",
+      "classname": "Instructor login",
+      "duration": 253
+    },
+    {
+      "title": "as an instructor",
+      "fullTitle": "Instructor identified as an instructor",
+      "classname": "Instructor identified",
+      "duration": 1
+    },
+    {
+      "title": "course",
+      "fullTitle": "Instructor creates a course",
+      "classname": "Instructor creates a",
+      "duration": 1
+    },
+    {
+      "title": "forum",
+      "fullTitle": "Instructor creates a forum",
+      "classname": "Instructor creates a",
+      "duration": 0
+    },
+    {
+      "title": "syllabus",
+      "fullTitle": "Instructor creates a syllabus",
+      "classname": "Instructor creates a",
+      "duration": 0
+    },
+    {
+      "title": "syllabus",
+      "fullTitle": "Instructor uploads a syllabus",
+      "classname": "Instructor uploads a",
+      "duration": 0
+    },
+    {
+      "title": "an invalid date",
+      "fullTitle": "Instructor create a course with an invalid date",
+      "classname": "Instructor create a course with",
+      "duration": 0
+    },
+    {
+      "title": "a future access date",
+      "fullTitle": "Instructor create a course with a future access date",
+      "classname": "Instructor create a course with",
+      "duration": 0
+    },
+    {
+      "title": "create a new post",
+      "fullTitle": "Instructor uses a forum to create a new post",
+      "classname": "Instructor uses a forum to",
+      "duration": 0
+    },
+    {
+      "title": "upload an attachment to a new post",
+      "fullTitle": "Instructor uses a forum to upload an attachment to a new post",
+      "classname": "Instructor uses a forum to",
+      "duration": 0
+    },
+    {
+      "title": "reply to an existing post",
+      "fullTitle": "Instructor uses a forum to reply to an existing post",
+      "classname": "Instructor uses a forum to",
+      "duration": 0
+    },
+    {
+      "title": "edit their own post",
+      "fullTitle": "Instructor uses a forum to edit their own post",
+      "classname": "Instructor uses a forum to",
+      "duration": 1
+    }
+  ],
+  "failures": [
+    {
+      "title": "as an instructor",
+      "fullTitle": "Instructor identified as an instructor",
+      "classname": "Instructor identified",
+      "duration": 1
+    },
+    {
+      "title": "forum",
+      "fullTitle": "Instructor creates a forum",
+      "classname": "Instructor creates a",
+      "duration": 0
+    },
+    {
+      "title": "syllabus",
+      "fullTitle": "Instructor creates a syllabus",
+      "classname": "Instructor creates a",
+      "duration": 0
+    },
+    {
+      "title": "syllabus",
+      "fullTitle": "Instructor uploads a syllabus",
+      "classname": "Instructor uploads a",
+      "duration": 0
+    },
+    {
+      "title": "an invalid date",
+      "fullTitle": "Instructor create a course with an invalid date",
+      "classname": "Instructor create a course with",
+      "duration": 0
+    },
+    {
+      "title": "a future access date",
+      "fullTitle": "Instructor create a course with a future access date",
+      "classname": "Instructor create a course with",
+      "duration": 0
+    },
+    {
+      "title": "create a new post",
+      "fullTitle": "Instructor uses a forum to create a new post",
+      "classname": "Instructor uses a forum to",
+      "duration": 0
+    },
+    {
+      "title": "upload an attachment to a new post",
+      "fullTitle": "Instructor uses a forum to upload an attachment to a new post",
+      "classname": "Instructor uses a forum to",
+      "duration": 0
+    },
+    {
+      "title": "reply to an existing post",
+      "fullTitle": "Instructor uses a forum to reply to an existing post",
+      "classname": "Instructor uses a forum to",
+      "duration": 0
+    },
+    {
+      "title": "edit their own post",
+      "fullTitle": "Instructor uses a forum to edit their own post",
+      "classname": "Instructor uses a forum to",
+      "duration": 1
+    }
+  ],
+  "passes": [
+    {
+      "title": "/ respond with 200",
+      "fullTitle": "User interface tests GET / respond with 200",
+      "classname": "User interface tests GET",
+      "duration": 318
+    },
+    {
+      "title": "/test respond with 200",
+      "fullTitle": "User interface tests GET /test respond with 200",
+      "classname": "User interface tests GET",
+      "duration": 264
+    },
+    {
+      "title": "/error respond with 404",
+      "fullTitle": "User interface tests GET /error respond with 404",
+      "classname": "User interface tests GET",
+      "duration": 258
+    },
+    {
+      "title": "/courses responds with 200 ",
+      "fullTitle": "User interface tests GET /courses responds with 200 ",
+      "classname": "User interface tests GET",
+      "duration": 254
+    },
+    {
+      "title": "/courses responds with a list of courses",
+      "fullTitle": "User interface tests GET /courses responds with a list of courses",
+      "classname": "User interface tests GET",
+      "duration": 248
+    },
+    {
+      "title": "creates a course",
+      "fullTitle": "User interface tests POST creates a course",
+      "classname": "User interface tests POST",
+      "duration": 268
+    },
+    {
+      "title": "with an instructor account",
+      "fullTitle": "Instructor login with an instructor account",
+      "classname": "Instructor login",
+      "duration": 253
+    },
+    {
+      "title": "course",
+      "fullTitle": "Instructor creates a course",
+      "classname": "Instructor creates a",
+      "duration": 1
+    }
+  ]
+}

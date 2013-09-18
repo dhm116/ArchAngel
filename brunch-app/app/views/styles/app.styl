@@ -26,6 +26,18 @@ body > .container
 .full-name
   text-transform capitalize
 
+.ui.comments .comment .avatar i {
+  display: block;
+  margin: 0em auto;
+  width: 3em;
+  height: 3em;
+  border-radius: 500px;
+}
+
+@media print {
+  .page-break { display: block; page-break-before: always; }
+}
+
 .form-signin {
   max-width: 330px;
   padding: 15px;
