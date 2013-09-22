@@ -1,0 +1,43 @@
+extends layout
+
+block navigation
+  .ui.menu.pointing
+    a.item.active(href='/')
+      img.ui.image.small.floated.move.up.more(src='http://webstyleguide.psu.edu/img/twoTone-border10.png')
+      span ArchAngel
+
+append content
+  form.form-signin.ui.form.attached.fluid.segment(action='/login', method='post')
+    .ui.16.column.grid
+      .row
+        .two.wide.column
+        .twelve.wide.column
+          h2.form-signin-heading.text-muted
+            i.icon-lock
+            span.pad-left Please sign in
+        .two.wide.column
+      .row
+        .two.wide.column
+        .twelve.wide.column
+          .ui.input.focus
+            input(type='text', name='id', placeholder='Access ID', autofocus=true)
+        .two.wide.column
+      .row
+        .two.wide.column
+        .twelve.wide.column
+          .ui.input
+            input(type='password', name='password', placeholder='Password')
+        .column
+      .row
+        .two.wide.column
+        .twelve.wide.column
+         .ui.checkbox
+            input(type='checkbox', id='remember-me', value='remember-me')
+            label.box(for='remember-me')
+          label(for='remember-me') Remember me
+        .two.wide.column
+      .row
+        .two.wide.column
+        .twelve.wide.column
+          button.ui.circular.green.button(type='submit') Sign in
+        .two.wide.column

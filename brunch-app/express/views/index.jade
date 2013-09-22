@@ -1,44 +1,91 @@
 extends layout
 
-block navigation
-  .ui.menu.pointing
-    a.item.active(href='/')
-      img.ui.image.small.floated.move.up.more(src='http://webstyleguide.psu.edu/img/twoTone-border10.png')
-      span ArchAngel
+append navigation-items
+	.right.menu
+		a.item(href='/tests')
+			i.icon-check-sign
+			span.pad-left Unit Tests Report
+
+	a.ui.dropdown.item
+		span Courses
+		i.icon.dropdown
+		.ui.label.pointing.left.red 2
+		.menu
+			each course in courses
+				.item
+					i.icon.time.red
+					span #{course}
 
 append content
-  .container
-    form.form-signin(action='/', method='post')
-      .ui.16.column.grid
-        .row
-          .two.wide.column
-          .twelve.wide.column
-            h2.form-signin-heading.text-muted
-              i.icon-lock
-              span.pad-left Please sign in
-          .two.wide.column
-        .row
-          .two.wide.column
-          .twelve.wide.column
-            .ui.input.focus
-              input(type='text', placeholder='Access ID', autofocus=true)
-          .two.wide.column
-        .row
-          .two.wide.column
-          .twelve.wide.column
-            .ui.input
-              input(type='password', placeholder='Password')
-          .column
-        .row
-          .two.wide.column
-          .twelve.wide.column
-           .ui.checkbox
-              input(type='checkbox', id='remember-me', value='remember-me')
-              label.box(for='remember-me')
-            label(for='remember-me') Remember me
-          .two.wide.column
-        .row
-          .two.wide.column
-          .twelve.wide.column
-            button.ui.circular.green.button(type='submit') Sign in
-          .two.wide.column
+	.ui.container
+		.ui.grid
+			.four.wide.column.mobile.only
+				.ui.vertical.fluid.inverted.menu
+					.item
+						i.icon.time
+						a Upcoming
+						.menu
+							a.item
+								span SWENG 500
+								i.icon-arrow-right.pad-left
+								span.pad-left Week 2
+								.ui.label.top.right.attached.small 2
+							a.item
+								span SWENG 505
+								i.icon-arrow-right.pad-left
+								span.pad-left Week 2
+								.ui.label.top.right.attached.small.red 1
+					.item
+						i.icon.community
+						a Discussions
+						.menu
+							a.item
+								span Team 5
+								i.icon-arrow-right.pad-left
+								span.pad-left Week 2
+								.ui.label.top.right.attached.small.blue 1
+							a.item
+								span SWENG 505
+								i.icon-arrow-right.pad-left
+								span.pad-left Week 2.1
+							a.item
+								span SWENG 505
+								i.icon-arrow-right.pad-left
+								span.pad-left Week 2.2
+								.ui.label.top.right.attached.small.green 1
+			.twelve.wide.column
+				.ui.row
+					h1.ui.header.dividing Welcome to ArchAngel
+				.ui.row
+					.ui.piled.feed.segment
+						h2.ui.header Activity Feed
+						.event
+							.label
+								i.icon.fire.circular
+							.content
+								.date Just moments ago
+								.summary
+									- var replier = people[Math.floor(Math.random() * people.length)]
+
+									a(href='#')
+										img.ui.image.circular(src=replier.picture)
+										span.full-name #{replier.name.first} #{replier.name.last}
+									span.pad-left replied to your post
+						.event
+							.label
+								i.icon.trophy.circular
+							.content
+								.date 4 hours ago
+								.summary
+									- var replier = people[Math.floor(Math.random() * people.length)]
+
+									a(href='#')
+										img.ui.image.circular(src=replier.picture)
+										span.full-name #{replier.name.first} #{replier.name.last}
+									span.pad-left just posted grades for
+									span.pad-left
+									a.ui.button.mini.basic.circular(href='#') SWENG 505
+										span.pad-left: i.icon-arrow-right
+										span.pad-left Week 2
+
+

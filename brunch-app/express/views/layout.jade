@@ -28,7 +28,15 @@ html.no-js(lang='en')
     block navigation
       include nav
 
-    block content
+    .ui.container
+      block messages
+        if typeof(message) !== 'undefined' && message.length
+          .ui.attached.icon.message.yellow
+            i.icon.attention
+            .content
+              .header Oops! Something went wrong!
+              p= message
+      block content
 
     block scripts
       script(src='/socket.io/socket.io.js')

@@ -44,7 +44,10 @@
     "resource-juggling": "git://github.com/dhm116/resource-juggling.git#fix_empty_where_query",
     "express-resource": "~1.0.0",
     "jugglingdb-postgres": "git://github.com/scottnonnenberg/jugglingdb-postgres#changes",
-    "jugglingdb-redis": "0.0.2-2"
+    "jugglingdb-redis": "0.0.2-2",
+    "passport": "~0.1.17",
+    "passport-local": "~0.1.6",
+    "connect-flash": "~0.1.1"
   },
   "devDependencies": {
     "mocha": "*",

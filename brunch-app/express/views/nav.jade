@@ -4,11 +4,12 @@ append navigation
       img.ui.image.small.floated.move.up.more(src='http://webstyleguide.psu.edu/img/twoTone-border10.png')
       span ArchAngel
     .right.menu
-      a.item(href='#')
-        span
-          img.ui.avatar.image.move.up(src=user.picture)
-        span.full-name.pad-left #{user.name.first} #{user.name.last}
-      a.item(href='#')
-        i.icon-off
-          span.pad-left Log out
+      if typeof(user) !== 'undefined'
+        a.item(href='#')
+          span
+              img.ui.avatar.image.move.up(src=user.picture)
+          span.full-name.pad-left #{user.name.first} #{user.name.last}
+        a.item(href='/logout')
+          i.icon-off
+            span.pad-left Log out
     block navigation-items

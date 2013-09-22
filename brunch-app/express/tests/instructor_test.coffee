@@ -2,12 +2,13 @@ request = require 'supertest'
 chai = require 'chai'
 expect = chai.expect
 app = require '..'
+models = require '../models/all'
 
 describe 'Instructor', () ->
     describe 'login', () ->
-        it 'with an instructor account', (done) ->
-            user = {username: 'sirhcwolf', password: 'yesiamaknight'}
-            request(app).post('/').send(user).expect(302).end(done)
+        # it 'with an instructor account', (done) ->
+        #     user = {username: 'sirhcwolf', password: 'yesiamaknight'}
+        #     request(app).post('/').send(user).expect(302).end(done)
 
     describe 'identified', () ->
         it 'as an instructor', (done) ->
@@ -16,14 +17,10 @@ describe 'Instructor', () ->
 
     describe 'creates a', () ->
         it 'course', (done) ->
-            {Course, Syllabus} = require('../models/syllabus')
-            Course.create {name: 'SWENG 500'}, (err, c) ->
+            models.Course.create {name: 'SWENG 500'}, (err, c) ->
                 expect(err).to.be.null
                 expect(c.name).to.be.equal('SWENG 500')
                 c.destroy done
-
-            # expect(false).to.be.true
-            # done()
 
         it 'forum', (done) ->
             expect(false).to.be.true
