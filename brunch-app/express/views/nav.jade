@@ -7,8 +7,8 @@ append navigation
       if typeof(user) !== 'undefined'
         a.item(href='#')
           span
-              img.ui.avatar.image.move.up(src=user.picture)
-          span.full-name.pad-left #{user.name.first} #{user.name.last}
+              img.ui.avatar.image.move.up(src=user.profile.picture)
+          span.full-name.pad-left #{user.firstName} #{user.lastName}
         a.item(href='/logout')
           i.icon-off
             span.pad-left Log out

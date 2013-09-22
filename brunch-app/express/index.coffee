@@ -10,6 +10,7 @@ resource = require 'express-resource'
 flash = require 'connect-flash'
 passport = require 'passport'
 LocalStrategy = require('passport-local').Strategy
+RedisStore = require('connect-redis')(express)
 
 rj = require 'resource-juggling'
 models = require './models/all'
@@ -30,7 +31,14 @@ app.configure ->
     app.use express.methodOverride()
     app.use express.compress()
     app.use express.cookieParser(config.cookie.secret)
-    app.use express.session()
+    app.use express.session {
+        store: new RedisStore {
+            host: 'localhost'
+            port: 6379
+            db: 2
+        }
+        secret: 'asdl;fkj123049uq0-[9sdajks;df'
+    }
     app.use flash()
     app.use passport.initialize()
     app.use passport.session()
@@ -40,35 +48,49 @@ app.configure ->
     #app.engine 'html', config.view.engine
 
 users = []
-#everyauth.helpExpress(app)
-randomuserme.get '/?results=10', (err, result, body) =>
-    log.info "Finished retrieving #{body.results.length} users"
-    users = (row.user for row in body.results)
-    for user, index in users
-        user.id = user.email.split("@")[0]
+models.User.all (err, results) ->
+    users = results
 
-    log.info "You can log in as #{user.id}" for user in users
+#everyauth.helpExpress(app)
+models.User.count (err, count) ->
+    unless count >= 20
+        randomuserme.get '/?results=5', (err, result, body) =>
+            log.info "Finished retrieving #{body.results.length} users"
+            randomUsers = (row.user for row in body.results)
+            for user, index in randomUsers
+                user.id = user.email.split("@")[0]
+                models.User.create {
+                    title: user.name.title
+                    firstName: user.name.first
+                    lastName: user.name.last
+                    email: user.email
+                    userid: user.id
+                    profile: {picture: user.picture}
+                }, (err, u) ->
+                    u.profile.UserId = u.id
+                    u.profile.save () ->
+                        users.push u
 
 app.configure 'development', ->
     app.use express.errorHandler()
     app.locals.pretty = true
 
-getUserByUsername = (username) ->
-    user = underscore.find users, (u) -> u.id == username
+getUserByUserId = (userid) ->
+    user = underscore.find users, (u) -> u.userid == userid
 
-passport.use new LocalStrategy {usernameField: 'id'}, (username, password, done) ->
-    user = getUserByUsername(username)
+passport.use new LocalStrategy {usernameField: 'userid'}, (userid, password, done) ->
+    user = getUserByUserId(userid)
     unless user
-        done(null, false, {message: "No user with username #{username} found"})
+        done(null, false, {message: "No user with userid #{userid} found"})
     else
         # TODO: Verify the password
         done(null, user)
 
 passport.serializeUser (user, done) ->
-    done(null, user.id)
+    done(null, user.userid)
 
-passport.deserializeUser (id, done) ->
-    user = getUserByUsername(id)
+passport.deserializeUser (userid, done) ->
+    user = getUserByUserId(userid)
     done(null, user)
 
 app.all '*', (req, res, next) =>
@@ -97,8 +119,8 @@ app.get '/tests', (req, res, next) =>
     child = exec 'mocha express/tests/*.coffee --compilers coffee:coffee-script --reporter `pwd`/json2.js', (err, stdout, stderr) ->
         if stderr
             log.error err
-            log.info stdout
             log.warn stderr
+        log.info stdout
 
         res.render 'tests', {results: require('./tests/report.json')}
 

@@ -23,13 +23,13 @@ append content
         .two.wide.column
         .twelve.wide.column
           .ui.input.focus
-            input(type='text', name='id', value=user.id, placeholder='Access ID')
+            input#userid(type='text', name='userid', value=user.userid, placeholder='Access ID')
         .two.wide.column
       .row
         .two.wide.column
         .twelve.wide.column
           .ui.input
-            input(type='password', name='password', placeholder='Password', autofocus=true)
+            input#password(type='password', name='password', placeholder='Password', autofocus=true)
         .column
       .row
         .two.wide.column
@@ -44,3 +44,13 @@ append content
         .twelve.wide.column
           button.ui.circular.green.button(type='submit') Sign in
         .two.wide.column
+  .ui.row.fluid.segment
+    h2.ui.header.dividing Quick login
+    .ui.ten.stackable.items
+      each person, index in people
+        .item.auto-user(style='min-height: 160px;')
+          .ui.image
+            img(src=person.profile.picture)
+          .content
+            .name.full-name #{person.firstName} #{person.lastName}
+            .description #{person.userid}

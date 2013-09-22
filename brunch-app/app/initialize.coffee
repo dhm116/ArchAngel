@@ -33,3 +33,8 @@ $ ->
         App.Sockets.AppSocket.emit 'initialize'
 
     $('.dropdown').dropdown()
+
+    $('.auto-user').on 'click', (e) ->
+        id = $(@).find('.description').text()
+        $('#userid').val(id)
+        $('#password').val('bleepblorp')

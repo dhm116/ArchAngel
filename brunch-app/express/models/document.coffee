@@ -1,11 +1,10 @@
-schema = require './schema'
+Schema = require('jugglingdb').Schema
 
-Document = schema.define 'Document', {
+Document = {
     title: String
     author: String
-    createdOn: Date
+    createdOn: {type: Date, default: () -> new Date }
+    content: Schema.Text
 }
-
-schema.automigrate()
 
 module.exports = Document

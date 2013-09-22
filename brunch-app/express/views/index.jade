@@ -68,8 +68,8 @@ append content
 									- var replier = people[Math.floor(Math.random() * people.length)]
 
 									a(href='#')
-										img.ui.image.circular(src=replier.picture)
-										span.full-name #{replier.name.first} #{replier.name.last}
+										img.ui.image.circular(src=replier.profile.picture)
+										span.full-name #{replier.firstName} #{replier.lastName}
 									span.pad-left replied to your post
 						.event
 							.label
@@ -80,8 +80,8 @@ append content
 									- var replier = people[Math.floor(Math.random() * people.length)]
 
 									a(href='#')
-										img.ui.image.circular(src=replier.picture)
-										span.full-name #{replier.name.first} #{replier.name.last}
+										img.ui.image.circular(src=replier.profile.picture)
+										span.full-name #{replier.firstName} #{replier.lastName}
 									span.pad-left just posted grades for
 									span.pad-left
 									a.ui.button.mini.basic.circular(href='#') SWENG 505

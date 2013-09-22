@@ -10,6 +10,6 @@ Course = schema.define 'Course', {
 
 Syllabus.belongsTo('course')
 
-schema.automigrate()
+schema.autoupdate()
 
 module.exports = Course

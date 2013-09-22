@@ -1,9 +1,11 @@
 schema = require './schema'
+Document = require './document'
+_ = require 'underscore'
 
-Syllabus = schema.define 'Syllabus', {
+Syllabus = schema.define 'Syllabus', _.extend Document, {
     title: String
 }
 
-schema.automigrate()
+schema.autoupdate()
 
 module.exports = Syllabus
