@@ -27,8 +27,16 @@ describe 'Instructor', () ->
             done()
 
         it 'syllabus', (done) ->
-            expect(false).to.be.true
-            done()
+            models.Course.create {name: 'SWENG 500'}, (err, c) ->
+                expect(err).to.be.null
+                expect(c.name).to.be.equal('SWENG 500')
+                models.Syllabus.create {title: 'Welcome to SWENG 500', course: c}, (err, s) ->
+                    expect(err).to.be.null
+                    expect(s.title).to.be.equal('Welcome to SWENG 500')
+                    expect(s.course.id).to.be.equal(c.id)
+                    expect(s.createdOn).to.not.be.null
+                    s.destroy () ->
+                        c.destroy done
 
     describe 'uploads a', () ->
         it 'syllabus', (done) ->
