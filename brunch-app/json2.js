@@ -62,7 +62,7 @@ function JSONReporter2(runner) {
      * Copying from https://github.com/ArtemisiaSolutions/mocha-json-file-reporter
      */
     var jsonOutput = JSON.stringify(obj, null, 2);
-    process.stdout.write(jsonOutput);
+    //process.stdout.write(jsonOutput);
 
     try {
       util.print("\nGenerating report.json file")
@@ -91,10 +91,17 @@ function JSONReporter2(runner) {
  */
 
 function clean(test) {
-  return {
+  //console.log(test);
+  var result = {
       title: test.title
     , fullTitle: test.fullTitle()
     , classname: test.parent.fullTitle()
     , duration: test.duration
+    , code: utils.escape(utils.clean(test.fn.toString()))
   }
+  if(typeof(test.err) !== "undefined")
+  {
+    result.err = test.err
+  }
+  return result;
 }

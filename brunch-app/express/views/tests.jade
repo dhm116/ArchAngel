@@ -2,6 +2,9 @@ extends layout
 
 block navigation
 
+append scripts
+	script(src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js")
+
 append content
 	.ui.container
 		.ui.grid
@@ -65,3 +68,8 @@ append content
 																i.icon.circular.inverted.thumbs.up.green
 														.content
 															a.author #{test.title}
+															unless passed
+																.text
+																	.ui.segment
+																		.ui.top.attached.label #{test.err.message}
+																		pre.prettyprint.lang-javascript: code #{test.code}
