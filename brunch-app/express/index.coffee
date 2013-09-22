@@ -111,7 +111,7 @@ app.get '/', (req, res, next) =>
         res.redirect '/login'
 
 app.get '/login', (req, res, next) =>
-    res.render 'login', {user: req.user, message: req.flash('error')}
+    res.render 'login', {user: req.user || users[0], message: req.flash('error')}
 
 app.post '/login', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/login', failureFlash: true})
 

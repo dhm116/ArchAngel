@@ -8,6 +8,9 @@ block navigation
 
 append content
   form.form-signin.ui.form.attached.fluid.segment(action='/login', method='post')
+    if typeof(user) === 'undefined'
+      user = {}
+
     .ui.16.column.grid
       .row
         .two.wide.column
@@ -20,13 +23,13 @@ append content
         .two.wide.column
         .twelve.wide.column
           .ui.input.focus
-            input(type='text', name='id', placeholder='Access ID', autofocus=true)
+            input(type='text', name='id', value=user.id, placeholder='Access ID')
         .two.wide.column
       .row
         .two.wide.column
         .twelve.wide.column
           .ui.input
-            input(type='password', name='password', placeholder='Password')
+            input(type='password', name='password', placeholder='Password', autofocus=true)
         .column
       .row
         .two.wide.column
