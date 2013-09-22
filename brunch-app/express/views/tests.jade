@@ -48,10 +48,12 @@ append content
 												a.author #{group}
 												.metadata
 													.ui.labels.small
-														if failed.length
-															.ui.label.red #{failed.length} failed
+														if failed.length == tests.length
+															.ui.label.red all failed
+														else if failed.length
+															.ui.label.orange #{failed.length} of #{tests.length} failed
 														else
-															.ui.label #{failed.length} failed
+															.ui.label #{failed.length} of #{tests.length} failed
 											.comments
 												each test in tests
 													- var passed = _.findWhere(results.passes, {title: test.title})
