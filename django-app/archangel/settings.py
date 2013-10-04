@@ -1,3 +1,5 @@
+import os
+
 # Django settings for archangel project.
 
 DEBUG = True
@@ -39,6 +41,9 @@ REST_FRAMEWORK = {
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = []
+
+XS_SHARING_ALLOWED_ORIGINS = '*'
+XS_SHARING_ALLOWED_HEADERS = ['X-Requested-With']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -115,6 +120,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'middleware.xssharing.XsSharingMiddleware',
 )
 
 ROOT_URLCONF = 'archangel.urls'
@@ -126,6 +132,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    # os.path.join(BASE_DIR, 'templates')
 )
 
 INSTALLED_APPS = (
