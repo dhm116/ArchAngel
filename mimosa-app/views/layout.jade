@@ -1,0 +1,35 @@
+doctype 5
+//- html(ng-app)
+html
+  head
+    title ArchAngel
+    link(rel='stylesheet', href='stylesheets/vendor/normalize/normalize.css' + cachebust)
+    link(rel='stylesheet', href='stylesheets/vendor/fontawesome/font-awesome.css' + cachebust)
+    link(rel='stylesheet', href='stylesheets/vendor/fontawesome/font-awesome-ie7.css' + cachebust)
+    link(rel='stylesheet', href='stylesheets/vendor/semantic-ui/semantic.css' + cachebust)
+    link(rel='stylesheet', href='stylesheets/style.css' + cachebust)
+
+    if typeof(reload) !== 'undefined' && reload
+      script(src='socket.io/socket.io.js')
+      script(src='javascripts/reload-client.js')
+
+    script(src='javascripts/vendor/jquery/jquery.js')
+    script(src='javascripts/vendor/underscore/underscore.js')
+    script(src='javascripts/vendor/angular/angular.js')
+    script(src='javascripts/vendor/angular-resource/angular-resource.js')
+    script(src='javascripts/vendor/restangular/restangular.min.js')
+    script(src='javascripts/vendor/flowtype/flowtype.js')
+    script(src='javascripts/vendor/keypress/keypress.js')
+    script(src='javascripts/vendor/semantic-ui/semantic.js')
+
+    if typeof(optimize) !== 'undefined' && optimize
+      script(src='javascripts/main-built.js')
+    else
+      script(src='javascripts/vendor/requirejs/require.js', data-main='javascripts/main.js')
+      //- script(src='/javascripts/main.js')
+
+  body(ng-cloak='ng-cloak')
+    block navigation
+      include nav
+
+    block content
