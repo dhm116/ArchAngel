@@ -30,6 +30,8 @@ what
 /dist
 /.mimosa/require/tracking.json
 
+/bower_components
+
 # Numerous always-ignore extensions
 *~
 *.diff
