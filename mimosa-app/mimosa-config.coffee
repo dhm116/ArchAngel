@@ -20,7 +20,52 @@ exports.config = {
   'mimosa-' that preceeds all Mimosa module names is assumed, however you can use it if you
   want. If a module is listed here that Mimosa is unaware of, Mimosa will attempt to install it.
   ###
-  modules: ['lint', 'server', 'require', 'minify', 'live-reload', 'bower', 'server-template-compile', 'client-jade-static']
+  modules: [
+    'lint'
+    'server'
+    'require'
+    'combine'
+    'minify'
+    'live-reload'
+    'bower'
+    'server-template-compile'
+    'client-jade-static'
+  ]
+
+  combine:
+    folders: [                           # An array of folder combination details
+      {
+        folder:"../assets/stylesheets/vendor"      # The folder to combine into a single file. Path can
+                                                  # be relative to the watch config setting, or absolute.
+        output:"stylesheets/vendor.css"  # The output file for the folder combination. Path can
+                                                  # be relative to the watch config setting, or absolute.
+        exclude: [
+          /^.*\.(?!css$)[^.]+$/
+        ]                            # An array of regexs or strings that match files to
+                                                    # exclude from matching. Can be a mix of regex and
+                                                    # strings. Strings should be a path relative to the
+                                                    # folder or absolute.
+                                                    # ex: [/\.txt$/, "vendor/jqueryui.js"], which would keep
+                                                    # all .txt files and jqueryui.js out of your combined
+                                                    # file.
+        order: [
+          'normalize-css/normalize.css'
+          'fontawesome/font-awesome-ie7.css'
+          'fontawesome/font-awesome.css'
+          'foundation/foundation.min.css'
+        ]                              # An array of paths to the files to place at the start
+                                                    # of the merged file.  You do not need to name every
+                                                    # file, just those whose order is important. Paths
+                                                    # can be relative to the 'folder' directory or absolute.
+                                                    # Paths should point at the compiled file. So foo.css,
+                                                    # not foo.less. Can be left off or made null if not
+                                                    # needed.
+      }
+    ]
+    removeCombined:                     # configuration for removing combined files
+      enabled:true                      # when set to true, during 'mimosa build' only, mimosa-combine will remove
+                                        # the files that were merged into single files
+      exclude:[]                        # mimosa-combine will not remove any of these files.
 
   # watch:
     # sourceDir: "assets"                # directory location of web assets, can be relative to

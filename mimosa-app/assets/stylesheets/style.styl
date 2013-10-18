@@ -6,10 +6,6 @@
 //   font-style: normal;
 // }
 
-body > .container
-  padding-left 10px
-  padding-right 10px
-
 .no-margin
   margin-top 0px
   margin-bottom 0px
@@ -33,91 +29,3 @@ body > .container
 
 .full-name
   text-transform capitalize
-
-.ui.comments .comment .avatar i {
-  display: block;
-  margin: 0em auto;
-  width: 3em;
-  height: 3em;
-  border-radius: 500px;
-}
-
-/*--- Orange ---*/
-.ui.orange.labels .label,
-.ui.orange.label {
-  background-color: #FFA300 !important;
-  border-color: #FFA300 !important;
-  color: #FFFFFF !important;
-}
-.ui.labels .orange.label:before,
-.ui.orange.labels .label:before,
-.ui.orange.label:before {
-  background-color: #FFA300 !important;
-}
-/* Corner */
-.ui.orange.corner.label,
-.ui.orange.corner.label:hover {
-  background-color: transparent !important;
-}
-/* Hover */
-a.ui.orange.labels .label:hover,
-a.ui.orange.label:hover {
-  background-color: #DE3859 !important;
-  border-color: #DE3859 !important;
-  color: #FFFFFF !important;
-}
-.ui.labels a.orange.label:hover:before,
-.ui.orange.labels a.label:hover:before,
-a.ui.orange.label:hover:before {
-  background-color: #DE3859 !important;
-}
-
-/*--------------------
-        Threaded
----------------------*/
-.ui.threaded.comments .comment .comments {
-  margin-left: 2em !important;
-  padding-left: 2em !important;
-  -webkit-box-shadow: -1px 0px 0px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: -1px 0px 0px rgba(0, 0, 0, 0.1);
-  box-shadow: -1px 0px 0px rgba(0, 0, 0, 0.1);
-}
-
-@media print {
-  .page-break { display: block; page-break-before: always; }
-}
-
-.form-signin {
-  max-width: 330px;
-  padding: 15px;
-  margin: 0 auto;
-}
-.form-signin .form-signin-heading,
-.form-signin .checkbox {
-  margin-bottom: 10px;
-}
-.form-signin .checkbox {
-  font-weight: normal;
-}
-.form-signin .form-control {
-  position: relative;
-  font-size: 16px;
-  height: auto;
-  padding: 10px;
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
-}
-.form-signin .form-control:focus {
-  z-index: 2;
-}
-.form-signin input[type="text"] {
-  margin-bottom: -1px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}

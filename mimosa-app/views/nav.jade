@@ -1,15 +1,22 @@
 append navigation
-  .ui.menu.pointing
-    a.item.active(href='/')
-      img.ui.image.small.floated.move.up.more(src='http://webstyleguide.psu.edu/img/twoTone-border10.png')
-      span ArchAngel
-    .right.menu
-      if typeof(user) !== 'undefined'
-        a.item(href='#')
-          span
-              img.ui.avatar.image.move.up(src=user.profile.picture)
-          span.full-name.pad-left #{user.firstName} #{user.lastName}
-        a.item(href='/logout')
-          i.icon-off
-            span.pad-left Log out
-    block navigation-items
+  .contain-to-grid.sticky
+    nav.top-bar
+      ul.title-area
+        li.name
+          h1
+            a.item.active(href='/')
+              img.move.up.more(src='http://webstyleguide.psu.edu/img/twoTone-border10.png')
+              span ArchAngel
+        li.toggle-topbar.menu-icon
+          a(href='#')
+            span Menu
+          if typeof(user) !== 'undefined'
+            a.item(href='#')
+              span
+                  img.ui.avatar.image.move.up(src=user.profile.picture)
+              span.full-name.pad-left #{user.firstName} #{user.lastName}
+            a.item(href='/logout')
+              i.icon-off
+                span.pad-left Log out
+      section.top-bar-section
+        block navigation-items

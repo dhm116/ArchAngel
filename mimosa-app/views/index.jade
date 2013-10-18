@@ -1,21 +1,27 @@
 extends layout
 
 append navigation-items
-  .right.menu
-    a.item(href='/tests')
-      i.icon-check-sign
-      span.pad-left Unit Tests Report
+  ul.right
+    li.divider
+    li
+      a.item(href='/tests')
+        i.icon-check-sign
+        span.pad-left Unit Tests Report
 
-  a.ui.dropdown.item
-    span Courses
-    i.icon.dropdown
-    .ui.label.pointing.left.red 2
-    .menu
-      if typeof(courses) !== 'undefined'
-        each course in courses
-          .item
-            i.icon.time.red
-            span #{course}
+  ul.left
+    li.divider
+    li
+      a(href='#')
+        span Courses
+        i.pad-left.icon-caret-down
+        span.pad-left
+        span.round.label 2
+        .menu
+          if typeof(courses) !== 'undefined'
+            each course in courses
+              .item
+                i.icon.time.red
+                span #{course}
 
 append content
   .ui.container

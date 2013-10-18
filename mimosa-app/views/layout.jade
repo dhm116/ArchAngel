@@ -3,10 +3,11 @@ doctype 5
 html
   head
     title ArchAngel
-    link(rel='stylesheet', href='stylesheets/vendor/normalize/normalize.css' + cachebust)
-    link(rel='stylesheet', href='stylesheets/vendor/fontawesome/font-awesome.css' + cachebust)
-    link(rel='stylesheet', href='stylesheets/vendor/fontawesome/font-awesome-ie7.css' + cachebust)
-    link(rel='stylesheet', href='stylesheets/vendor/semantic-ui/semantic.css' + cachebust)
+    //- link(rel='stylesheet', href='stylesheets/vendor/normalize/normalize.css' + cachebust)
+    //- link(rel='stylesheet', href='stylesheets/vendor/fontawesome/font-awesome.css' + cachebust)
+    //- link(rel='stylesheet', href='stylesheets/vendor/fontawesome/font-awesome-ie7.css' + cachebust)
+    //- link(rel='stylesheet', href='stylesheets/vendor/foundation/foundation.min.css' + cachebust)
+    link(rel='stylesheet', href='stylesheets/vendor.css' + cachebust)
     link(rel='stylesheet', href='stylesheets/style.css' + cachebust)
 
     if typeof(reload) !== 'undefined' && reload
@@ -20,7 +21,7 @@ html
     script(src='javascripts/vendor/restangular/restangular.min.js')
     script(src='javascripts/vendor/flowtype/flowtype.js')
     script(src='javascripts/vendor/keypress/keypress.js')
-    script(src='javascripts/vendor/semantic-ui/semantic.js')
+    script(src='javascripts/vendor/foundation/foundation.min.js')
 
     if typeof(optimize) !== 'undefined' && optimize
       script(src='javascripts/main-built.js')
