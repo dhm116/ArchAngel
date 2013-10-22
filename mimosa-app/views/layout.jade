@@ -21,6 +21,7 @@ html
     script(src='javascripts/vendor/restangular/restangular.min.js')
     script(src='javascripts/vendor/flowtype/flowtype.js')
     script(src='javascripts/vendor/keypress/keypress.js')
+    script(src='javascripts/vendor/keypress/zepto.js')
     script(src='javascripts/vendor/foundation/foundation.min.js')
 
     if typeof(optimize) !== 'undefined' && optimize
@@ -29,7 +30,9 @@ html
       script(src='javascripts/vendor/requirejs/require.js', data-main='javascripts/main.js')
       //- script(src='/javascripts/main.js')
 
-  body(ng-cloak='ng-cloak')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+
+  body(ng-cloak, ng-controller='ArchangelController')
     block navigation
       include nav
 

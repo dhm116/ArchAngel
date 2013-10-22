@@ -1,22 +1,44 @@
 append navigation
   .contain-to-grid.sticky
-    nav.top-bar
+    nav.top-bar.hide-for-small(data-options='is_hover:false')
       ul.title-area
         li.name
           h1
-            a.item.active(href='/')
-              img.move.up.more(src='http://webstyleguide.psu.edu/img/twoTone-border10.png')
+            a(href='/')
+              img(src='http://webstyleguide.psu.edu/img/white-border10.png')
               span ArchAngel
-        li.toggle-topbar.menu-icon
-          a(href='#')
-            span Menu
-          if typeof(user) !== 'undefined'
-            a.item(href='#')
-              span
-                  img.ui.avatar.image.move.up(src=user.profile.picture)
-              span.full-name.pad-left #{user.firstName} #{user.lastName}
-            a.item(href='/logout')
-              i.icon-off
-                span.pad-left Log out
+      section.top-bar-section
+        ul.right
+          li
+            if typeof(user) !== 'undefined'
+              a.item(href='#')
+                span
+                    img.ui.avatar.image.move.up.more(src=user.profile.picture)
+                span.full-name.pad-left #{user.firstName} #{user.lastName}
+              a.item(href='/logout')
+                i.icon-off
+                  span.pad-left Log out
       section.top-bar-section
         block navigation-items
+  nav.bar-tab.show-for-small
+    ul.tab-inner
+      li.tab-item.active
+        a(href='#')
+          i.tab-icon.icon-home
+          .tab-label Home
+      li.tab-item
+        a(href='#')
+          i.tab-icon.icon-paste
+          .tab-label Courses
+      li.tab-item
+        a(href='#')
+          i.tab-icon.icon-comments-alt
+          .tab-label Messages
+      li.tab-item
+        a(href='#')
+          i.tab-icon.icon-calendar
+          .tab-label Events
+      li.tab-item
+        a(href='#')
+          i.tab-icon.icon-gears
+          .tab-label Settings

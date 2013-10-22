@@ -30,6 +30,7 @@ exports.config = {
     'bower'
     'server-template-compile'
     'client-jade-static'
+    # 'server-reload'
   ]
 
   combine:
@@ -50,9 +51,10 @@ exports.config = {
                                                     # file.
         order: [
           'normalize-css/normalize.css'
-          'fontawesome/font-awesome-ie7.css'
-          'fontawesome/font-awesome.css'
-          'foundation/foundation.min.css'
+          'font-awesome/font-awesome-ie7.css'
+          'font-awesome/font-awesome.css'
+          'foundation/foundation.css'
+          'ratchet/ratchet.css'
         ]                              # An array of paths to the files to place at the start
                                                     # of the merged file.  You do not need to name every
                                                     # file, just those whose order is important. Paths
@@ -63,7 +65,7 @@ exports.config = {
       }
     ]
     removeCombined:                     # configuration for removing combined files
-      enabled:true                      # when set to true, during 'mimosa build' only, mimosa-combine will remove
+      enabled:false                      # when set to true, during 'mimosa build' only, mimosa-combine will remove
                                         # the files that were merged into single files
       exclude:[]                        # mimosa-combine will not remove any of these files.
 

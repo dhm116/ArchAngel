@@ -10,92 +10,44 @@ append navigation-items
 
   ul.left
     li.divider
-    li
+    li.has-dropdown
       a(href='#')
         span Courses
-        i.pad-left.icon-caret-down
+        //- i.pad-left.icon-caret-down
         span.pad-left
-        span.round.label 2
-        .menu
-          if typeof(courses) !== 'undefined'
-            each course in courses
-              .item
-                i.icon.time.red
-                span #{course}
+        span.round.label {{courses.length}}
+      ul.dropdown
+        li(ng-repeat='course in courses')
+          a(href='#')
+            i.icon-time.alert.label.round
+            span.pad-left {{course.name}}
 
 append content
-  .ui.container
-    .ui.grid
-      .four.wide.column.mobile.only
-        .ui.vertical.fluid.inverted.menu
-          .item
-            i.icon.time
-            a Upcoming
-            .menu
-              a.item
-                span SWENG 500
-                i.icon-arrow-right.pad-left
-                span.pad-left Week 2
-                .ui.label.top.right.attached.small 2
-              a.item
-                span SWENG 505
-                i.icon-arrow-right.pad-left
-                span.pad-left Week 2
-                .ui.label.top.right.attached.small.red 1
-          .item
-            i.icon.community
-            a Discussions
-            .menu
-              a.item
-                span Team 5
-                i.icon-arrow-right.pad-left
-                span.pad-left Week 2
-                .ui.label.top.right.attached.small.blue 1
-              a.item
-                span SWENG 505
-                i.icon-arrow-right.pad-left
-                span.pad-left Week 2.1
-              a.item
-                span SWENG 505
-                i.icon-arrow-right.pad-left
-                span.pad-left Week 2.2
-                .ui.label.top.right.attached.small.green 1
-      .twelve.wide.column
-        .ui.row
-          h1.ui.header.dividing Welcome to ArchAngel
-        .ui.row(ng-controller='UserController')
-          ul
-            li(ng-repeat='user in users')
-              {{user.username}}
-        .ui.row
-          .ui.piled.feed.segment
-            h2.ui.header Activity Feed
-            if typeof(people) !== 'undefined'
-              .event
-                .label
-                  i.icon.fire.circular
-                .content
-                  .date Just moments ago
-                  .summary
-                    - var replier = people[Math.floor(Math.random() * people.length)]
+  .row
+    .large-4.columns.hide-for-small
+      ul.side-nav
+        li
+          h3.subheader
+            i.icon-time
+            span.pad-left Upcoming
+        li.divider
+        li(ng-repeat='course in courses')
+          a.item
+            span.label.round(ng-class="{alert: course.id > 1}") 2
+            span.pad-left {{course.name}}
+            i.icon-arrow-right.pad-left
+            span.pad-left Week 2
+    .large-8.columns
+      h1.ui.header.dividing Welcome to ArchAngel
+      .ui.row
+        ul.hide-for-small
+          li(ng-repeat='user in users')
+            {{user.username}} {{user.email}}
+      .ui.row.show-for-small
+        ul.list
+          li
+            a(href='#')
+              span List Item 1
+              span.chevron
+              span.count 2
 
-                    a(href='#')
-                      img.ui.image.circular(src=replier.profile.picture)
-                      span.full-name #{replier.firstName} #{replier.lastName}
-                    span.pad-left replied to your post
-              .event
-                .label
-                  i.icon.trophy.circular
-                .content
-                  .date 4 hours ago
-                  .summary
-                    - var replier = people[Math.floor(Math.random() * people.length)]
-
-                    a(href='#')
-                      img.ui.image.circular(src=replier.profile.picture)
-                      span.full-name #{replier.firstName} #{replier.lastName}
-                    span.pad-left just posted grades for
-                    span.pad-left
-                    a.ui.button.mini.basic.circular(href='#') SWENG 505
-                      span.pad-left: i.icon-arrow-right
-                      span.pad-left Week 2
