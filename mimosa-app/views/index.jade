@@ -18,7 +18,7 @@ append navigation-items
         span.round.label {{courses.length}}
       ul.dropdown
         li(ng-repeat='course in courses')
-          a(href='#')
+          a(href='/Course/{{course.id}}')
             i.icon-time.alert.label.round
             span.pad-left {{course.name}}
 
@@ -32,7 +32,7 @@ append content
             span.pad-left Upcoming
         li.divider
         li(ng-repeat='course in courses')
-          a.item
+          a.item(href='/Course/{{course.id}}')
             span.label.round(ng-class="{alert: course.id > 1}") 2
             span.pad-left {{course.name}}
             i.icon-arrow-right.pad-left
@@ -45,9 +45,10 @@ append content
             {{user.username}} {{user.email}}
       .ui.row.show-for-small
         ul.list
-          li
-            a(href='#')
-              span List Item 1
+          li(ng-repeat='course in courses')
+            a(href='/Course/{{course.id}}')
+              span {{course.name}}
               span.chevron
               span.count 2
-
+      .ui.row
+        .ng-view
