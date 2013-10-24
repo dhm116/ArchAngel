@@ -24,6 +24,10 @@ require
                         template: templates['course-main']
                         controller: 'CourseController'
                 }
+                $routeProvider.otherwise {
+                        template: templates['main-screen']
+                        controller: 'ArchangelController'
+                }
                 $locationProvider.html5Mode(true)
         )
 

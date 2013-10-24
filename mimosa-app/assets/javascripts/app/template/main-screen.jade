@@ -1,0 +1,26 @@
+.large-4.columns.hide-for-small
+  ul.side-nav
+    li
+      h3.subheader
+        i.icon-time
+        span.pad-left Upcoming
+    li.divider
+    li(ng-repeat='course in courses')
+      a.item(href='/Course/{{course.id}}')
+        span.label.round(ng-class="{alert: course.id > 1}") 2
+        span.pad-left {{course.name}}
+        i.icon-arrow-right.pad-left
+        span.pad-left Week 2
+.large-8.columns
+  h1.ui.header.dividing Welcome to ArchAngel
+  .row
+    ul.hide-for-small
+      li(ng-repeat='user in users')
+        {{user.username}} {{user.email}}
+  .row.show-for-small
+    ul.list
+      li(ng-repeat='course in courses')
+        a(href='/Course/{{course.id}}')
+          span {{course.name}}
+          span.chevron
+          span.count 2
