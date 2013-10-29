@@ -726,7 +726,7 @@ select {
 }/* General button styles
 -------------------------------------------------- */
 
-[class*="button"] {
+/*[class*="button"] {
   position: relative;
   display: inline-block;
   padding: 4px 12px;
@@ -745,9 +745,9 @@ select {
   border-radius: 3px;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, .4), 0 1px 2px rgba(0, 0, 0, .05);
 }
-
+*/
 /* Active */
-[class*="button"]:active {
+/*[class*="button"]:active {
   padding-top: 5px;
   padding-bottom: 3px;
   color: #333;
@@ -755,7 +755,7 @@ select {
   background-image: none;
   box-shadow: inset 0 3px 3px rgba(0, 0, 0, .2);
 }
-
+*/
 /* Button modifiers
 -------------------------------------------------- */
 

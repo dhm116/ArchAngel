@@ -1,0 +1,22 @@
+
+block navigation
+  p
+
+block content
+  h1 Login
+  form(method='', action="", ng-submit='login()')
+    fieldset
+      .row
+        .large-8.columns
+          .row
+            .small-3.columns
+              label.right.inline(for='username') Username
+            .small-9.columns
+              input(type='text', id='username', name='username', ng-model='user.username')
+          .row
+            .small-3.columns
+              label.right.inline(for='password') Password
+            .small-9.columns
+              input(type='password', id='password', name='password', ng-model='user.password')
+          .row
+            input.large.button.expand(type='submit') Submit

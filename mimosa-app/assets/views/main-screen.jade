@@ -2,17 +2,19 @@
   ul.side-nav
     li
       h3.subheader
-        i.icon-time
+        i.fa.fa-clock-o
         span.pad-left Upcoming
     li.divider
     li(ng-repeat='course in courses')
       a.item(href='/Course/{{course.id}}')
         span.label.round(ng-class="{alert: course.id > 1}") 2
         span.pad-left {{course.name}}
-        i.icon-arrow-right.pad-left
+        i.fa.fa-arrow-right.pad-left
         span.pad-left Week 2
 .large-8.columns
   h1.ui.header.dividing Welcome to ArchAngel
+    span.pad-left(ng-if='isMobile')
+      i.fa.fa-mobile
   .row
     ul.hide-for-small
       li(ng-repeat='user in users')

@@ -5,9 +5,19 @@ append navigation-items
     li.divider
     li
       a.item(href='/tests')
-        i.icon-check-sign
+        i.fa.fa-check-square-o
         span.pad-left Unit Tests Report
-
+    li.has-dropdown
+      a(href='#') Admin
+      ul.dropdown
+        li
+          a(href='/Students')
+            i.fa.fa-group
+            span.pad-left Students
+    li
+      a(href='/login')
+        i.fa.fa-sign-in
+        span.pad-left Login
   ul.left
     li.divider
     li.has-dropdown
@@ -19,7 +29,7 @@ append navigation-items
       ul.dropdown
         li(ng-repeat='course in courses')
           a(href='/Course/{{course.id}}')
-            i.icon-time.alert.label.round
+            i.fa.fa-clock-o.alert.label.round
             span.pad-left {{course.name}}
 
 append content
