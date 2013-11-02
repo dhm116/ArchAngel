@@ -1,11 +1,23 @@
+require.config
+    paths:
+        angular: 'vendor/angular/angular'
+    baseUrl: 'javascripts'
+    shim:
+        'angular': {'exports':'angular'}
+    priority: ['angular']
+
 require
     urlArgs: "b=#{(new Date()).getTime()}"
     paths:
         jquery: 'vendor/jquery/jquery'
-        angular: 'vendor/angular/angular'
-        # views: 'app/example-view'
-    ,['templates', 'app/mobile-check']
-    ,(templates, mobilecheck) ->
+    #     angular: 'angular'
+    #     # views: 'app/example-view'
+    ,[
+        'angular'
+        'templates'
+        'app/mobile-check'
+    ]
+    ,(angular, templates, mobilecheck) ->
         $(document).foundation()
 
         $.get ''
@@ -25,64 +37,88 @@ require
                 template = templates["#{name}_mobile"]
             return template
 
-        app = angular.module('djangoApp', [
-                'ngRoute'
-                'djangoApp.controllers'
-                'chieffancypants.loadingBar'
-            ]
-            , ($routeProvider, $locationProvider) ->
-                console.log angular.$rootScope
-                $routeProvider.when '/login', {
-                        template: templates['login']
-                        controller: 'LoginController'
-                }
-                $routeProvider.when '/Course/:courseId', {
-                        template: templates['course-main']
-                        controller: 'CourseController'
-                }
-                $routeProvider.when '/Students', {
-                        template: templates['students']
-                        controller: 'StudentController'
-                }
-                $routeProvider.otherwise {
-                        template: getTemplate('main-screen') #templates['main-screen']
-                        controller: 'ArchangelController'
-                }
-                $locationProvider.html5Mode(true)
-        )
+        angular.module('configuration', [])
+            .constant('BASE_URL', 'http://macpro.local:8000') #'http://django-archangel.rhcloud.com')
 
-        app.config ($httpProvider) ->
-            console.log $httpProvider.defaults.headers
-            # delete $httpProvider.defaults.headers.common["X-Requested-With"]
-            # delete $httpProvider.defaults.headers.post["Content-type"]
+        angular.module('djangoApp.services', ['configuration'])
+        angular.module('djangoApp.controllers', ['restangular', 'djangoApp.services', 'configuration'])
+            .config (RestangularProvider, BASE_URL) ->
+                RestangularProvider.setBaseUrl "#{BASE_URL}/" #'http://django-archangel.rhcloud.com/'
+                RestangularProvider.setRequestSuffix '/?format=json'
 
-        angular.module('djangoApp.controllers', ['restangular'])
-            .controller 'ArchangelController', ($scope, Restangular) ->
-                $scope.isMobile = isMobile
+        require [
+            'app/login/services'
+            'app/login/controllers'
+            'app/course/services'
+            'app/course/controllers'
+        ], ->
+            app = angular.module('djangoApp', [
+                    'ngRoute'
+                    'ngCookies'
+                    'djangoApp.controllers'
+                    'chieffancypants.loadingBar'
+                ]
+                , ($routeProvider, $locationProvider) ->
+                    $routeProvider.when '/login', {
+                            template: templates['login']
+                            controller: 'LoginController'
+                    }
+                    $routeProvider.when '/Course/:courseId', {
+                            template: templates['course-main']
+                            controller: 'CourseController'
+                    }
+                    $routeProvider.when '/Students', {
+                            template: templates['students']
+                            controller: 'StudentController'
+                    }
+                    $routeProvider.otherwise {
+                            template: getTemplate('main-screen') #templates['main-screen']
+                            controller: 'ArchangelController'
+                    }
+                    $locationProvider.html5Mode(true)
+            )
 
-                Restangular.setBaseUrl 'http://macpro.local:8000/'
-                Restangular.setRequestSuffix '/?format=json'
+            angular.module('djangoApp.controllers') #, ['restangular', 'djangoApp.services'])
+                .controller 'NavbarController', ($scope, Restangular, User, Course) ->
+                    $scope.isMobile = isMobile
+                    $scope.user = User
+                    $scope.courses = Course.courses
+                    console.log Course.courses
 
-                getAllData(Restangular, $scope, 'users')
-                getAllData(Restangular, $scope, 'courses')
+                .controller 'ArchangelController', ($scope, Restangular, User) ->
+                    $scope.isMobile = isMobile
+                    # $scope.user = User
+                    # Restangular.setBaseUrl 'http://macpro.local:8000/'
+                    getAllData(Restangular, $scope, 'users')
+                    # getAllData(Restangular, $scope, 'courses')
 
-            .controller 'CourseController', ($scope, $route, $routeParams, $location, Restangular) ->
-                Restangular.one('courses', $routeParams.courseId).get().then (course) ->
-                    $scope.course = course
+                # .controller 'CourseController', ($scope, $route, $routeParams, $location, Restangular) ->
+                #     Restangular.one('courses', $routeParams.courseId).get().then (course) ->
+                #         $scope.course = course
 
-            .controller 'StudentController', ($scope, $route, $routeParams, $location, Restangular) ->
-                getAllData(Restangular, $scope, 'students')
+                .controller 'StudentController', ($scope, $route, $routeParams, $location, Restangular) ->
+                    getAllData(Restangular, $scope, 'students')
 
-            .controller 'LoginController', ($scope, $route, $routeParams, $location, $http, Restangular) ->
-                $scope.login = ->
-                    $http.post(
-                        'http://localhost:8000/api-token-auth/',
-                        $scope.user
-                    ).then (response) ->
-                        console.log response
-        # app.config ['$routeProvider', '$locationProvider'],
+                # .controller 'LoginController', ($scope, $http, User) ->
+                #     $scope.login = ->
+                #         # $http.post(
+                #         #     'http://django-archangel.rhcloud.com/api-token-auth/',
+                #         #     $scope.user
+                #         # ).then (response) ->
+                #         #     console.log response
+                #         console.log User.isAuthenticated()
+                #         unless User.isAuthenticated()
+                #             User.login $scope.user, (result) ->
+                #                 unless result
+                #                     console.log 'Invalid username/password'
+                #                 else
+                #                     console.log 'Logged in'
+                #         else
+                #             console.log "#{User.getName()} is already logged in"
 
-        # app.controller 'CourseController', ['restangular'], ($scope, $http, $params, $location, Restangular) ->
-        #     Restangular.
+            # app.config ['$routeProvider', '$locationProvider'],
 
-        angular.bootstrap document, ['djangoApp']
+            # app.controller 'CourseController', ['restangular'], ($scope, $http, $params, $location, Restangular) ->
+            #     Restangular.
+
+            angular.bootstrap document, ['djangoApp']

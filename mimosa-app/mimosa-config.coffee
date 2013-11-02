@@ -63,6 +63,19 @@ exports.config = {
                                                     # not foo.less. Can be left off or made null if not
                                                     # needed.
       }
+      {
+        folder:"../assets/javascripts/vendor"
+        output: "javascripts/vendor.js"
+        exclude: [
+          /^.*\.(?!(?:js|coffee)$)[^.]+$/
+          'requirejs/require.js'
+        ]
+        order: [
+          'jquery/jquery.js'
+          'underscore/underscore.js'
+          'angular/angular.js'
+        ]
+      }
     ]
     removeCombined:                     # configuration for removing combined files
       enabled:false                      # when set to true, during 'mimosa build' only, mimosa-combine will remove

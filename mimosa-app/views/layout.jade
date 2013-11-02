@@ -14,17 +14,18 @@ html
       script(src='/socket.io/socket.io.js')
       script(src='/javascripts/reload-client.js')
 
-    script(src='/javascripts/vendor/jquery/jquery.js')
-    script(src='/javascripts/vendor/underscore/underscore.js')
-    script(src='/javascripts/vendor/angular/angular.js')
-    script(src='/javascripts/vendor/angular-route/angular-route.js')
-    script(src='/javascripts/vendor/angular-resource/angular-resource.js')
-    script(src='/javascripts/vendor/angular-loading-bar/loading-bar.js')
-    script(src='/javascripts/vendor/restangular/restangular.min.js')
-    script(src='/javascripts/vendor/flowtype/flowtype.js')
-    script(src='/javascripts/vendor/keypress/keypress.js')
-    script(src='/javascripts/vendor/keypress/zepto.js')
-    script(src='/javascripts/vendor/foundation/foundation.min.js')
+    //- script(src='/javascripts/vendor/jquery/jquery.js')
+    //- script(src='/javascripts/vendor/underscore/underscore.js')
+    //- script(src='/javascripts/vendor/angular/angular.js')
+    //- script(src='/javascripts/vendor/angular-route/angular-route.js')
+    //- script(src='/javascripts/vendor/angular-resource/angular-resource.js')
+    //- script(src='/javascripts/vendor/angular-loading-bar/loading-bar.js')
+    //- script(src='/javascripts/vendor/restangular/restangular.min.js')
+    //- script(src='/javascripts/vendor/flowtype/flowtype.js')
+    //- script(src='/javascripts/vendor/keypress/keypress.js')
+    //- script(src='/javascripts/vendor/keypress/zepto.js')
+    //- script(src='/javascripts/vendor/foundation/foundation.min.js')
+    script(src='/javascripts/vendor.js')
 
     if typeof(optimize) !== 'undefined' && optimize
       script(src='/javascripts/main-built.js')
@@ -35,7 +36,7 @@ html
 
     meta(name='viewport', content='width=device-width, initial-scale=1')
 
-  body(ng-cloak, ng-controller='ArchangelController')
+  body(ng-cloak)
     block navigation
       include nav
 

@@ -1,7 +1,7 @@
 extends layout
 
 append navigation-items
-  ul.right
+  ul.right(ng-controller='NavbarController')
     li.divider
     li
       a.item(href='/tests')
@@ -14,10 +14,16 @@ append navigation-items
           a(href='/Students')
             i.fa.fa-group
             span.pad-left Students
-    li
+    li.ng-hide(ng-show='!user.authenticated')
       a(href='/login')
         i.fa.fa-sign-in
         span.pad-left Login
+    li.ng-hide(ng-show='user.authenticated')
+      a(href='/logout')
+        i.fa.fa-sign-in
+        span.pad-left Logout
+    li.ng-hide(ng-show='user.authenticated')
+      a(href='#') Welcome back {{user.username}}
   ul.left
     li.divider
     li.has-dropdown
