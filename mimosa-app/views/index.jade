@@ -1,19 +1,19 @@
 extends layout
 
 append navigation-items
-  ul.right(ng-controller='NavbarController')
+  ul.right
     li.divider
-    li
-      a.item(href='/tests')
-        i.fa.fa-check-square-o
-        span.pad-left Unit Tests Report
-    li.has-dropdown
+    li.has-dropdown.ng-hide(ng-show='user.authenticated')
       a(href='#') Admin
       ul.dropdown
         li
           a(href='/Students')
             i.fa.fa-group
             span.pad-left Students
+        li
+          a.item(href='/tests')
+            i.fa.fa-check-square-o
+            span.pad-left Unit Tests Report
     li.ng-hide(ng-show='!user.authenticated')
       a(href='/login')
         i.fa.fa-sign-in
@@ -23,10 +23,10 @@ append navigation-items
         i.fa.fa-sign-in
         span.pad-left Logout
     li.ng-hide(ng-show='user.authenticated')
-      a(href='#') Welcome back {{user.username}}
+      a.full-name(href='#') Welcome back {{user.first_name}}
   ul.left
     li.divider
-    li.has-dropdown
+    li.has-dropdown(ng-controller='CourseController')
       a(href='#')
         span Courses
         //- i.pad-left.icon-caret-down
@@ -34,7 +34,7 @@ append navigation-items
         span.round.label {{courses.length}}
       ul.dropdown
         li(ng-repeat='course in courses')
-          a(href='/Course/{{course.id}}')
+          a.item(href='/Course/{{course.id}}')
             i.fa.fa-clock-o.alert.label.round
             span.pad-left {{course.name}}
 
