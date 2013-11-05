@@ -40,8 +40,8 @@ require
         angular.module('configuration', [])
             .constant('BASE_URL', 'http://localhost:8000') #'http://django-archangel.rhcloud.com')
 
-        angular.module('djangoApp.services', ['configuration'])
-        angular.module('djangoApp.controllers', ['restangular', 'djangoApp.services', 'configuration'])
+        angular.module('djangoApp.services', ['configuration', 'ngStorage'])
+        angular.module('djangoApp.controllers', ['restangular', 'djangoApp.services', 'configuration', 'ngStorage'])
             .config (RestangularProvider, BASE_URL) ->
                 RestangularProvider.setBaseUrl "#{BASE_URL}/" #'http://django-archangel.rhcloud.com/'
                 RestangularProvider.setRequestSuffix '/?format=json'

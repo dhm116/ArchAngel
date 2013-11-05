@@ -1,12 +1,8 @@
 define ['angular'], (angular) ->
-    return angular.module('djangoApp.controllers').controller 'LoginController', ($scope, $http, $location, User, Restangular) ->
+    return angular.module('djangoApp.controllers').controller 'LoginController', ($scope, $location, $sessionStorage, User) ->
+        $scope.$storage = $sessionStorage.$default(user:User)
+
         $scope.login = ->
-            # $http.post(
-            #     'http://django-archangel.rhcloud.com/api-token-auth/',
-            #     $scope.user
-            # ).then (response) ->
-            #     console.log response
-            # console.log User.authenticated
             unless User.authenticated
                 User.login $scope.user, (result) ->
                     unless result
@@ -14,8 +10,5 @@ define ['angular'], (angular) ->
                     else
                         console.log 'Logged in'
                         $location.path('/')
-                    # Restangular.one('courses', $routeParams.courseId).get().then (course) ->
-                    #     $scope.course = course
-                    # console.log User
             else
                 console.log "#{User.username} is already logged in"
