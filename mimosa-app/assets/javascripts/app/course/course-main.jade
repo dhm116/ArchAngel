@@ -1,4 +1,7 @@
 .content-padded
   h2 {{course.full_name}}
   h4.subheader {{course.description}}
-  p {{blorp}}
+  dl.sub-nav
+    dt Sections
+    dd(ng-repeat="section in course.sections")
+      a(href='#') {{section.section_no}}
