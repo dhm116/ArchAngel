@@ -37,15 +37,18 @@ require
                 template = templates["#{name}_mobile"]
             return template
 
-        angular.module('configuration', [])
-        #     .constant('BASE_URL', 'http://localhost:8000') #'http://django-archangel.rhcloud.com')
+        angular.module('configuration', ['restangular','ngStorage'])
+            .config (RestangularProvider) ->
+                RestangularProvider.setRequestSuffix '/?format=json'
+            .constant('BASE_URL', {
+                local: 'http://localhost:8000'
+                cloud: 'http://django-archangel.rhcloud.com'
+            })
+            .run (Restangular, $localStorage, BASE_URL) ->
+                Restangular.setBaseUrl if $localStorage.useLocalData then BASE_URL.local else BASE_URL.cloud #"#{BASE_URL}/" #'http://django-archangel.rhcloud.com/'
 
         angular.module('djangoApp.services', ['configuration', 'ngStorage'])
         angular.module('djangoApp.controllers', ['restangular', 'djangoApp.services', 'configuration', 'ngStorage'])
-            .config (RestangularProvider) -> #, BASE_URL) ->
-                # Let's handle assigning the base url later
-                # RestangularProvider.setBaseUrl "#{BASE_URL}/" #'http://django-archangel.rhcloud.com/'
-                RestangularProvider.setRequestSuffix '/?format=json'
 
         require [
             'app/login/services'
@@ -55,7 +58,6 @@ require
         ], ->
             app = angular.module('djangoApp', [
                     'ngRoute'
-                    'ngCookies'
                     'djangoApp.controllers'
                     'chieffancypants.loadingBar'
                 ]
@@ -80,7 +82,7 @@ require
             )
 
             angular.module('djangoApp.controllers') #, ['restangular', 'djangoApp.services'])
-                .controller 'NavbarController', ($scope,$location,$localStorage, Restangular, User, Course) ->
+                .controller 'NavbarController', ($scope,$location,$localStorage,Restangular, BASE_URL, User, Course) ->
                     $scope.$storage = $localStorage.$default {useLocalData: true}
                     $scope.isMobile = isMobile
                     $scope.user = User
