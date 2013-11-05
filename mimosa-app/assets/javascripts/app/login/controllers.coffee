@@ -1,6 +1,6 @@
 define ['angular'], (angular) ->
-    return angular.module('djangoApp.controllers').controller 'LoginController', ($scope, $location, $sessionStorage, User) ->
-        $scope.$storage = $sessionStorage.$default(user:User)
+    return angular.module('djangoApp.controllers').controller 'LoginController', ($scope, $location, $localStorage, User) ->
+        $scope.$storage = $localStorage.$default(user:User)
 
         $scope.login = ->
             unless User.authenticated

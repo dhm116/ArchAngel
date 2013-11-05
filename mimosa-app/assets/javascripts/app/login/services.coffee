@@ -1,14 +1,14 @@
 define ['angular'], (angular) ->
-    angular.module('djangoApp.services').factory 'User', (Restangular,$sessionStorage) ->
+    angular.module('djangoApp.services').factory 'User', (Restangular,$localStorage) ->
         class User
             token: ''
             authenticated: false
             data: {}
 
             constructor: () ->
-                if $sessionStorage.user
+                if $localStorage.user
                     console.log "Loading user from local storage"
-                    _.extend(@, $sessionStorage.user)
+                    _.extend(@, $localStorage.user)
                     @__attachToken()
 
             login: (username, password, cb) =>
@@ -25,7 +25,7 @@ define ['angular'], (angular) ->
 
                         _.extend(@data, response.user)
 
-                        $sessionStorage.user = @
+                        $localStorage.user = @
                         # Add token to Restangular.setDefaultHeaders
                         @__attachToken()
                     .catch =>
@@ -39,12 +39,14 @@ define ['angular'], (angular) ->
                     @data = {}
                     @token = null
                     @authenticated = false
-                    delete $sessionStorage.user
+                    delete $localStorage.user
                     # Remove token from Restangular.setDefaultHeaders
+                    Restangular.setDefaultHeaders {}
                 else
                     cb()
                 return
 
             __attachToken: () =>
+                Restangular.setDefaultHeaders {Authorization: "Token #{@token}"}
 
         return new User()
