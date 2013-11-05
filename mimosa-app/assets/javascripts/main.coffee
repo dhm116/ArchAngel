@@ -7,7 +7,7 @@ require.config
     priority: ['angular']
 
 require
-    urlArgs: "b=#{(new Date()).getTime()}"
+    #urlArgs: "b=#{(new Date()).getTime()}"
     paths:
         jquery: 'vendor/jquery/jquery'
     #     angular: 'angular'
@@ -38,10 +38,10 @@ require
             return template
 
         angular.module('configuration', [])
-            .constant('BASE_URL', 'http://macpro.local:8000') #'http://django-archangel.rhcloud.com')
+            .constant('BASE_URL', 'http://0.0.0.0:8000') #'http://django-archangel.rhcloud.com')
 
         angular.module('djangoApp.services', ['configuration'])
-        angular.module('djangoApp.controllers', ['restangular', 'djangoApp.services', 'configuration'])
+        angular.module('djangoApp.controllers', ['restangular', 'djangoApp.services', 'configuration', 'ngStorage'])
             .config (RestangularProvider, BASE_URL) ->
                 RestangularProvider.setBaseUrl "#{BASE_URL}/" #'http://django-archangel.rhcloud.com/'
                 RestangularProvider.setRequestSuffix '/?format=json'
@@ -57,6 +57,7 @@ require
                     'ngCookies'
                     'djangoApp.controllers'
                     'chieffancypants.loadingBar'
+                    'ngStorage'
                 ]
                 , ($routeProvider, $locationProvider) ->
                     $routeProvider.when '/login', {
@@ -83,7 +84,7 @@ require
                     $scope.isMobile = isMobile
                     $scope.user = User
                     $scope.courses = Course.courses
-                    console.log Course.courses
+                #    console.log Course.courses
 
                 .controller 'ArchangelController', ($scope, Restangular, User) ->
                     $scope.isMobile = isMobile

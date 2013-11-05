@@ -18,12 +18,12 @@ append navigation-items
       a(href='/login')
         i.fa.fa-sign-in
         span.pad-left Login
-    li.ng-hide(ng-show='user.authenticated')
-      a(href='/logout')
+    li.ng-hide(ng-show='user.authenticated', ng-controller='LoginController')
+      a(href='/logout', ng-click='logout()')
         i.fa.fa-sign-in
         span.pad-left Logout
     li.ng-hide(ng-show='user.authenticated')
-      a(href='#') Welcome back {{user.username}}
+      a(href='#') Welcome back {{user.firstname}}
   ul.left
     li.divider
     li.has-dropdown
