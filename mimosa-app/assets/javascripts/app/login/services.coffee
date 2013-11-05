@@ -1,10 +1,9 @@
 define ['angular'], (angular) ->
-    angular.module('djangoApp.services').factory 'User', ($http, $rootScope, $cookieStore, BASE_URL) ->
+    angular.module('djangoApp.services').factory 'User', ($http, $rootScope, $cookieStore, Restangular) -> #BASE_URL) ->
         class User
-            username: ''
-            user_id: null
             token: ''
             authenticated: false
+            data: {}
 
             login: (username, password, cb) =>
                 if username.hasOwnProperty('password')
@@ -12,31 +11,28 @@ define ['angular'], (angular) ->
                     password = username.password
                     username = username.username
 
-                $http.post(
-                    "#{BASE_URL}/api-token-auth/",
-                    {username: username, password: password}
-                ).then (response) =>
-                    if response.data
-                        @username = username
-                        @token = response.data.token
-                        @user_id = response.data.user_id
+                Restangular.allUrl('user', 'api-token-auth')
+                    .post({username:username, password:password})
+                    .then (response) =>
+                        @token = response.token
                         @authenticated = true
-                        console.log response.data
-                .catch =>
-                    console.log "Invalid username/password"
-                .finally =>
-                    cb(@authenticated)
+
+                        _.extend(@data, response.user)
+
+                        # Add token to Restangular.setDefaultHeaders
+                    .catch =>
+                        console.log "Invalid username/password"
+                    .finally =>
+                        cb(@authenticated)
 
                 return
             logout: (cb) =>
                 if @authenticated
-                    @name = null
+                    @data = {}
                     @token = null
                     @authenticated = false
-                    @user_id = null
 
-                    $http.post("#{BASE_URL}/logout").then =>
-                        cb()
+                    # Remove token from Restangular.setDefaultHeaders
                 else
                     cb()
                 return

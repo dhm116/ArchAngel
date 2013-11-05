@@ -3,6 +3,15 @@ extends layout
 append navigation-items
   ul.right
     li.divider
+    li
+      a(href='#', ng-model='useLocalData', ng-click='updateDataURL()')
+        span(ng-if='useLocalData')
+          i.fa.fa-desktop
+          span.pad-left Local Data
+        span(ng-if='!useLocalData')
+          i.fa.fa-cloud(style='color: #2ba6cb;')
+          span.pad-left Cloud Data
+    li.divider
     li.has-dropdown.ng-hide(ng-show='user.authenticated')
       a(href='#') Admin
       ul.dropdown
@@ -19,11 +28,11 @@ append navigation-items
         i.fa.fa-sign-in
         span.pad-left Login
     li.ng-hide(ng-show='user.authenticated')
-      a(href='/logout')
+      a(href='#', ng-click='user.logout()')
         i.fa.fa-sign-in
         span.pad-left Logout
     li.ng-hide(ng-show='user.authenticated')
-      a.full-name(href='#') Welcome back {{user.first_name}}
+      a.full-name(href='#') Welcome back {{user.data.first_name}}
   ul.left
     li.divider
     li.has-dropdown(ng-controller='CourseController')

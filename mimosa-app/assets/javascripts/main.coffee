@@ -38,7 +38,7 @@ require
             return template
 
         angular.module('configuration', [])
-            .constant('BASE_URL', 'http://macpro.local:8000') #'http://django-archangel.rhcloud.com')
+            .constant('BASE_URL', 'http://localhost:8000') #'http://django-archangel.rhcloud.com')
 
         angular.module('djangoApp.services', ['configuration'])
         angular.module('djangoApp.controllers', ['restangular', 'djangoApp.services', 'configuration'])
@@ -79,9 +79,23 @@ require
             )
 
             angular.module('djangoApp.controllers') #, ['restangular', 'djangoApp.services'])
-                .controller 'NavbarController', ($scope, Restangular, User, Course) ->
+                .controller 'NavbarController', ($scope,$location, Restangular, User, Course) ->
                     $scope.isMobile = isMobile
                     $scope.user = User
+
+                    $scope.useLocalData = true
+                    $scope.updateDataURL = () ->
+                        $scope.useLocalData = !$scope.useLocalData
+
+                        url = 'http://localhost:8000'
+                        unless $scope.useLocalData
+                            url = 'http://django-archangel.rhcloud.com'
+
+                        angular.module('configuration')
+                            .constant('BASE_URL', url)
+                        Restangular.setBaseUrl "#{url}/"
+
+                        $location.path('/')
 
                 .controller 'ArchangelController', ($scope, Restangular, User, Course) ->
                     $scope.isMobile = isMobile

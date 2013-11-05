@@ -8,17 +8,6 @@ append navigation
               img(src='http://webstyleguide.psu.edu/img/white-border10.png')
               span ArchAngel
       section.top-bar-section
-        ul.right
-          li
-            if typeof(user) !== 'undefined'
-              a.item(href='#')
-                span
-                    img.ui.avatar.image.move.up.more(src=user.profile.picture)
-                span.full-name.pad-left #{user.firstName} #{user.lastName}
-              a.item(href='/logout')
-                i.fa.fa-power-off
-                  span.pad-left Log out
-      section.top-bar-section
         block navigation-items
   nav.bar-tab.show-for-small
     ul.tab-inner
