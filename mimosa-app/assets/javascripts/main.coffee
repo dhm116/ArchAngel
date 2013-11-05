@@ -38,12 +38,13 @@ require
             return template
 
         angular.module('configuration', [])
-            .constant('BASE_URL', 'http://localhost:8000') #'http://django-archangel.rhcloud.com')
+        #     .constant('BASE_URL', 'http://localhost:8000') #'http://django-archangel.rhcloud.com')
 
         angular.module('djangoApp.services', ['configuration', 'ngStorage'])
         angular.module('djangoApp.controllers', ['restangular', 'djangoApp.services', 'configuration', 'ngStorage'])
-            .config (RestangularProvider, BASE_URL) ->
-                RestangularProvider.setBaseUrl "#{BASE_URL}/" #'http://django-archangel.rhcloud.com/'
+            .config (RestangularProvider) -> #, BASE_URL) ->
+                # Let's handle assigning the base url later
+                # RestangularProvider.setBaseUrl "#{BASE_URL}/" #'http://django-archangel.rhcloud.com/'
                 RestangularProvider.setRequestSuffix '/?format=json'
 
         require [
@@ -79,20 +80,19 @@ require
             )
 
             angular.module('djangoApp.controllers') #, ['restangular', 'djangoApp.services'])
-                .controller 'NavbarController', ($scope,$location, Restangular, User, Course) ->
+                .controller 'NavbarController', ($scope,$location,$localStorage, Restangular, User, Course) ->
+                    $scope.$storage = $localStorage.$default {useLocalData: true}
                     $scope.isMobile = isMobile
                     $scope.user = User
 
-                    $scope.useLocalData = true
+                    # $scope.useLocalData = $localStorage.useLocalData
                     $scope.updateDataURL = () ->
-                        $scope.useLocalData = !$scope.useLocalData
+                        $scope.$storage.useLocalData = !$scope.$storage.useLocalData
 
                         url = 'http://localhost:8000'
-                        unless $scope.useLocalData
+                        unless $scope.$storage.useLocalData
                             url = 'http://django-archangel.rhcloud.com'
 
-                        angular.module('configuration')
-                            .constant('BASE_URL', url)
                         Restangular.setBaseUrl "#{url}/"
 
                         $location.path('/')

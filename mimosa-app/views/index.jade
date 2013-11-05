@@ -4,11 +4,11 @@ append navigation-items
   ul.right
     li.divider
     li
-      a(href='#', ng-model='useLocalData', ng-click='updateDataURL()')
-        span(ng-if='useLocalData')
+      a(href='#', ng-click='updateDataURL()')
+        span(ng-if='$storage.useLocalData')
           i.fa.fa-desktop
           span.pad-left Local Data
-        span(ng-if='!useLocalData')
+        span(ng-if='!$storage.useLocalData')
           i.fa.fa-cloud(style='color: #2ba6cb;')
           span.pad-left Cloud Data
     li.divider
