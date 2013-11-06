@@ -55,6 +55,9 @@ require
             'app/login/controllers'
             'app/course/services'
             'app/course/controllers'
+            'app/course/roster/services'
+            'app/course/section/services'
+            'app/course/section/controllers'
         ], ->
             app = angular.module('djangoApp', [
                     'ngRoute'
@@ -67,6 +70,10 @@ require
                             controller: 'LoginController'
                     }
                     $routeProvider.when '/Course/:courseId', {
+                            template: templates['course-main']
+                            controller: 'CourseController'
+                    }
+                    $routeProvider.when '/Course/:courseId/sections/:sectionId', {
                             template: templates['course-main']
                             controller: 'CourseController'
                     }

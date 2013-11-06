@@ -7,7 +7,7 @@ define ['angular'], (angular) ->
 
             constructor: () ->
                 if $localStorage.user
-                    console.log "Loading user from local storage"
+                    console.log "Loading user from local storage", $localStorage.user
                     _.extend(@, $localStorage.user)
                     @__attachToken()
 
@@ -20,13 +20,15 @@ define ['angular'], (angular) ->
                 Restangular.allUrl('user', 'api-token-auth')
                     .post({username:username, password:password})
                     .then (response) =>
+                        console.log response
                         @token = response.token
                         @authenticated = true
 
                         _.extend(@data, response.user)
 
                         $localStorage.user = @
-                        # Add token to Restangular.setDefaultHeaders
+                        console.log "Updating local storage with user", $localStorage.user
+                       # Add token to Restangular.setDefaultHeaders
                         @__attachToken()
                     .catch =>
                         console.log "Invalid username/password"

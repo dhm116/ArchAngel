@@ -2,6 +2,7 @@
   h2 {{course.full_name}}
   h4.subheader {{course.description}}
   dl.sub-nav
-    dt Sections
-    dd(ng-repeat="section in course.sections")
-      a(href='#') {{section.section_no}}
+    dt Sections:
+      span.pad-left(ng-show='section')
+    dd(ng-repeat="s in sections", ng-class='{active: section.id == s.id}')
+      a(href='/Course/{{course.id}}/sections/{{s.id}}') {{s.section_no}}
