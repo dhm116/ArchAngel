@@ -9,14 +9,14 @@ module.exports = function(config) {
 
 
     // frameworks to use
-    frameworks: ['jasmine', 'requirejs'],
+    frameworks: ['requirejs', 'jasmine'],
 
 
     // list of files / patterns to load in the browser
     files: [
+      {pattern: 'mimosa-app/assets/javascripts/vendor/**/*.js', included: false},
       {pattern: 'mimosa-app/assets/javascripts/app/*.coffee', included: false},
       {pattern: 'mimosa-app/assets/javascripts/app/**/*.coffee', included: false},
-      {pattern: 'mimosa-app/assets/javascripts/vendor/**/*.js', included: false},
       {pattern: 'test/**/*Spec.js', included: false},
       'test/test_main.js'
     ],
@@ -24,7 +24,7 @@ module.exports = function(config) {
 
     // list of files to exclude
     exclude: [
-      'mimosa-app/assets/javascripts/main.coffee'
+      'mimosa-app/assets/javascripts/main.js'
     ],
 
 

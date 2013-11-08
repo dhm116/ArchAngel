@@ -26,13 +26,12 @@ requirejs.config({
         'ratchet': 'vendor/ratchet/ratchet',
         'restangular': 'vendor/restangular/restangular',
         'underscore': 'vendor/underscore/underscore',
-        'app': 'main.coffee'
+        'app': '../../public/javascripts/main',
+        'courseService': 'app/course/services'
     },
 
     shim: {
         'underscore': { exports: '_' },
-        //'angular': { deps: ['jquery'], exports: 'Angular'}
-        //'angular': { exports: 'angular'}
     },
 
     // ask Require.js to load these files (all our tests)

@@ -1,4 +1,4 @@
-define([/*insert dependencies here*/], function() {
+define(['angular', 'courseService'], function(angular, cs) {
 
   describe('My first test', function() {
 //    var $compile, $rootScope;
