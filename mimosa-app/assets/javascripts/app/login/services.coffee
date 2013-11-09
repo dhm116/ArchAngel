@@ -8,8 +8,11 @@ define ['angular'], (angular) ->
             constructor: () ->
                 if $localStorage.user
                     console.log "Loading user from local storage", $localStorage.user
-                    _.extend(@, $localStorage.user)
-                    @__attachToken()
+                    if $localStorage.user.hasOwnProperty('data')
+                        _.extend(@, $localStorage.user)
+                        @__attachToken()
+                    else
+                        console.log "Cached user had no data"
 
             login: (username, password, cb) =>
                 if username.hasOwnProperty('password')
@@ -37,15 +40,18 @@ define ['angular'], (angular) ->
 
                 return
             logout: (cb) =>
-                if @authenticated
-                    @data = {}
-                    @token = null
-                    @authenticated = false
+                @data = {}
+                @token = null
+                @authenticated = false
+
+                if $localStorage.user
+                    console.log "Deleting user from local storage"
                     delete $localStorage.user
-                    # Remove token from Restangular.setDefaultHeaders
-                    Restangular.setDefaultHeaders {}
-                else
-                    cb()
+
+                # Remove token from Restangular.setDefaultHeaders
+                Restangular.setDefaultHeaders {}
+                if cb then cb()
+
                 return
 
             __attachToken: () =>
