@@ -17,6 +17,8 @@
     "angular-loading-bar": "~0.0.5",
     "angular-route": "~1.2.0-rc.3",
     "angular-cookies": "~1.0.8",
-    "ngstorage": "git://github.com/gsklee/ngStorage.git"
+    "ngstorage": "git://github.com/gsklee/ngStorage.git",
+    "angular-markdown-directive": "~0.1.0",
+    "showdown": "~0.3.1"
   }
 }

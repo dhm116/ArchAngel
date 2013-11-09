@@ -10,6 +10,7 @@ require
     urlArgs: "b=#{(new Date()).getTime()}"
     paths:
         jquery: 'vendor/jquery/jquery'
+        # showdown: 'vendor/showdown/showdown'
     #     angular: 'angular'
     #     # views: 'app/example-view'
     ,[
@@ -20,9 +21,9 @@ require
     ,(angular, templates, mobilecheck) ->
         $(document).foundation()
 
-        $.get ''
+        #$.get ''
 
-        token = null
+        #token = null
 
         isMobile = mobilecheck.isMobile()
 
@@ -58,11 +59,14 @@ require
             'app/course/roster/services'
             'app/course/section/services'
             'app/course/section/controllers'
+            'app/course/syllabus/services'
+            'app/course/lesson/services'
         ], ->
             app = angular.module('djangoApp', [
                     'ngRoute'
                     'djangoApp.controllers'
                     'chieffancypants.loadingBar'
+                    'btford.markdown'
                 ]
                 , ($routeProvider, $locationProvider) ->
                     $routeProvider.when '/login', {
@@ -111,6 +115,7 @@ require
 
                     unless isMobile
                         getAllData(Restangular, $scope, 'users')
+                        # getAllData(Restangular, $scope, 'upcoming-assignments')
 
 
                 .controller 'StudentController', ($scope, $route, $routeParams, $location, Restangular) ->
