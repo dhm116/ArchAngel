@@ -30,8 +30,36 @@ exports.config = {
     'bower'
     'server-template-compile'
     'client-jade-static'
+    'karma'
     # 'server-reload'
   ]
+
+  karma:
+    basePath: ''
+    files: [
+      JASMINE: true
+      JASMINE_ADAPTER: true
+      REQUIRE: true
+      REQUIRE_ADAPTER: true
+      {
+        pattern: 'public/javascripts/**/*.js'
+        included: false
+      }
+      # {
+      #   pattern: 'tests/*spec.js'
+      #   included: false
+      # }
+      {
+        pattern: 'tests/**/*spec.coffee'
+        included: false
+      }
+      'tests/test-main.coffee'
+    ]
+    autoWatch: true
+    browsers: ['Chrome']
+    preprocessors: {
+      '**/*.coffee': ['coffee']
+    }
 
   combine:
     folders: [                           # An array of folder combination details

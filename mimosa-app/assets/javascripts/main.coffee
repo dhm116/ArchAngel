@@ -17,39 +17,40 @@ require
         'angular'
         'templates'
         'app/mobile-check'
+        'app/app'
     ]
-    ,(angular, templates, mobilecheck) ->
+    ,(angular, templates, mobilecheck, app) ->
         $(document).foundation()
 
         #$.get ''
 
         #token = null
 
-        isMobile = mobilecheck.isMobile()
+        # isMobile = mobilecheck.isMobile()
 
-        getAllData = (service, $scope, resource) ->
-            service.all(resource).getList().then (items) ->
-                $scope[resource] = items
+        # getAllData = (service, $scope, resource) ->
+        #     service.all(resource).getList().then (items) ->
+        #         $scope[resource] = items
 
-        getTemplate = (name) ->
-            template = templates[name]
+        # getTemplate = (name) ->
+        #     template = templates[name]
 
-            if isMobile and templates.hasOwnProperty("#{name}_mobile")
-                template = templates["#{name}_mobile"]
-            return template
+        #     if isMobile and templates.hasOwnProperty("#{name}_mobile")
+        #         template = templates["#{name}_mobile"]
+        #     return template
 
-        angular.module('configuration', ['restangular','ngStorage'])
-            .config (RestangularProvider) ->
-                RestangularProvider.setRequestSuffix '/?format=json'
-            .constant('BASE_URL', {
-                local: 'http://localhost:8000'
-                cloud: 'http://django-archangel.rhcloud.com'
-            })
-            .run (Restangular, $localStorage, BASE_URL) ->
-                Restangular.setBaseUrl if $localStorage.useLocalData then BASE_URL.local else BASE_URL.cloud #"#{BASE_URL}/" #'http://django-archangel.rhcloud.com/'
+        # angular.module('configuration', ['restangular','ngStorage'])
+        #     .config (RestangularProvider) ->
+        #         RestangularProvider.setRequestSuffix '/?format=json'
+        #     .constant('BASE_URL', {
+        #         local: 'http://localhost:8000'
+        #         cloud: 'http://django-archangel.rhcloud.com'
+        #     })
+        #     .run (Restangular, $localStorage, BASE_URL) ->
+        #         Restangular.setBaseUrl if $localStorage.useLocalData then BASE_URL.local else BASE_URL.cloud #"#{BASE_URL}/" #'http://django-archangel.rhcloud.com/'
 
-        angular.module('djangoApp.services', ['configuration', 'ngStorage'])
-        angular.module('djangoApp.controllers', ['restangular', 'djangoApp.services', 'configuration', 'ngStorage'])
+        # angular.module('djangoApp.services', ['configuration', 'ngStorage'])
+        # angular.module('djangoApp.controllers', ['restangular', 'djangoApp.services', 'configuration', 'ngStorage'])
 
         require [
             'app/login/services'
@@ -61,36 +62,55 @@ require
             'app/course/section/controllers'
             'app/course/syllabus/services'
             'app/course/lesson/services'
+            'app/course/lesson/controllers'
+            'app/course/assignment/services'
         ], ->
-            app = angular.module('djangoApp', [
-                    'ngRoute'
-                    'djangoApp.controllers'
-                    'chieffancypants.loadingBar'
-                    'btford.markdown'
-                ]
-                , ($routeProvider, $locationProvider) ->
-                    $routeProvider.when '/login', {
-                            template: templates['login']
-                            controller: 'LoginController'
-                    }
-                    $routeProvider.when '/Course/:courseId', {
-                            template: templates['course-main']
-                            controller: 'CourseController'
-                    }
-                    $routeProvider.when '/Course/:courseId/sections/:sectionId', {
-                            template: templates['course-main']
-                            controller: 'CourseController'
-                    }
-                    $routeProvider.when '/Students', {
-                            template: templates['students']
-                            controller: 'StudentController'
-                    }
-                    $routeProvider.otherwise {
-                            template: getTemplate('main-screen') #templates['main-screen']
-                            controller: 'ArchangelController'
-                    }
-                    $locationProvider.html5Mode(true)
-            )
+            # app = angular.module('djangoApp', [
+            #         'ngRoute'
+            #         'djangoApp.controllers'
+            #         'chieffancypants.loadingBar'
+            #         'btford.markdown'
+            #     ]
+            isMobile = mobilecheck.isMobile()
+
+            getAllData = (service, $scope, resource) ->
+                service.all(resource).getList().then (items) ->
+                    $scope[resource] = items
+
+            getTemplate = (name) ->
+                template = templates[name]
+
+                if isMobile and templates.hasOwnProperty("#{name}_mobile")
+                    template = templates["#{name}_mobile"]
+                return template
+
+            app.config ($routeProvider, $locationProvider) ->
+                $routeProvider.when '/login', {
+                        template: templates['login']
+                        controller: 'LoginController'
+                }
+                $routeProvider.when '/Course/:courseId', {
+                        template: templates['course-main']
+                        controller: 'CourseController'
+                }
+                $routeProvider.when '/Course/:courseId/sections/:sectionId', {
+                        template: templates['course-main']
+                        controller: 'CourseController'
+                }
+                $routeProvider.when '/Course/:courseId/Lesson/:lessonId', {
+                        template: templates['lesson']
+                        controller: 'LessonController'
+                }
+                $routeProvider.when '/Students', {
+                        template: templates['students']
+                        controller: 'StudentController'
+                }
+                $routeProvider.otherwise {
+                        template: getTemplate('main-screen') #templates['main-screen']
+                        controller: 'ArchangelController'
+                }
+                $locationProvider.html5Mode(true)
+            # )
 
             angular.module('djangoApp.controllers') #, ['restangular', 'djangoApp.services'])
                 .controller 'NavbarController', ($scope,$location,$localStorage,Restangular, BASE_URL, User, Course) ->
