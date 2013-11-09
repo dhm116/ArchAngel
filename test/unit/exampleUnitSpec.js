@@ -1,15 +1,14 @@
-define(['angular', 'courseService'], function(angular, cs) {
+define(['angular-mocks', 'app'/*'courseService'*/], function(AngularMocks) {
 
   describe('My first test', function() {
-//    var $compile, $rootScope;
+    var $compile, $rootScope;
 
     //Require the module
-//    beforeEach(module('myApp'));
-
-//    beforeEach(inject(function (_$compile_, _$rootScope_) {
-//      $compile = _$compile_;
-//      $rootScope = _$rootScope_;
-//    }));
+    beforeEach(angular.mock.module('djangoApp'));
+    beforeEach(inject(function (_$compile_, _$rootScope_) {
+      $compile = _$compile_;
+      $rootScope = _$rootScope_;
+    }));
 
     //var assert = require("assert")
     describe('Array', function(){

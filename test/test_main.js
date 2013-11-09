@@ -6,12 +6,12 @@ for (var file in window.__karma__.files) {
     }
   }
 }
-console.log();
+
 requirejs.config({
     //urlArgs: (new Date()).getTime(),
     // Karma serves files from '/base'
     baseUrl: 'base/mimosa-app/assets/javascripts' /*../mimosa-app/assets/javascripts'*/,
-
+/*
     paths: {
         'jquery': 'vendor/jquery/jquery',
         'angular': 'vendor/angular/angular',
@@ -26,14 +26,24 @@ requirejs.config({
         'ratchet': 'vendor/ratchet/ratchet',
         'restangular': 'vendor/restangular/restangular',
         'underscore': 'vendor/underscore/underscore',
-        'app': '../../public/javascripts/main',
-        'courseService': 'app/course/services'
+        'templates': '../../public/javascripts/templates',
+        'courseService': 'app/course/services',
+        'courseController': 'app/course/controllers',
+        'loginService': 'app/login/services',
+        'loginController': 'app/login/controllers',    
+
+        'app': '../../public/javascripts/main'
+
     },
 
     shim: {
         'underscore': { exports: '_' },
+        'angular-mocks': { deps: ['angular'], exports: 'AngularMocks'},
+//        'app': { deps: ['angular-mocks', 'courseService', 'courseController', 
+//                        'loginService', 'loginController'], exports: 'App'},
+//        'courseService': { deps: ['angular-mocks'], exports: 'courseService'}
     },
-
+*/
     // ask Require.js to load these files (all our tests)
     deps: tests,
 

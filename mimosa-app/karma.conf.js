@@ -9,15 +9,27 @@ module.exports = function(config) {
 
 
     // frameworks to use
-    frameworks: ['requirejs', 'jasmine'],
+    frameworks: ['jasmine', 'requirejs'],
 
 
     // list of files / patterns to load in the browser
     files: [
-      {pattern: 'mimosa-app/assets/javascripts/vendor/**/*.js', included: false},
+//      'mimosa-app/assets/javascripts/vendor/jquery/*.js',
+//      'mimosa-app/assets/javascripts/vendor/angular/*.js',
+//      'mimosa-app/assets/javascripts/vendor/**/*.js',
+//      'mimosa-app/assets/javascripts/app/**/*.coffee',
+//      'mimosa-app/assets/javascripts/app/*.coffee',
+      {pattern: 'mimosa-app/assets/javascripts/vendor/jquery/*.js', included: false},
+      {pattern: 'mimosa-app/assets/javascripts/vendor/angular/*.js', included: false},
+      {pattern: 'mimosa-app/assets/javascripts/vendor/**/*.js', included: false},      
+//      {pattern: 'mimosa-app/assets/javascripts/app/*.js', included: false},
+//      {pattern: 'mimosa-app/assets/javascripts/app/**/*.js', included: false},
+
       {pattern: 'mimosa-app/assets/javascripts/app/*.coffee', included: false},
       {pattern: 'mimosa-app/assets/javascripts/app/**/*.coffee', included: false},
       {pattern: 'test/**/*Spec.js', included: false},
+      //'mimosa-app/assets/javascripts/main.coffee',
+//      'mimosa-app/public/javascripts/templates.js',
       'test/test_main.js'
     ],
 
