@@ -1,5 +1,5 @@
 define ['angular'], (angular) ->
-    return angular.module('djangoApp.controllers').controller 'CourseSectionGradesController', ($scope, $routeParams, Restangular, Course, CourseSection, Grade) ->
+    return angular.module('djangoApp.controllers').controller 'GradeController', ($scope, $routeParams, Restangular, Course, CourseSection, Grade) ->
         # $scope.user = User
         # Restangular.setBaseUrl 'http://macpro.local:8000/'
         # getAllData(Restangular, $scope, 'users')
