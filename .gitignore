@@ -22,3 +22,4 @@ Thumbs.db
 # Vagrant
 .vagrant
 *.pyc
+phonegap-app

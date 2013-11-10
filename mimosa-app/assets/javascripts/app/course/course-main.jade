@@ -1,8 +1,41 @@
-.content-padded
-  h2 {{course.full_name}}
-  h4.subheader {{course.description}}
-  dl.sub-nav
-    dt Sections:
-      span.pad-left(ng-show='section')
-    dd(ng-repeat="s in sections", ng-class='{active: section.id == s.id}')
-      a(href='/Course/{{course.id}}/sections/{{s.id}}') {{s.section_no}}
+.content-padded(ng-cloak)
+  .large-12.columns
+    .row
+      h2 {{course.full_name}}
+        small.pad-left {{course.description}}
+      hr
+    .row
+      .large-6.columns
+        .row-padded
+          h4 Lessons
+          hr
+          table(width='100%', ng-cloak)
+            thead
+              tr
+                th Week
+                th Lesson
+                th Assignments Due
+            tfoot
+              tr
+                td(colspan='3')
+                  a.button.tiny.round(href='#')
+                    i.fa.fa-plus-square
+                    span.pad-left Add
+            tbody
+              tr(ng-repeat='lesson in course.lessons')
+                td
+                  a(href='/Course/{{course.id}}/Lesson/{{lesson.id}}')
+                    span.label.round {{lesson.week_no}}
+                td
+                  a(href='/Course/{{course.id}}/Lesson/{{lesson.id}}') {{lesson.name}}
+                td
+                  a(href='/Course/{{course.id}}/Lesson/{{lesson.id}}')
+                    span.label.round.secondary {{lesson.assignments.length}}
+      .large-6.columns(ng-cloak)
+        .row-padded(ng-if='course.syllabus.name')
+          h4 {{course.syllabus.name}}
+            small.pad-left {{course.syllabus.description}}
+          hr
+          p(ng-show='course.syllabus.content', btf-markdown='course.syllabus.content')
+        .row-padded(ng-if='!course.syllabus.name')
+          h5.subheader Loading syllabus data
