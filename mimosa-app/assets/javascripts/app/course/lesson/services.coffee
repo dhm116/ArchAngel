@@ -6,7 +6,7 @@ define ['angular'], (angular) ->
             get: (ids) =>
                 d = $q.defer()
 
-                if typeof ids is 'string'
+                unless Array.isArray(ids)
                     ids = [ids]
 
                 unless @lessons.length

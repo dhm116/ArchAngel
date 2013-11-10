@@ -1,13 +1,15 @@
-.content-padded
+.content-padded(ng-cloak)
   .large-12.columns
     .row
       h2 {{course.full_name}}
-      h4.subheader {{course.description}}
+        small.pad-left {{course.description}}
+      hr
     .row
       .large-6.columns
         .row-padded
-          h3 Syllabus
-          table(width='100%')
+          h4 Lessons
+          hr
+          table(width='100%', ng-cloak)
             thead
               tr
                 th Week
@@ -21,11 +23,19 @@
                     span.pad-left Add
             tbody
               tr(ng-repeat='lesson in course.lessons')
-                td {{lesson.week_no}}
-                td {{lesson.name}}
-                td {{lesson.assignments.length}}
-      .large-6.columns
-        .row
-          h4.subheader {{course.syllabus.name}}
-          h6 {{course.syllabus.description}}
-          p(btf-markdown='course.syllabus.content')
+                td
+                  a(href='/Course/{{course.id}}/Lesson/{{lesson.id}}')
+                    span.label.round {{lesson.week_no}}
+                td
+                  a(href='/Course/{{course.id}}/Lesson/{{lesson.id}}') {{lesson.name}}
+                td
+                  a(href='/Course/{{course.id}}/Lesson/{{lesson.id}}')
+                    span.label.round.secondary {{lesson.assignments.length}}
+      .large-6.columns(ng-cloak)
+        .row-padded(ng-if='course.syllabus.name')
+          h4 {{course.syllabus.name}}
+            small.pad-left {{course.syllabus.description}}
+          hr
+          p(ng-show='course.syllabus.content', btf-markdown='course.syllabus.content')
+        .row-padded(ng-if='!course.syllabus.name')
+          h5.subheader Loading syllabus data
