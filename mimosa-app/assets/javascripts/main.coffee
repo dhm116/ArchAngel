@@ -58,6 +58,10 @@ require
                         template: templates['course-main']
                         controller: 'CourseController'
                 }
+				#$routeProvider.when '/Course/:courseId/sections/:sectionId/grades', {
+				#		template: templates['grades']
+				#		controller: 'GradeController'
+				#}
                 $routeProvider.when '/Course/:courseId/Lesson/:lessonId', {
                         template: templates['lesson']
                         controller: 'LessonController'
