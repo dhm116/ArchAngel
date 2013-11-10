@@ -19,6 +19,9 @@ define ['angular'], (angular) ->
                 return d.promise
 
             __getAssignment: (ids) =>
+                unless _.every(ids, _.isNumber)
+                    return ids
+
                 return _.filter @assignments, (assignment) =>
                     _.contains(ids, assignment.id)
 

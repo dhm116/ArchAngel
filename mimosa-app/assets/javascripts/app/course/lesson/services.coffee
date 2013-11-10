@@ -5,7 +5,6 @@ define ['angular'], (angular) ->
 
             get: (ids) =>
                 d = $q.defer()
-
                 unless Array.isArray(ids)
                     ids = [ids]
 
@@ -19,6 +18,9 @@ define ['angular'], (angular) ->
                 return d.promise
 
             __getLesson: (ids) =>
+                unless _.every(ids, _.isNumber)
+                    return ids
+
                 return _.filter @lessons, (lesson) =>
                     _.contains(ids, lesson.id)
 

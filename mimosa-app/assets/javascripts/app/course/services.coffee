@@ -2,23 +2,26 @@ define ['angular'], (angular) ->
     angular.module('djangoApp.services').factory 'Course', ($q, Restangular) ->
         class Course
             courses: []
+            d: null
 
             constructor: ->
 
             all: () =>
-                d = $q.defer()
+                unless @d
+                    @d = $q.defer()
 
-                unless @courses.length
-                    Restangular.all('courses').getList().then (items) =>
-                        @courses = items
-                        # console.log "In async course service", @courses
-                        console.log 'Getting list of courses'
-                        d.resolve(@courses)
-                else
-                    console.log 'Using cached course list'
-                    d.resolve(@courses)
+                    unless @courses.length
+                        Restangular.all('courses').getList().then (items) =>
+                            @courses = items
+                            # console.log "In async course service", @courses
+                            console.log 'Getting list of courses'
+                            @d.resolve(@courses)
+                    else
+                        console.log 'Using cached course list'
+                        console.log @courses
+                        @d.resolve(@courses)
 
-                return d.promise
+                return @d.promise
 
             get: (id) =>
                 d = $q.defer()
