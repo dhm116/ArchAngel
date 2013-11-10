@@ -14,8 +14,9 @@ require
         'angular'
         'templates'
         'app/mobile-check'
+        'app/app'
     ]
-    ,(angular, templates, mobilecheck) ->
+    ,(angular, templates, mobilecheck, app) ->
         $(document).foundation()
 
         require [
@@ -28,6 +29,8 @@ require
             'app/course/section/controllers'
             'app/course/syllabus/services'
             'app/course/lesson/services'
+            'app/course/lesson/controllers'
+            'app/course/assignment/services'
         ], ->
             isMobile = mobilecheck.isMobile()
 
@@ -64,17 +67,18 @@ require
                         controller: 'StudentController'
                 }
                 $routeProvider.otherwise {
-                        template: getTemplate('main-screen')
+                        template: getTemplate('main-screen') #templates['main-screen']
                         controller: 'ArchangelController'
                 }
                 $locationProvider.html5Mode(true)
 
-            angular.module('djangoApp.controllers')
+            angular.module('djangoApp.controllers') #, ['restangular', 'djangoApp.services'])
                 .controller 'NavbarController', ($scope,$location,$localStorage,Restangular, BASE_URL, User, Course) ->
                     $scope.$storage = $localStorage.$default {useLocalData: true}
                     $scope.isMobile = isMobile
                     $scope.user = User
 
+                    # $scope.useLocalData = $localStorage.useLocalData
                     $scope.updateDataURL = () ->
                         $scope.$storage.useLocalData = !$scope.$storage.useLocalData
 
@@ -91,6 +95,7 @@ require
 
                     unless isMobile
                         getAllData(Restangular, $scope, 'users')
+                        # getAllData(Restangular, $scope, 'upcoming-assignments')
 
 
                 .controller 'StudentController', ($scope, $route, $routeParams, $location, Restangular) ->
