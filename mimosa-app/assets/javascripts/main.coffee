@@ -71,15 +71,15 @@ require
                         template: templates['assignment']
                         controller: 'AssignmentController'
                 }
-                $routeProvider.when
-                '/Course/:courseId/Lesson/:lessonId/assignment/submission', {
-                        template: templates['submission']
-                        controller: 'AssignmentSubmissionController'
-                }
-                $routeProvider.when '/Course/:courseId/Lesson/:lessonId/assignment/grade', {
-                        template: templates['grades']
-                        controller: 'GradeController'
-                }
+                #$routeProvider.when
+                #'/Course/:courseId/Lesson/:lessonId/assignment/submission', {
+                #        template: templates['submission']
+                #        controller: 'AssignmentSubmissionController'
+                #}
+                #$routeProvider.when '/Course/:courseId/Lesson/:lessonId/assignment/grade', {
+                #        template: templates['grades']
+                #        controller: 'GradeController'
+                #}
                 $routeProvider.when '/Students', {
                         template: templates['students']
                         controller: 'StudentController'
