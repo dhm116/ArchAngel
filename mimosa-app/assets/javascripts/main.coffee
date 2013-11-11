@@ -30,11 +30,12 @@ require
             'app/course/syllabus/services'
             'app/course/lesson/services'
             'app/course/lesson/controllers'
-            'app/course/lesson/assignment/services'
-            'app/course/lesson/assignment/submission/services'
-            'app/course/lesson/assignment/submission/controllers'
-            'app/course/lesson/assignment/grade/services'
-            'app/course/lesson/assignment/grade/controllers'
+            'app/course/assignment/services'
+            'app/course/assignment/controllers'
+            'app/course/assignment/submission/services'
+            'app/course/assignment/submission/controllers'
+            'app/course/assignment/grade/services'
+            'app/course/assignment/grade/controllers'
         ], ->
             isMobile = mobilecheck.isMobile()
 
