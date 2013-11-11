@@ -30,7 +30,11 @@ require
             'app/course/syllabus/services'
             'app/course/lesson/services'
             'app/course/lesson/controllers'
-            'app/course/assignment/services'
+            'app/course/lesson/assignment/services'
+            'app/course/lesson/assignment/submission/services'
+            'app/course/lesson/assignment/submission/controllers'
+            'app/course/lesson/assignment/grade/services'
+            'app/course/lesson/assignment/grade/controllers'
         ], ->
             isMobile = mobilecheck.isMobile()
 
@@ -58,13 +62,23 @@ require
                         template: templates['course-main']
                         controller: 'CourseController'
                 }
-				#$routeProvider.when '/Course/:courseId/sections/:sectionId/grades', {
-				#		template: templates['grades']
-				#		controller: 'GradeController'
-				#}
                 $routeProvider.when '/Course/:courseId/Lesson/:lessonId', {
                         template: templates['lesson']
                         controller: 'LessonController'
+                }
+                $routeProvider.when
+                '/Course/:courseId/Lesson/:lessonId/assignment', {
+                        template: templates['assignment']
+                        controller: 'AssignmentController'
+                }
+                $routeProvider.when
+                '/Course/:courseId/Lesson/:lessonId/assignment/submission', {
+                        template: templates['submission']
+                        controller: 'AssignmentSubmissionController'
+                }
+                $routeProvider.when '/Course/:courseId/Lesson/:lessonId/assignment/grade', {
+                        template: templates['grades']
+                        controller: 'GradeController'
                 }
                 $routeProvider.when '/Students', {
                         template: templates['students']
