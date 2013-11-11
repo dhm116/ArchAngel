@@ -1,0 +1,87 @@
+define ['angular'], (angular) ->
+        class BaseService
+            items: []
+            $q: null
+            model: null
+            defer: null
+
+            constructor: (@Restangular, @$q) ->
+                return
+
+            __checkDependencies: =>
+                errors = []
+                unless @model
+                    errors.push new Error('model not defined')
+                unless @Restangular
+                    errors.push new Error('Restangular reference not provided')
+                unless @$q
+                    errors.push new Error('$q reference not provided')
+
+                throw error for error in errors
+
+            all: (ids) =>
+                @__checkDependencies()
+                unless @defer?
+                    @defer = @$q.defer()
+
+                    unless Array.isArray(ids)
+                        ids = [ids] if ids?
+
+                    unless @items.length
+                        console.log "Loading #{@model} data from REST API"
+                        @Restangular.all(@model).getList().then (items) =>
+                            console.log "Got #{@model} data"
+                            @items = items
+                            @defer.resolve(if ids then @__getItems(ids) else @items)
+                    else
+                        console.log "Loading cached #{@model} items"
+                        @defer.resolve(if ids then @__getItems(ids) else @items)
+
+                return @defer.promise
+
+            get: (id) =>
+                @__checkDependencies()
+                defer = @$q.defer()
+
+                match = _.findWhere(@items, {id: id})
+                if match
+                    "Loading cached single #{@model} item"
+                    defer.resolve(match)
+                else
+                    console.log "Loading single #{@model} from REST API"
+                    # @Restangular.one(@model, id).get().then (item) =>
+                    #     console.log "Got single #{@model} data"
+                    @all().then =>
+                        # unless _.contains(@items, item)
+                            # @items.push item
+                        defer.resolve(_.findWhere(@items, {id: id}))
+
+                return defer.promise
+
+            add: (item) =>
+                defer = @$q.defer()
+                defer.reject('not supported yet')
+                return defer.promise
+
+            update: (item) =>
+                defer = @$q.defer()
+                if item.put
+                    request = item.put()
+                else
+                    request = @Restangular.one(@model, item.id).put(item)
+
+                request.then (result) =>
+                        defer.resolve(result)
+                    .catch (err) =>
+                        defer.reject(err)
+                return defer.promise
+
+            __getItems: (ids) =>
+                unless _.every(ids, _.isNumber)
+                    return ids
+
+                return _.filter @items, (item) =>
+                    _.contains(ids, item.id)
+
+
+        return BaseService

@@ -22,7 +22,7 @@
             tfoot
               tr
                 td(colspan='3')
-                  a.button.tiny.round(href='#')
+                  a.button.tiny.round(href='#', ng-show='isInstructor')
                     i.fa.fa-plus-square
                     span.pad-left Add
             tbody
@@ -37,6 +37,9 @@
                     span.label.round.secondary {{lesson.assignments.length}}
       .large-6.columns(ng-cloak)
         .row-padded(ng-if='course.syllabus.name')
+          a.button.tiny.round(href='/Course/{{course.id}}/Syllabus/edit', ng-show='isInstructor')
+            i.fa.fa-edit
+            span.pad-left Edit
           h4 {{course.syllabus.name}}
             small.pad-left {{course.syllabus.description}}
           hr
