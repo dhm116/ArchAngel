@@ -55,10 +55,10 @@ exports.config = {
     ]
 
     browsers: ['Chrome']
-    reporters: ['progress']#, 'html']
+    reporters: ['progress', 'html']
     htmlReporter: {
       outputDir: '../tests/html_report',
-      templatePath: '../tests/html_report/template'
+      templatePath: '../mimosa-app/tests/html_report/template/jasmine_template.html'
     }
     autoWatch: true
     
