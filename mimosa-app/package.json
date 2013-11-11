@@ -15,6 +15,7 @@
     "express": "3.3.4",
     "coffee-script": "1.6.3",
     "consolidate": "0.9.1",
-    "jade": "0.34.1"
+    "jade": "0.34.1",
+    "mimosa-karma": "git://github.com/dhm116/mimosa-karma.git#support_karma_9"
   }
 }

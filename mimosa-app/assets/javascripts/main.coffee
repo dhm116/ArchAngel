@@ -33,6 +33,7 @@ require
             'app/course/lesson/controllers'
             'app/course/assignment/services'
         ], ->
+
             isMobile = mobilecheck.isMobile()
 
             getAllData = (service, $scope, resource) ->
