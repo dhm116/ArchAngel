@@ -36,6 +36,8 @@ exports.config = {
 
   karma:
     basePath: ''
+
+    preprocessors: { '**/*.coffee': ['coffee'] }
     files: [
       JASMINE: true
       JASMINE_ADAPTER: true
@@ -45,21 +47,23 @@ exports.config = {
         pattern: 'public/javascripts/**/*.js'
         included: false
       }
-      # {
-      #   pattern: 'tests/*spec.js'
-      #   included: false
-      # }
       {
         pattern: 'tests/**/*spec.coffee'
         included: false
       }
       'tests/test-main.coffee'
     ]
-    autoWatch: true
+
     browsers: ['Chrome']
-    preprocessors: {
-      '**/*.coffee': ['coffee']
+    reporters: ['progress']#, 'html']
+    htmlReporter: {
+      outputDir: '../tests/html_report',
+      templatePath: '../tests/html_report/template'
     }
+    autoWatch: true
+    
+
+
 
   combine:
     folders: [                           # An array of folder combination details
