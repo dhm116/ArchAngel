@@ -57,11 +57,11 @@ exports.config = {
     browsers: ['Chrome']
     reporters: ['progress', 'html']
     htmlReporter: {
-      outputDir: '../tests/html_report',
-      templatePath: '../mimosa-app/tests/html_report/template/jasmine_template.html'
+      outputDir: 'tests/html_report',
+      templatePath: __dirname + '/tests/html_report/template/jasmine_template.html'
     }
     autoWatch: true
-    
+
 
 
 
