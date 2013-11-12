@@ -1,18 +1,21 @@
-define ['angular'], (angular) ->
-    angular.module('djangoApp.services').factory 'Syllabus', ($q, Course, Restangular) ->
-        class Syllabus
-            syllabus: {}
+define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
+    angular.module('djangoApp.services').factory 'Syllabus', ($q, Restangular) ->
+        class Syllabus extends ServiceBase
+            model: 'syllabuses'
+        return new Syllabus(Restangular, $q)
+        # class Syllabus
+        #     syllabus: {}
 
-            get: (id) =>
-                d = $q.defer()
+        #     get: (id) =>
+        #         d = $q.defer()
 
-                unless @syllabus.hasOwnProperty('id') && @syllabus.id isnt id
-                    console.log "Loading course syllabus"
-                    Restangular.one('syllabuses', id).get().then (syllabus) =>
-                        @syllabus = syllabus
-                        d.resolve(@syllabus)
-                else
-                    d.resolve(@syllabus)
-                return d.promise
+        #         unless @syllabus.hasOwnProperty('id') && @syllabus.id isnt id
+        #             console.log "Loading course syllabus"
+        #             Restangular.one('syllabuses', id).get().then (syllabus) =>
+        #                 @syllabus = syllabus
+        #                 d.resolve(@syllabus)
+        #         else
+        #             d.resolve(@syllabus)
+        #         return d.promise
 
-        return new Syllabus()
+        # return new Syllabus()

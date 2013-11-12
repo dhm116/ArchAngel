@@ -4,7 +4,10 @@ define ['angular'], (angular) ->
 
             if($routeParams.hasOwnProperty('lessonId'))
                 Lesson.get(Number($routeParams.lessonId)).then (lesson) ->
-                    $scope.lesson = lesson[0]
+                    $scope.lesson = lesson
+                    Course.get($scope.lesson.course).then (course) ->
+                        $scope.course = course
 
-                    Assignment.get($scope.lesson.assignments).then (assignments) ->
-                        $scope.lesson.assignments = assignments
+                    if _.every($scope.lesson.assignments, _.isNumber)
+                        Assignment.all($scope.lesson.assignments).then (assignments) ->
+                            $scope.lesson.assignments = assignments

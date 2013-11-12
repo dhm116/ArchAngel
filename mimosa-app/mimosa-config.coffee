@@ -30,8 +30,40 @@ exports.config = {
     'bower'
     'server-template-compile'
     'client-jade-static'
+    'karma'
     # 'server-reload'
   ]
+
+  karma:
+    basePath: ''
+
+    preprocessors: { '**/*.coffee': ['coffee'] }
+    files: [
+      JASMINE: true
+      JASMINE_ADAPTER: true
+      REQUIRE: true
+      REQUIRE_ADAPTER: true
+      {
+        pattern: 'public/javascripts/**/*.js'
+        included: false
+      }
+      {
+        pattern: 'tests/**/*spec.coffee'
+        included: false
+      }
+      'tests/test-main.coffee'
+    ]
+
+    browsers: ['Chrome']
+    reporters: ['progress', 'html']
+    htmlReporter: {
+      outputDir: '../tests/html_report',
+      templatePath: '../mimosa-app/tests/html_report/template/jasmine_template.html'
+    }
+    autoWatch: true
+    
+
+
 
   combine:
     folders: [                           # An array of folder combination details

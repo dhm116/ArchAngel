@@ -27,6 +27,7 @@ require
             'app/course/roster/services'
             'app/course/section/services'
             'app/course/section/controllers'
+            'app/course/syllabus/controllers'
             'app/course/syllabus/services'
             'app/course/lesson/services'
             'app/course/lesson/controllers'
@@ -37,6 +38,7 @@ require
             'app/course/assignment/grade/services'
             'app/course/assignment/grade/controllers'
         ], ->
+
             isMobile = mobilecheck.isMobile()
 
             getAllData = (service, $scope, resource) ->
@@ -59,9 +61,9 @@ require
                         template: templates['course-main']
                         controller: 'CourseController'
                 }
-                $routeProvider.when '/Course/:courseId/sections/:sectionId', {
-                        template: templates['course-main']
-                        controller: 'CourseController'
+                $routeProvider.when '/Course/:courseId/Syllabus/:action', {
+                        template: templates['edit-syllabus']
+                        controller: 'SyllabusController'
                 }
                 $routeProvider.when '/Course/:courseId/Lesson/:lessonId', {
                         template: templates['lesson']
@@ -96,6 +98,8 @@ require
                     $scope.$storage = $localStorage.$default {useLocalData: true}
                     $scope.isMobile = isMobile
                     $scope.user = User
+                    Course.all().then (courses) ->
+                        $scope.courses = courses
 
                     # $scope.useLocalData = $localStorage.useLocalData
                     $scope.updateDataURL = () ->
@@ -111,14 +115,16 @@ require
 
                 .controller 'ArchangelController', ($scope, Restangular, User, Course) ->
                     $scope.isMobile = isMobile
+                    Course.all().then (courses) ->
+                        $scope.courses = courses
 
                     unless isMobile
                         getAllData(Restangular, $scope, 'users')
                         # getAllData(Restangular, $scope, 'upcoming-assignments')
 
 
-                .controller 'StudentController', ($scope, $route, $routeParams, $location, Restangular) ->
-                    getAllData(Restangular, $scope, 'students')
+                # .controller 'StudentController', ($scope, $route, $routeParams, $location, Restangular) ->
+                #     getAllData(Restangular, $scope, 'students')
 
 
             angular.bootstrap document, ['djangoApp']

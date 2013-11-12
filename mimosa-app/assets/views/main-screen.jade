@@ -1,5 +1,5 @@
 .large-4.columns.hide-for-small
-  ul.side-nav(ng-controller='CourseController')
+  ul.side-nav
     li
       h3.subheader
         i.fa.fa-clock-o
@@ -23,7 +23,7 @@
     ul.hide-for-small
       li(ng-repeat='user in users')
         {{user.username}} {{user.email}}
-  .row.show-for-small(ng-controller='CourseController')
+  .row.show-for-small
     ul.list
       li(ng-repeat='course in courses')
         a(href='/Course/{{course.id}}')
