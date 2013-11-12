@@ -66,9 +66,12 @@ define ['angular'], (angular) ->
             update: (item) =>
                 defer = @$q.defer()
                 if item.put
+                    console.log "Updating existing restangular object: ", item
                     request = item.put()
                 else
-                    request = @Restangular.one(@model, item.id).put(item)
+                    defer.reject(new Error('An existing restangular object is required for updating'))
+                #     console.log "Loading reference to #{@model}.#{item.id}: ", item
+                #     request = @Restangular.one(@model, item.id).put(item)
 
                 request.then (result) =>
                         defer.resolve(result)

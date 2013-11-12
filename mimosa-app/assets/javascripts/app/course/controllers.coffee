@@ -5,6 +5,10 @@ define ['angular'], (angular) ->
                 Course.all().then (courses) ->
                     $scope.courses = courses
 
+            checkInstructorGroup = ->
+                if $scope.course?.sections?.members?
+                    $scope.isInstructor = if _.findWhere($scope.course.sections.members, {user:User.data.id, group: 'instructor'}) then true else false
+
             if($routeParams.hasOwnProperty('courseId'))
                 Course.get(Number($routeParams.courseId)).then (course) ->
                     $scope.course = course
@@ -15,7 +19,9 @@ define ['angular'], (angular) ->
 
                             CourseRoster.all($scope.course.sections.members).then (members) ->
                                 $scope.course.sections.members = members
-                                $scope.isInstructor = if _.findWhere(members, {user:User.data.id, group: 'instructor'}) then true else false
+                                checkInstructorGroup()
+                    else
+                        checkInstructorGroup()
 
                     if _.isNumber($scope.course.syllabus)
                         Syllabus.get($scope.course.syllabus).then (syllabus) ->
