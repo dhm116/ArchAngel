@@ -1,5 +1,5 @@
 define ['angular'], (angular) ->
-    angular.module('djangoApp.services').factory 'Grade', ($q, CourseGrades, Restangular) ->
+    angular.module('djangoApp.services').factory 'Grade', ($q, Grade, Restangular) ->
         class Grade
             grades: []
 
