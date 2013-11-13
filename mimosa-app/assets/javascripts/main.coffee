@@ -47,27 +47,81 @@ require
                     template = templates["#{name}_mobile"]
                 return template
 
+            routeMap = {
+                login:
+                    template: 'login'
+                    controller: 'LoginController'
+                course:
+                    restful: true
+                    template: 'course'
+                    # controller: 'CourseController'
+                    nested:
+                        lesson:
+                            restful: true
+                            template: 'lesson'
+                        syllabus:
+                            restful: true
+                            template: 'syllabus'
+            }
+
+            recursiveResourceFinder = (parent, resource) ->
+                for item, options of parent
+                    if item is resource
+                        return {resource: item, options: options}
+                    else if options.nested?
+                        nested = recursiveResourceFinder(options.nested, resource)
+                        if nested
+                            return nested
+                return null
+
+            createRoute = ($routeProvider, route, name, data) ->
+                $routeProvider.when route, {
+                    template: ($routeParams) ->
+                        console.log $routeParams
+                        if $routeParams?.resource?
+                            resource = $routeParams.resource
+                            options = routeMap[resource] or recursiveResourceFinder(routeMap, resource)?.options
+                            return getTemplate(unless options.restful? then options.template else "#{$routeParams.action}-#{options.template}")
+                        return
+                    controller: if data.controller? then data.controller else "#{name[0].toUpperCase()}#{name[1..-1]}Controller"
+                }
+
+            recursiveRouteBuilder = ($routeProvider, routes, baseURL) ->
+                for name, data of routes
+                    route = baseURL + "/:resource/:action/:id"
+                    createRoute($routeProvider, route, name, data)
+
+                    if data.nested?
+                        recursiveRouteBuilder($routeProvider, data.nested, route[0..-3]+'parentId')
+
             app.config ($routeProvider, $locationProvider) ->
-                $routeProvider.when '/login', {
-                        template: templates['login']
-                        controller: 'LoginController'
-                }
-                $routeProvider.when '/Course/:courseId', {
-                        template: templates['course-main']
-                        controller: 'CourseController'
-                }
-                $routeProvider.when '/Course/:courseId/Syllabus/:action', {
-                        template: templates['edit-syllabus']
-                        controller: 'SyllabusController'
-                }
-                $routeProvider.when '/Course/:courseId/Lesson/:lessonId', {
-                        template: templates['lesson']
-                        controller: 'LessonController'
-                }
-                $routeProvider.when '/Students', {
-                        template: templates['students']
-                        controller: 'StudentController'
-                }
+                # $routeProvider.when '/login', {
+                #         template: templates['login']
+                #         controller: 'LoginController'
+                # }
+
+                recursiveRouteBuilder($routeProvider, routeMap, "")
+
+                # $routeProvider.when '/Course/:courseId', {
+                #         template: templates['course-main']
+                #         controller: 'CourseController'
+                # }
+                # $routeProvider.when '/Course/:courseId/Syllabus/:action', {
+                #         template: templates['edit-syllabus']
+                #         controller: 'SyllabusController'
+                # }
+                # $routeProvider.when '/Course/:courseId/Lesson/:lessonId', {
+                #         template: templates['lesson']
+                #         controller: 'LessonController'
+                # }
+                # $routeProvider.when '/Course/:courseId/Lesson/add', {
+                #         template: templates['edit-lesson']
+                #         controller: 'LessonController'
+                # }
+                # $routeProvider.when '/Students', {
+                #         template: templates['students']
+                #         controller: 'StudentController'
+                # }
                 $routeProvider.otherwise {
                         template: getTemplate('main-screen') #templates['main-screen']
                         controller: 'ArchangelController'

@@ -60,7 +60,11 @@ define ['angular'], (angular) ->
 
             add: (item) =>
                 defer = @$q.defer()
-                defer.reject('not supported yet')
+                @Restangular.all(@model).post(item)
+                    .then (result) =>
+                        defer.resolve(result)
+                    .catch (err) =>
+                        defer.reject(err)
                 return defer.promise
 
             update: (item) =>

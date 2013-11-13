@@ -6,7 +6,7 @@
         span.pad-left Upcoming
     li.divider
     li(ng-repeat='course in courses')
-      a.item(href='/Course/{{course.id}}')
+      a.item(href='/course/view/{{course.id}}')
         span.label.round(ng-class="{alert: course.id > 1}") 2
         span.pad-left {{course.name}}
         i.fa.fa-arrow-right.pad-left
@@ -26,7 +26,7 @@
   .row.show-for-small
     ul.list
       li(ng-repeat='course in courses')
-        a(href='/Course/{{course.id}}')
+        a(href='/course/view/{{course.id}}')
           span {{course.name}}
           span.chevron
           span.count 2
