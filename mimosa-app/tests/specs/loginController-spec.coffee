@@ -8,6 +8,9 @@
 #
 #  - note - these tests use angular mocks to allow mocking of the controller and giving it an independent scope
 #
+#  the login controller scope contains the following properties:
+#    $storage,  login (method), user
+#
 
 define ['app/app', 'app/login/controllers', 'angular', 'angular-mocks', 'angular-route', 'restangular'
         'underscore', 'ngStorage', 'loading-bar', 'markdown'], 
@@ -18,7 +21,7 @@ define ['app/app', 'app/login/controllers', 'angular', 'angular-mocks', 'angular
         # Mock the djangoApp module
         beforeEach(module('djangoApp'))
         
-        describe 'LoginController', ->
+        describe 'LoginController scope properties', ->
             scope = undefined
 
             # Create an instance of the controller with its own scope
@@ -34,3 +37,20 @@ define ['app/app', 'app/login/controllers', 'angular', 'angular-mocks', 'angular
 
             it 'should have scope.login defined', ->
                 expect(scope.login).toBeDefined()
+
+            it 'should have scope.user undefined as it needs to be set externally', ->
+                expect(scope.user).not.toBeDefined()
+
+            it 'should have scope.user defined as username: testuser, password: password', ->
+                scope.user = { username: 'testuser', password: 'password'}
+                console.log scope
+                expect(scope.user).toBeDefined()
+                expect(scope.user.username).toBe('testuser')
+                expect(scope.user.password).toBe('password')
+
+
+            # need to setup a test that mocks the server response with test configured data for the login method.
+            #  this requires mocking the login service and pre-configuring responses.
+
+
+            # 
