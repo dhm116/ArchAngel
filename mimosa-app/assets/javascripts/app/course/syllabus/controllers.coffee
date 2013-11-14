@@ -1,7 +1,7 @@
 define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'SyllabusController',
         ($scope, $location, $routeParams, Restangular, Course, Syllabus) ->
-            console.log "Syllabus Controller", $routeParams
+            # console.log "Syllabus Controller", $routeParams
             Course.get(Number($routeParams.parentId)).then (course) ->
                 $scope.course = course
 

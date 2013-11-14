@@ -23,7 +23,7 @@
                     i.fa.fa-plus-square
                     span.pad-left Add
             tbody
-              tr(ng-repeat='lesson in course.lessons')
+              tr(ng-repeat='lesson in lessons')
                 td
                   a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}')
                     span.label.round {{lesson.week_no}}
@@ -33,13 +33,13 @@
                   a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}')
                     span.label.round.secondary {{lesson.assignments.length}}
       .large-6.columns(ng-cloak)
-        .row-padded(ng-if='course.syllabus.name')
-          a.button.tiny.round(href='/course/view/{{course.id}}/syllabus/edit/{{course.syllabus.id}}', ng-show='isInstructor')
+        .row-padded(ng-if='syllabus.name')
+          a.button.tiny.round(href='/course/view/{{course.id}}/syllabus/edit/{{syllabus.id}}', ng-show='isInstructor')
             i.fa.fa-edit
             span.pad-left Edit
-          h4 {{course.syllabus.name}}
-            small.pad-left {{course.syllabus.description}}
+          h4 {{syllabus.name}}
+            small.pad-left {{syllabus.description}}
           hr
-          p(ng-show='course.syllabus.content', btf-markdown='course.syllabus.content')
-        .row-padded(ng-if='!course.syllabus.name')
+          p(ng-show='syllabus.content', btf-markdown='syllabus.content')
+        .row-padded(ng-if='!syllabus.name')
           h5.subheader Loading syllabus data

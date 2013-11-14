@@ -1,37 +1,38 @@
 define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'CourseController',
         ($scope, $routeParams, Restangular, User, Course, CourseSection, CourseRoster, Syllabus, Lesson) ->
-            console.log "Course Controller", $routeParams
+            # console.log "Course Controller", $routeParams
             $scope.resource = $routeParams.resource
             unless $scope.courses
                 Course.all().then (courses) ->
                     $scope.courses = courses
 
-            checkInstructorGroup = ->
-                if $scope.course?.sections?.members?
-                    $scope.isInstructor = if _.findWhere($scope.course.sections.members, {user:User.data.id, group: 'instructor'}) then true else false
-
             if($routeParams.hasOwnProperty('id'))
                 Course.get(Number($routeParams.id)).then (course) ->
                     $scope.course = course
+                    Course.isInstructorFor($scope.course.id).then (isInstructor) ->
+                        $scope.isInstructor = isInstructor
 
-                    if _.every($scope.course.sections, _.isNumber)
-                        CourseSection.all($scope.course.sections).then (sections) ->
-                            $scope.course.sections = sections
+                    # $scope.sections = []
+                    # $scope.section_members = []
+                    # if $scope.course.sections.length > 0
+                    #     CourseSection.all($scope.course.sections).then (sections) ->
+                    #         $scope.sections = sections
 
-                            CourseRoster.all($scope.course.sections.members).then (members) ->
-                                $scope.course.sections.members = members
-                                checkInstructorGroup()
-                    else
-                        checkInstructorGroup()
+                    #         CourseRoster.all($scope.sections.members).then (members) ->
+                    #             $scope.section_members = members
+                    #             checkInstructorGroup()
+                    # else
+                    #     checkInstructorGroup()
 
-                    if _.isNumber($scope.course.syllabus)
-                        Syllabus.get($scope.course.syllabus).then (syllabus) ->
-                            $scope.course.syllabus = syllabus
+                    Syllabus.get($scope.course.syllabus).then (syllabus) ->
+                        $scope.syllabus = syllabus
 
-                    if _.every($scope.course.lessons, _.isNumber)
+                    # lessonIds = (if _.isNumber(item) then item else item.id for item in $scope.course.lessons)
+                    $scope.lessons = []
+                    if $scope.course.lessons.length > 0
                         Lesson.all($scope.course.lessons).then (lessons) ->
-                            $scope.course.lessons = lessons
+                            $scope.lessons = lessons
 
             # Restangular.all('upcoming-assignments').getList().then (items) ->
             #     $scope.upcomingAssignments = items

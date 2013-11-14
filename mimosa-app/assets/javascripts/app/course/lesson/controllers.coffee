@@ -2,21 +2,22 @@ define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'LessonController',
         ($scope, $routeParams, $location, Restangular, User, Course, Lesson, Assignment) ->
 
-            # if($routeParams.hasOwnProperty('courseId'))
-            #     Course.get(Number($routeParams.courseId)).then (course) ->
-            #         $scope.course = course
-            console.log "Lesson Controller", $routeParams
-
             Course.get(Number($routeParams.parentId)).then (course) ->
                 $scope.course = course
+                Course.isInstructorFor(course.id).then (isInstructor) ->
+                    $scope.isInstructor = isInstructor
+
+            $scope.action = $routeParams.action[0].toUpperCase() + $routeParams.action[1..-1]
 
             unless $routeParams.action.indexOf('add') is 0
                 Lesson.get(Number($routeParams.id)).then (lesson) ->
                     $scope.lesson = lesson
-                    console.log "This lesson has these assignments: ", $scope.lesson.assignments
-                    if _.every($scope.lesson.assignments, _.isNumber)
+                    $scope.assignments = []
+
+                    if $scope.lesson.assignments.length
                         Assignment.all($scope.lesson.assignments).then (assignments) ->
-                            $scope.lesson.assignments = assignments
+                            $scope.assignments = assignments
+
             else if $routeParams.action.indexOf('add') is 0
                 $scope.lesson = {course:$routeParams.parentId, author: User.data.id}
 

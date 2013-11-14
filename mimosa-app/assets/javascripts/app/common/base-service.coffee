@@ -32,6 +32,7 @@ define ['angular'], (angular) ->
                         @Restangular.all(@model).getList().then (items) =>
                             console.log "Got #{@model} data"
                             @items = items
+                            # console.log @items
                             @defer.resolve(if ids then @__getItems(ids) else @items)
                     else
                         console.log "Loading cached #{@model} items"
@@ -45,12 +46,14 @@ define ['angular'], (angular) ->
 
                 match = _.findWhere(@items, {id: id})
                 if match
-                    "Loading cached single #{@model} item"
+                    console.log "Loading cached single #{@model} item"
+                    # console.log @items
                     defer.resolve(match)
                 else
                     console.log "Loading single #{@model} from REST API"
                     # @Restangular.one(@model, id).get().then (item) =>
                     #     console.log "Got single #{@model} data"
+                    @items = []
                     @all().then =>
                         # unless _.contains(@items, item)
                             # @items.push item

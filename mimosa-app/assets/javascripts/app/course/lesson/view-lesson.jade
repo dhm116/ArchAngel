@@ -5,25 +5,31 @@
     .row
       h2 Week {{lesson.week_no}}: {{lesson.name}}
         small.pad-left {{lesson.description}}
+          a.button.tiny.round.pad-left(href='/course/view/{{course.id}}/lesson/edit/{{lesson.id}}', ng-show='isInstructor')
+            i.fa.fa-edit
+            span.pad-left Edit
+
       hr
     .row
       dl.sub-nav
         dt
           i.fa.fa-book
           span.pad-left Assignments:
-        dd(ng-repeat='assignment in lesson.assignments')
+            span.pad-left(ng-show='assignments.length == 0')
+              em None
+        dd(ng-repeat='assignment in assignments')
           a(href='#') {{assignment.name}}
     .row
       .large-11.large-offset-1.columns
         p(ng-show='lesson.content', btf-markdown='lesson.content', ng-cloak)
-    .row
+    .row(ng-show='assignments.length > 0')
       h4.subheader
         i.fa.fa-book
         span.pad-left Assignments
       hr
       .large-11.large-offset-1.columns
-        .row(ng-repeat='assignment in lesson.assignments')
-          h5 {{lesson.assignments.indexOf(assignment)+1}}) {{assignment.name}}
+        .row(ng-repeat='assignment in assignments')
+          h5 {{assignments.indexOf(assignment)+1}}) {{assignment.name}}
           p This assignment is worth
             span.pad-left
             span.label.round {{assignment.points}}
