@@ -86,18 +86,23 @@ require
                         locationParts = window.location.pathname.split('/')
                         if locationParts.length > 3
                             resource = locationParts[-3..-3]
+                        else
+                            resource = locationParts[-1..-1]
+
                         $routeParams.resource = resource
                         if resource
                             options = routeMap[resource] or recursiveResourceFinder(routeMap, resource)?.options
                             # console.log "Options for #{resource}", options
-                            return getTemplate(unless options.restful? then options.template else "#{$routeParams.action}-#{options.template}")
+                            return getTemplate(unless options.restful then options.template else "#{$routeParams.action}-#{options.template}")
                         return
-                    controller: if data.controller? then data.controller else "#{name[0].toUpperCase()}#{name[1..-1]}Controller"
+                    controller: if data.controller then data.controller else "#{name[0].toUpperCase()}#{name[1..-1]}Controller"
                 }
 
             recursiveRouteBuilder = ($routeProvider, routes, baseURL) ->
                 for name, data of routes
-                    route = baseURL + "/#{name}/:action/:id"
+                    route = baseURL + "/#{name}"
+                    if data.restful
+                        route += "/:action/:id"
                     createRoute($routeProvider, route, name, data)
 
                     if data.nested?
