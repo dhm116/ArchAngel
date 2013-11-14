@@ -1,9 +1,5 @@
 .content-padded(ng-cloak, ng-if='course.syllabus')
-  nav.breadcrumbs(ng-cloak)
-    li
-      a(href='/') Home
-    li
-      a(href='/Course/{{course.id}}') {{course.name}}
+  include ../course-breadcrumb
     li.current Syllabus
   .large-6.columns
     .row-padded

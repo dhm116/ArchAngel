@@ -1,8 +1,5 @@
 .content-padded(ng-cloak)
-  nav.breadcrumbs(ng-cloak)
-    li
-      a(href='/') Home
-    li.current {{course.name}}
+  include course-breadcrumb
   .large-12.columns
     .row
       h2 {{course.full_name}}

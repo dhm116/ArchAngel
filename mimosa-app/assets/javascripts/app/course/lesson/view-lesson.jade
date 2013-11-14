@@ -1,9 +1,5 @@
 .content-padded(ng-cloak)
-  nav.breadcrumbs(ng-cloak)
-    li
-      a(href='/') Home
-    li
-      a(href='/course/view/{{course.id}}') {{course.name}}
+  include ../course-breadcrumb
     li.current Week {{lesson.week_no}}: {{lesson.name}}
   .large-12.columns
     .row
