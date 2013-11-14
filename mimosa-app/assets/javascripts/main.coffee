@@ -59,28 +59,37 @@ require
                         lesson:
                             restful: true
                             template: 'lesson'
+                            # controller: 'LessonController'
                         syllabus:
                             restful: true
                             template: 'syllabus'
+                            # controller: 'SyllabusController'
             }
 
             recursiveResourceFinder = (parent, resource) ->
                 for item, options of parent
-                    if item is resource
+                    if item.indexOf(resource) is 0 and resource.indexOf(item) is 0
+                        # console.log "Found #{resource}!", item, options
                         return {resource: item, options: options}
                     else if options.nested?
+                        # console.log "Searching for nested resource in #{item}: ",options
                         nested = recursiveResourceFinder(options.nested, resource)
                         if nested
                             return nested
                 return null
 
             createRoute = ($routeProvider, route, name, data) ->
+                console.log "Building routes for #{name}: #{route}"
                 $routeProvider.when route, {
                     template: ($routeParams) ->
-                        console.log $routeParams
-                        if $routeParams?.resource?
-                            resource = $routeParams.resource
+                        resource = ""
+                        locationParts = window.location.pathname.split('/')
+                        if locationParts.length > 3
+                            resource = locationParts[-3..-3]
+                        $routeParams.resource = resource
+                        if resource
                             options = routeMap[resource] or recursiveResourceFinder(routeMap, resource)?.options
+                            # console.log "Options for #{resource}", options
                             return getTemplate(unless options.restful? then options.template else "#{$routeParams.action}-#{options.template}")
                         return
                     controller: if data.controller? then data.controller else "#{name[0].toUpperCase()}#{name[1..-1]}Controller"
@@ -88,11 +97,11 @@ require
 
             recursiveRouteBuilder = ($routeProvider, routes, baseURL) ->
                 for name, data of routes
-                    route = baseURL + "/:resource/:action/:id"
+                    route = baseURL + "/#{name}/:action/:id"
                     createRoute($routeProvider, route, name, data)
 
                     if data.nested?
-                        recursiveRouteBuilder($routeProvider, data.nested, route[0..-3]+'parentId')
+                        recursiveRouteBuilder($routeProvider, data.nested, "/#{name}/:parentAction/:parentId")
 
             app.config ($routeProvider, $locationProvider) ->
                 # $routeProvider.when '/login', {

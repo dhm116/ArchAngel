@@ -5,18 +5,19 @@ define ['angular'], (angular) ->
             # if($routeParams.hasOwnProperty('courseId'))
             #     Course.get(Number($routeParams.courseId)).then (course) ->
             #         $scope.course = course
+            console.log "Lesson Controller", $routeParams
 
             Course.get(Number($routeParams.parentId)).then (course) ->
                 $scope.course = course
 
-            if Number($routeParams.id?)
+            unless $routeParams.action.indexOf('add') is 0
                 Lesson.get(Number($routeParams.id)).then (lesson) ->
                     $scope.lesson = lesson
-
+                    console.log "This lesson has these assignments: ", $scope.lesson.assignments
                     if _.every($scope.lesson.assignments, _.isNumber)
                         Assignment.all($scope.lesson.assignments).then (assignments) ->
                             $scope.lesson.assignments = assignments
-            else if $routeParams.action is 'add'
+            else if $routeParams.action.indexOf('add') is 0
                 $scope.lesson = {course:$routeParams.parentId, author: User.data.id}
 
             # if($routeParams.hasOwnProperty('action'))
@@ -27,7 +28,7 @@ define ['angular'], (angular) ->
                     $scope.lesson = Restangular.copy($scope.original_lesson)
 
             $scope.save = ->
-                if $routeParams.action is "edit"
+                if $routeParams.action.indexOf("edit") is 0
                     console.log "Saving lesson changes: ", $scope.lesson
                     Lesson.update($scope.lesson)
                         .then (result) ->
@@ -36,7 +37,7 @@ define ['angular'], (angular) ->
                             $location.path("/course/view/#{$scope.course.id}/lesson/view/#{result.id}")
                         .catch (err) ->
                             console.log "Save failed: ", err
-                else if $routeParams.action is "add"
+                else if $routeParams.action.indexOf('add') is 0
                     console.log "Saving new Lesson: ", $scope.lesson
                     Lesson.add($scope.lesson)
                         .then (result) ->

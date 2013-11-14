@@ -1,7 +1,8 @@
 define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'CourseController',
         ($scope, $routeParams, Restangular, User, Course, CourseSection, CourseRoster, Syllabus, Lesson) ->
-
+            console.log "Course Controller", $routeParams
+            $scope.resource = $routeParams.resource
             unless $scope.courses
                 Course.all().then (courses) ->
                     $scope.courses = courses
