@@ -13,6 +13,7 @@ define ['angular'], (angular) ->
                         @__attachToken()
                     else
                         console.log "Cached user had no data"
+                        @logout()
 
             login: (username, password, cb) =>
                 if username.hasOwnProperty('password')
@@ -23,7 +24,7 @@ define ['angular'], (angular) ->
                 Restangular.allUrl('user', 'api-token-auth')
                     .post({username:username, password:password})
                     .then (response) =>
-                        console.log response
+                        console.log response.user
                         @token = response.token
                         @authenticated = true
 
