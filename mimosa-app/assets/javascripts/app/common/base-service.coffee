@@ -6,6 +6,10 @@ define ['angular'], (angular) ->
             defer: null
 
             constructor: (@Restangular, @$q) ->
+                @__onNewInstance(Array.prototype.slice.call(arguments)[2..-1]...)
+                return
+
+            __onNewInstance: () =>
                 return
 
             __checkDependencies: =>
