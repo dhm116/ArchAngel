@@ -30,10 +30,10 @@ define ['app/app', 'app/login/services', 'angular', 'angular-route', 'restangula
         user = undefined
 
         #get ahold of an instance of the login 'User' service
-        beforeEach( ->
+        beforeEach ->
             $injector = angular.injector(['djangoApp'])
             user = $injector.get('User')
-            )
+            
         
         it 'the User service should be defined', ->
             expect(user).toBeDefined()
@@ -51,9 +51,9 @@ define ['app/app', 'app/login/services', 'angular', 'angular-route', 'restangula
                     retval = true
                     login_result = result
                     )
-            waitsFor( ->
+            waitsFor ->
                 retval
-            , "login() should have returned", 5000)
+            , "login() should have returned", 5000
             runs ->
                 expect(login_result).toBeDefined()
                 expect(login_result).toBe(false)
@@ -75,9 +75,9 @@ define ['app/app', 'app/login/services', 'angular', 'angular-route', 'restangula
                     retval = true
                     login_result = result
                     )
-            waitsFor( ->
+            waitsFor ->
                 retval
-            , "login() call should have returned", 5000)
+            , "login() call should have returned", 5000
             runs ->
                 expect(user.authenticated).toBe(true)
                 expect(user.token).toMatch('^[a-zA-Z0-9]+$')
@@ -96,9 +96,9 @@ define ['app/app', 'app/login/services', 'angular', 'angular-route', 'restangula
                 user.logout(()->
                     retval = true
                     )
-            waitsFor( ->
+            waitsFor ->
                 retval
-            , "logout() call should have returned", 5000)
+            , "logout() call should have returned", 5000
             runs ->
                 expect(user.authenticated).toBe(false)
                 expect(user.token).toMatch('')
