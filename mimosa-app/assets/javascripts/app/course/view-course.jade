@@ -32,6 +32,30 @@
                 td
                   a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}')
                     span.label.round.secondary {{lesson.assignments.length}}
+        .row-padded(ng-if='isInstructor')
+          hr
+          dl.sub-nav
+            dt Sections:
+            dd.active
+              a(href='#') All
+            dd(ng-repeat='section in sections')
+              Section {{section.section_no}}
+          .large-8.columns
+            h4
+              i.subheader.fa.fa-user
+              span.pad-left Students
+            ul.side-nav
+              li(ng-repeat='student in students')
+                a(href='#')
+                  i.fa.fa-user
+                  span.pad-left {{student.first_name}} {{student.last_name}}
+          .large-4.columns
+            h4
+              i.subheader.fa.fa-group
+              span.pad-left Teams
+            ul.side-nav
+              li(ng-if='!teams.length > 0')
+                em None
       .large-6.columns(ng-cloak)
         .row-padded(ng-if='syllabus.name')
           a.button.tiny.round(href='/course/view/{{course.id}}/syllabus/edit/{{syllabus.id}}', ng-show='isInstructor')
