@@ -32,6 +32,7 @@ require
             'app/course/lesson/services'
             'app/course/lesson/controllers'
             'app/course/assignment/services'
+            'app/course/team/services'
         ], ->
 
             isMobile = mobilecheck.isMobile()
