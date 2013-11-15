@@ -3,7 +3,6 @@
 #
 #  C.Wolf, 11/11/13
 #
-#
 # define a requirejs module: dependencies - these are all of the dependencies needed for the djangoApp module.
 #  - note - that this list may require updating if additional dependencies are added to the application
 #  - note - to add dependencies, updates to test-main are also required

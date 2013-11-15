@@ -1,12 +1,15 @@
-#
+#*******
 # Testing login controller as defined in app/login/controllers.coffee
 #
+#  C.Wolf, 11/11/13
 #
 # define a requirejs module: dependencies - these are all of the dependencies needed for the djangoApp module.
 #  - note - that this list may require updating if additional dependencies are added to the application
 #  - note - to add dependencies, updates to test-main are also required
 #
 #  - note - these tests use angular mocks to allow mocking of the controller and giving it an independent scope
+#
+#*******
 #
 #  the login controller scope contains the following properties:
 #    $storage,  login (method), user
@@ -78,7 +81,7 @@ define ['app/app', 'app/login/controllers', 'app/login/services', 'angular', 'an
                 expect(scope.$storage.user.data.username).toBe('cxw970')
                 expect(scope.$storage.user.data.first_name).toBe('Christopher')
                 expect(scope.$storage.user.data.last_name).toBe('Wolf')
-                
+
 
 
              
