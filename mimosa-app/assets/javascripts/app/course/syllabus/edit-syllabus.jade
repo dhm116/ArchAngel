@@ -1,0 +1,39 @@
+.content-padded(ng-cloak, ng-if='course.syllabus')
+  include ../course-breadcrumb
+    li.current Syllabus
+  .large-6.columns
+    .row-padded
+      h2.subheader Edit Syllabus
+    .row-padded
+      form
+        fieldset
+          legend Syllabus
+          .row
+            .large-12.columns
+              label Title
+              input(type='text', ng-model='syllabus.name')
+          .row
+            .large-12.columns
+              label Description
+              input(type='text', ng-model='syllabus.description')
+          .row
+            .large-12.columns
+              label Content
+              textarea(ng-model='syllabus.content')
+          .row
+            .large-6.columns
+              button.button.small(ng-click='save()')
+                i.fa.fa-save
+                span.pad-left Save Changes
+            .large-6.columns
+              button.button.small.alert
+                i.fa.fa-undo
+                span.pad-left(ng-click='undo()') Undo Changes
+  .large-6.columns
+    .row-padded
+      h2.subheader Preview
+    .row-padded.panel
+      h4 {{syllabus.name}}
+        small.pad-left {{syllabus.description}}
+      hr
+      p(ng-show='syllabus', btf-markdown='syllabus.content')

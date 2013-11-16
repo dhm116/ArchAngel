@@ -1,26 +1,36 @@
-define ['angular'], (angular) ->
-    angular.module('djangoApp.services').factory 'CourseRoster', ($q, Course, Restangular) ->
-        class CourseRoster
-            rosters: []
+define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
+    angular.module('djangoApp.services').factory 'CourseRoster', ($q, Restangular) ->
+        class CourseRoster extends ServiceBase
+            model: 'courserosters'
 
-            get: (ids) =>
-                d = $q.defer()
+            students: (ids) =>
+                defer = @$q.defer()
+                @all(ids).then (students) =>
+                    defer.resolve(_.filter(students, {group: 'student'}))
+                return defer.promise
 
-                if typeof ids is 'string'
-                    ids = [ids]
+        return new CourseRoster(Restangular, $q)
+        # class CourseRoster
+        #     rosters: []
 
-                unless @rosters.length
-                    console.log "Loading course rosters"
-                    Restangular.all('courserosters').getList().then (rosters) =>
-                        @rosters = rosters
-                        d.resolve(@__getRoster(ids))
-                else
-                    d.resolve(@__getRoster(ids))
-                return d.promise
+        #     get: (ids) =>
+        #         d = $q.defer()
 
-            __getRoster: (ids) =>
-                return _.filter @rosters, (roster) =>
-                    _.contains(ids, roster.id)
+        #         if typeof ids is 'string'
+        #             ids = [ids]
+
+        #         unless @rosters.length
+        #             console.log "Loading course rosters"
+        #             Restangular.all('courserosters').getList().then (rosters) =>
+        #                 @rosters = rosters
+        #                 d.resolve(@__getRoster(ids))
+        #         else
+        #             d.resolve(@__getRoster(ids))
+        #         return d.promise
+
+        #     __getRoster: (ids) =>
+        #         return _.filter @rosters, (roster) =>
+        #             _.contains(ids, roster.id)
 
 
-        return new CourseRoster()
+        # return new CourseRoster()

@@ -4,11 +4,14 @@ define ['angular'], (angular) ->
 
         $scope.login = ->
             unless User.authenticated
-                User.login $scope.user, (result) ->
-                    unless result
-                        console.log 'Invalid username/password'
-                    else
-                        console.log 'Logged in'
-                        $location.path('/')
+                User.login($scope.user)
+                    .then (result) ->
+                        unless result
+                            console.log 'Invalid username/password'
+                        else
+                            console.log 'Logged in'
+                            $location.path('/')
+                    .catch (error) ->
+                        console.log error
             else
                 console.log "#{User.username} is already logged in"

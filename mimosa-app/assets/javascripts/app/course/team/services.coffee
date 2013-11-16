@@ -1,8 +1,8 @@
 define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
-    angular.module('djangoApp.services').factory 'Syllabus', ($q, Restangular) ->
-        class Syllabus extends ServiceBase
-            model: 'syllabuses'
-        return new Syllabus(Restangular, $q)
+    angular.module('djangoApp.services').factory 'Team', ($q, Restangular) ->
+        class Team extends ServiceBase
+            model: 'teams'
+        return new Team(Restangular, $q)
         # class Syllabus
         #     syllabus: {}
 

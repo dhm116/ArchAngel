@@ -1,0 +1,47 @@
+.content-padded(ng-cloak)
+  nav.breadcrumbs(ng-cloak)
+    li
+      a(href='/') Home
+    li
+      a(href='/course/view/{{course.id}}') {{course.name}}
+    li.current Lesson
+  .large-6.columns
+    .row-padded
+      h2.subheader {{action}} Lesson
+    .row-padded
+      form
+        fieldset
+          legend Lesson
+          .row
+            .large-12.columns
+              label Title
+              input(type='text', ng-model='lesson.name')
+          .row
+            .large-12.columns
+              label Description
+              input(type='text', ng-model='lesson.description')
+          .row
+            .large-12.columns
+              label Content
+              textarea(ng-model='lesson.content')
+          .row
+            .large-12.columns
+              label Week Number
+              input(type='text', ng-model='lesson.week_no')
+          .row
+            .large-6.columns
+              button.button.small(ng-click='save()')
+                i.fa.fa-save
+                span.pad-left Save Changes
+            .large-6.columns
+              button.button.small.alert
+                i.fa.fa-undo
+                span.pad-left(ng-click='undo()') Undo Changes
+  .large-6.columns
+    .row-padded
+      h2.subheader Preview
+    .row-padded.panel
+      h4 {{lesson.name}}
+        small.pad-left {{lesson.description}}
+      hr
+      p(ng-show='lesson', btf-markdown='lesson.content')

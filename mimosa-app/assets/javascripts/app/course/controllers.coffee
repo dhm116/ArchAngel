@@ -1,30 +1,59 @@
 define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'CourseController',
-        ($scope, $routeParams, Restangular, Course, CourseSection, Syllabus, Lesson) ->
+        ($scope, $routeParams, Restangular, User, Course, CourseSection, CourseRoster, Syllabus, Lesson, Team) ->
 
-            # $scope.user = User
-            # Restangular.setBaseUrl 'http://macpro.local:8000/'
-            # getAllData(Restangular, $scope, 'users')
-            # getAllData(Restangular, $scope, 'courses')
-            Course.all().then (courses) ->
-                $scope.courses = courses
+            $scope.resource = $routeParams.resource
+            courseId = Number($routeParams.id)
+            if $routeParams.resource.indexOf('course')
+                courseId = Number($routeParams.parentId)
+                $scope.resource = 'course'
 
-            if($routeParams.hasOwnProperty('courseId'))
-                Course.get(Number($routeParams.courseId)).then (course) ->
-                    $scope.course = course
+            unless $scope.courses
+                Course.all().then (courses) ->
+                    $scope.courses = courses
 
-                    CourseSection.get(course.sections).then (sections) ->
+            $scope.syllabus = {}
+
+            Course.get(courseId).then (course) ->
+                $scope.course = course
+                Course.isInstructorFor($scope.course.id).then (isInstructor) ->
+                    $scope.isInstructor = isInstructor
+
+                console.log "Syllabus id = ", $scope.course.syllabus
+                Syllabus.get($scope.course.syllabus).then (syllabus) ->
+                    $scope.syllabus = syllabus
+                    console.log $scope.syllabus
+
+                $scope.lessons = []
+                if $scope.course.lessons.length > 0
+                    Lesson.all($scope.course.lessons).then (lessons) ->
+                        $scope.lessons = lessons
+
+                $scope.sections = []
+                $scope.section_members = []
+                if $scope.course.sections.length > 0
+                    CourseSection.all($scope.course.sections).then (sections) ->
                         $scope.sections = sections
-                        if($scope.sections.length is 1)
-                            $scope.section = sections[0]
-                        else if($routeParams.hasOwnProperty('sectionId'))
-                            $scope.section = _.findWhere(sections, {id: Number($routeParams.sectionId)})
 
-                    Syllabus.get(course.syllabus).then (syllabus) ->
-                        $scope.course.syllabus = syllabus
+                        unless $routeParams.resource.indexOf('section') isnt -1
+                            CourseRoster.students($scope.sections.members).then (members) ->
+                                $scope.section_members = members
+                                User.all(_.pluck(members, 'user')).then (students) ->
+                                    $scope.students = students
 
-                    Lesson.get(course.lessons).then (lessons) ->
-                        $scope.course.lessons = lessons
+                            Team.all($scope.sections.teams).then (teams) ->
+                                $scope.teams = teams
+                        else
+                            CourseSection.get(Number($routeParams.id)).then (section) ->
+                                $scope.section = section
 
-            Restangular.all('upcoming-assignments').getList().then (items) ->
-                $scope.upcomingAssignments = items
+                                CourseRoster.students($scope.section.members).then (members) ->
+
+                                    $scope.section_members = members
+
+                                    User.all(_.pluck(members, 'user')).then (students) ->
+                                        $scope.students = students
+
+                                Team.all($scope.section.teams).then (teams) ->
+                                    $scope.teams = teams
+
