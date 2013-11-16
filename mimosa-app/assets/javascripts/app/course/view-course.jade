@@ -50,6 +50,9 @@
                   th
                   th
               tbody
+                tr(ng-if='!students.length > 0')
+                  td(colspan='2')
+                    em No students enrolled
                 tr(ng-repeat='student in students')
                   td
                     a(href='#') {{student.first_name}} {{student.last_name}}
