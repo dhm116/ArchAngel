@@ -54,7 +54,7 @@ exports.config = {
       'tests/test-main.coffee'
     ]
 
-    browsers: ['Chrome']
+    browsers: ['PhantomJS']
     reporters: ['progress', 'html']
     htmlReporter: {
       outputDir: 'tests/html_report',
