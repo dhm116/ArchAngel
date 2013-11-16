@@ -36,10 +36,10 @@
           hr
           dl.sub-nav
             dt Sections:
-            dd.active
-              a(href='#') All
-            dd(ng-repeat='section in sections')
-              Section {{section.section_no}}
+            dd(ng-class='{active: section == null}')
+              a(href='/course/view/{{course.id}}') All
+            dd(ng-repeat='s in sections', ng-class='{active: section.id == s.id}')
+              a(href='/course/view/{{course.id}}/section/view/{{s.id}}') {{s.section_no}}
           .large-8.columns
             h4
               i.subheader.fa.fa-user

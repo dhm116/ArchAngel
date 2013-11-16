@@ -57,6 +57,10 @@ require
                     template: 'course'
                     # controller: 'CourseController'
                     nested:
+                        section:
+                            restful: true
+                            template: 'course'
+                            controller: 'CourseController'
                         lesson:
                             restful: true
                             template: 'lesson'
@@ -86,9 +90,9 @@ require
                         resource = ""
                         locationParts = window.location.pathname.split('/')
                         if locationParts.length > 3
-                            resource = locationParts[-3..-3]
+                            resource = locationParts[-3..-3] + ""
                         else
-                            resource = locationParts[-1..-1]
+                            resource = locationParts[-1..-1] + ""
 
                         $routeParams.resource = resource
                         if resource
