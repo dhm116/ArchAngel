@@ -171,7 +171,7 @@ require
                     $scope.isMobile = isMobile
                     Course.all().then (courses) ->
                         $scope.courses = courses
-
+                    $scope.moment = moment
                     unless isMobile
                         getAllData(Restangular, $scope, 'users')
                         # getAllData(Restangular, $scope, 'upcoming-assignments')
