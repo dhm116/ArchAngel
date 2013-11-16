@@ -7,11 +7,11 @@
 #  - note - that this list may require updating if additional dependencies are added to the application
 #  - note - to add dependencies, updates to test-main are also required
 #
-#  - note - these tests are designed intentionally to request data from the back-end django server and doing so 
+#  - note - these tests are designed intentionally to request data from the back-end django server and doing so
 #           is at risk of server availability.  An alternative is to use the angular-mocks library and fake responses
 #*******
 #
-#  Login Services consist of the expected 'Login' and 'Logout' functionality.  
+#  Login Services consist of the expected 'Login' and 'Logout' functionality.
 #
 #  The expected service API is as follows:
 #
@@ -23,20 +23,22 @@
 #
 
 define ['app/app', 'app/login/services', 'angular', 'angular-route', 'restangular'
-        'underscore', 'ngStorage', 'loading-bar', 'markdown'], 
+        'underscore', 'ngStorage', 'loading-bar', 'markdown'],
 (app, svc, angular) ->
-    describe 'Login Services unit testing:', ->     
+    describe 'Login Services unit testing:', ->
         user = undefined
 
         #get ahold of an instance of the login 'User' service
         beforeEach ->
             $injector = angular.injector(['djangoApp'])
             user = $injector.get('User')
-            
-        
+
+        afterEach ->
+            user.logout()
+
         it 'the User service should be defined', ->
             expect(user).toBeDefined()
-            
+
         it 'login() should be defined', ->
             expect(user.login).toBeDefined()
 
@@ -46,10 +48,14 @@ define ['app/app', 'app/login/services', 'angular', 'angular-route', 'restangula
             retval = false
             login_result = undefined
             runs ->
-                user.login(username, (result)->
-                    retval = true
-                    login_result = result
-                    )
+                user.login(username)
+                    .then (result)->
+                        retval = true
+                        login_result = result
+                        console.log result
+                    .catch (result) ->
+                        retval = true
+                        login_result = false
             waitsFor ->
                 retval
             , "login() should have returned", 5000
@@ -58,7 +64,7 @@ define ['app/app', 'app/login/services', 'angular', 'angular-route', 'restangula
                 expect(login_result).toBe(false)
 
         #
-        # The following login tests require asynchronous support.  The first 'runs' command calls the login function 
+        # The following login tests require asynchronous support.  The first 'runs' command calls the login function
         #   which results in an asynchronous server query.  If the query returns, the callback function
         #   is called, setting retval to true and cancelling the waitsFor timeout that follows.  Finally,
         #   the second 'runs' function is called and expectations are evaluated.
@@ -70,10 +76,14 @@ define ['app/app', 'app/login/services', 'angular', 'angular-route', 'restangula
             retval = false
             login_result = undefined
             runs ->
-                user.login(username, (result)->
-                    retval = true
-                    login_result = result
-                    )
+                user.login(username)
+                    .then (result)->
+                        retval = true
+                        login_result = result
+                        console.log result
+                    .catch (result) ->
+                        retval = true
+                        login_result = false
             waitsFor ->
                 retval
             , "login() call should have returned", 5000
@@ -92,9 +102,8 @@ define ['app/app', 'app/login/services', 'angular', 'angular-route', 'restangula
             retval = false
             logout_result = undefined
             runs ->
-                user.logout(()->
+                user.logout().then ()->
                     retval = true
-                    )
             waitsFor ->
                 retval
             , "logout() call should have returned", 5000
