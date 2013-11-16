@@ -27,7 +27,8 @@
       hr
       .large-11.large-offset-1.columns
         .row(ng-repeat='assignment in lesson.assignments')
-          h5 {{lesson.assignments.indexOf(assignment)+1}}) {{assignment.name}}
+          h5
+            a(href='/Course/{{course.id}}/Lesson/{{lesson.id}}/assignment/{{assignment.id}}') {{lesson.assignments.indexOf(assignment)+1}}) {{assignment.name}}
           p This assignment is worth
             span.pad-left
             span.label.round {{assignment.points}}

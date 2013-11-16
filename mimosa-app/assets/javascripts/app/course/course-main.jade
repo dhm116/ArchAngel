@@ -35,6 +35,13 @@
                 td
                   a(href='/Course/{{course.id}}/Lesson/{{lesson.id}}')
                     span.label.round.secondary {{lesson.assignments.length}}
+          hr
+        .row-padded
+          h3(ng-show='isInstructor') Grade Administration
+          h4
+            a(href='/Course/{{course.id}}/grades', ng-hide='isInstructor') View Grades
+            a(href='/Course/{{course.id}}/grades', ng-show='isInstructor') View Student Grades
+          hr
       .large-6.columns(ng-cloak)
         .row-padded(ng-if='course.syllabus.name')
           a.button.tiny.round(href='/Course/{{course.id}}/Syllabus/edit', ng-show='isInstructor')
