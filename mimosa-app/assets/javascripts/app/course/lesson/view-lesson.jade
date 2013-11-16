@@ -5,9 +5,10 @@
     .row
       h2 Week {{lesson.week_no}}: {{lesson.name}}
         small.pad-left {{lesson.description}}
-          a.button.tiny.round.pad-left(href='/course/view/{{course.id}}/lesson/edit/{{lesson.id}}', ng-show='isInstructor')
-            i.fa.fa-edit
-            span.pad-left Edit
+          span.pad-left(ng-show='isInstructor')
+            a.button.tiny.round(href='/course/view/{{course.id}}/lesson/edit/{{lesson.id}}')
+              i.fa.fa-edit
+              span.pad-left Edit
 
       hr
     .row

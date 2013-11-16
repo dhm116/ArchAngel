@@ -44,11 +44,21 @@
             h4
               i.subheader.fa.fa-user
               span.pad-left Students
-            ul.side-nav
-              li(ng-repeat='student in students')
-                a(href='#')
-                  i.fa.fa-user
-                  span.pad-left {{student.first_name}} {{student.last_name}}
+            table
+              thead
+                tr
+                  th
+                  th
+              tbody
+                tr(ng-repeat='student in students')
+                  td
+                    a(href='#') {{student.first_name}} {{student.last_name}}
+                  td
+                    a.tiny.button.round(href='mailto: {{student.email}}')
+                      i.fa.fa-envelope
+                    span.pad-left
+                    a.tiny.button.round(href='#')
+                      i.fa.fa-info
           .large-4.columns
             h4
               i.subheader.fa.fa-group

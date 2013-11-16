@@ -18,7 +18,8 @@ define ['angular'], (angular) ->
                 Syllabus.update($scope.syllabus)
                     .then (result) ->
                         console.log "Save worked: ", result
-                        $scope.course.syllabus = result
+                        # $scope.course.syllabus = result
+                        # $scope.syllabus = result
                         $location.path("/course/view/#{$scope.course.id}")
                     .catch (err) ->
                         console.log "Save failed: ", err

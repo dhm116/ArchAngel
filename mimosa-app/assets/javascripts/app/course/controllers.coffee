@@ -12,10 +12,22 @@ define ['angular'], (angular) ->
                 Course.all().then (courses) ->
                     $scope.courses = courses
 
+            $scope.syllabus = {}
+
             Course.get(courseId).then (course) ->
                 $scope.course = course
                 Course.isInstructorFor($scope.course.id).then (isInstructor) ->
                     $scope.isInstructor = isInstructor
+
+                console.log "Syllabus id = ", $scope.course.syllabus
+                Syllabus.get($scope.course.syllabus).then (syllabus) ->
+                    $scope.syllabus = syllabus
+                    console.log $scope.syllabus
+
+                $scope.lessons = []
+                if $scope.course.lessons.length > 0
+                    Lesson.all($scope.course.lessons).then (lessons) ->
+                        $scope.lessons = lessons
 
                 $scope.sections = []
                 $scope.section_members = []
@@ -45,11 +57,3 @@ define ['angular'], (angular) ->
                                 Team.all($scope.section.teams).then (teams) ->
                                     $scope.teams = teams
 
-
-                Syllabus.get($scope.course.syllabus).then (syllabus) ->
-                    $scope.syllabus = syllabus
-
-                $scope.lessons = []
-                if $scope.course.lessons.length > 0
-                    Lesson.all($scope.course.lessons).then (lessons) ->
-                        $scope.lessons = lessons

@@ -43,7 +43,8 @@ define ['angular'], (angular) ->
                     Lesson.add($scope.lesson)
                         .then (result) ->
                             console.log "Adding worked: ", result
-                            $scope.course.lessons.push result
+                            # $scope.lessons.push result
+                            $scope.course.lessons.push(result.id)
                             $location.path("/course/view/#{$scope.course.id}/lesson/view/#{result.id}")
                         .catch (err) ->
                             console.log "Adding failed: ", err

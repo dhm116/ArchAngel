@@ -110,6 +110,8 @@ define ['angular'], (angular) ->
                 defer = @$q.defer()
                 @Restangular.all(@model).post(item)
                     .then (result) =>
+                        # Add the item to the local cache
+                        @items.push(result)
                         defer.resolve(result)
                     .catch (err) =>
                         defer.reject(err)
@@ -128,6 +130,9 @@ define ['angular'], (angular) ->
                 #     request = @Restangular.one(@model, item.id).put(item)
 
                 request.then (result) =>
+                        # Update the local cache instance
+                        index = @items.indexOf(_.findWhere(@items, {id: result.id}))
+                        @items[index] = result
                         defer.resolve(result)
                     .catch (err) =>
                         defer.reject(err)
