@@ -1,3 +1,5 @@
+'use strict'
+
 define ['angular'], (angular) ->
         class BaseService
             items: []
@@ -5,13 +7,26 @@ define ['angular'], (angular) ->
             model: null
             defer: null
 
-            constructor: (@Restangular, @$q) ->
-                @__onNewInstance(Array.prototype.slice.call(arguments)[2..-1]...)
+            # Primary constructor for the Base Service class,
+            # relying upon (at a minimum) the Restangular and
+            # promise services.
+            #
+            # Additional arguments will be lumped into "other"
+            constructor: (@Restangular, @$q, other...) ->
+
+                # Hand off any additional arguments to any
+                # sub class that overrides this method
+                @__onNewInstance(other...)
                 return
 
+            # Intended to be overridden by sub classes.
+            #
+            # Used during instantiation of the class
             __onNewInstance: () =>
                 return
 
+            # Verify any dependent properties have been
+            # defined by the sub class
             __checkDependencies: =>
                 errors = []
                 unless @model
@@ -23,27 +38,52 @@ define ['angular'], (angular) ->
 
                 throw error for error in errors
 
+            # Retrieves all items and optionally returns
+            # a subset matching the supplied ids.
+            #
+            # ids can be null, a single number, or an array
+            # of numbers
             all: (ids) =>
+                # Let's make sure any overriden models have actually
+                # defined what model to load, and any dependencies to
+                # load it.
                 @__checkDependencies()
-                unless @defer?
-                    @defer = @$q.defer()
 
-                    unless Array.isArray(ids)
-                        ids = [ids] if ids?
+                # Set up our promise object to return async results
+                defer = @$q.defer()
 
-                    unless @items.length
-                        console.log "Loading #{@model} data from REST API"
-                        @Restangular.all(@model).getList().then (items) =>
-                            console.log "Got #{@model} data"
-                            @items = items
-                            # console.log @items
-                            @defer.resolve(if ids then @__getItems(ids) else @items)
-                    else
-                        console.log "Loading cached #{@model} items"
-                        @defer.resolve(if ids then @__getItems(ids) else @items)
+                # Let's choose to only handle arrays
+                unless Array.isArray(ids)
+                    # But only if they actually provided some ids
+                    ids = [ids] if ids?
 
-                return @defer.promise
+                # If we already have loaded all data, let's use
+                # the cached version we already have
+                unless @items.length
+                    console.log "Loading #{@model} data from REST API"
+                    @Restangular.all(@model).getList().then (items) =>
+                        console.log "Got #{@model} data"
+                        @items = items
+                        # console.log @items
 
+                        # Complete the promise either with all items
+                        # returned, or with a filtered list of items
+                        # based on the ids supplied
+                        defer.resolve(if ids then @__getItems(ids) else @items)
+                else
+                    console.log "Loading cached #{@model} items"
+                    # Complete the promise either with all items
+                    # returned, or with a filtered list of items
+                    # based on the ids supplied
+                    defer.resolve(if ids then @__getItems(ids) else @items)
+
+                # This gets returned "immediately" and will
+                # be invoked later
+                return defer.promise
+
+            # Retrieves a single item
+            #
+            # id must be a number
             get: (id) =>
                 @__checkDependencies()
                 defer = @$q.defer()
@@ -65,6 +105,7 @@ define ['angular'], (angular) ->
 
                 return defer.promise
 
+            # Adds a new item and issues an HTTP POST
             add: (item) =>
                 defer = @$q.defer()
                 @Restangular.all(@model).post(item)
@@ -74,6 +115,8 @@ define ['angular'], (angular) ->
                         defer.reject(err)
                 return defer.promise
 
+            # Updates an existing item and issues an
+            # HTTP PUT
             update: (item) =>
                 defer = @$q.defer()
                 if item.put
@@ -90,6 +133,8 @@ define ['angular'], (angular) ->
                         defer.reject(err)
                 return defer.promise
 
+            # Gets all items from the local cache that
+            # match a given set of ids
             __getItems: (ids) =>
                 unless _.every(ids, _.isNumber)
                     return ids
