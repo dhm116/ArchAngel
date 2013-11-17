@@ -1,0 +1,25 @@
+.content-padded(ng-cloak)
+  nav.breadcrumbs(ng-cloak)
+    li
+      a(href='/') Home
+    li
+      a(href='/Course/{{course.id}}') {{course.name}}
+    li.current Week {{lesson.week_no}}: {{lesson.name}}
+  .large-12.columns
+    .row
+    h2 {{assignment.name}}
+      h2 Assignment Week {{lesson.week_no}}: {{lesson.name}}
+      hr
+    .row
+      .large-11.large-offset-1.columns
+        p(ng-show='assignment.description', btf-markdown='assignment.description', ng-cloak)
+      hr
+    .row
+      h4.subheader
+        i.fa.fa-book
+        span.pad-left Submitting the Assignment
+      .large-11.large-offset-1.columns
+        .row
+          h5 This assignment is due {{assignment.due_date}}.
+          h5
+            a(href='/Course/{{course.id}}/lesson/{{lesson.id}}/assignment/{{assignment.id}}/submission') Submit Assignment
