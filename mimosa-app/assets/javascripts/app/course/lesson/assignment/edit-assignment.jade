@@ -1,0 +1,39 @@
+.content-padded(ng-cloak, ng-if='lesson.assignment')
+  nav.breadcrumbs(ng-cloak)
+    li
+      a(href='/') Home
+    li
+      a(href='/Course/{{course.id}}') {{course.name}}
+    li.current Assignment
+  .large-6.columns
+    .row-padded
+      h2.subheader Edit Assignment
+    .row-padded
+      form
+        fieldset
+          legend Assignment
+          .row
+            .large-12.columns
+              label Title
+              input(type='text', ng-model='assignment.name')
+          .row
+            .large-12.columns
+              label Description
+              input(type='text', ng-model='assignment.description')
+          .row
+            .large-6.columns
+              button.button.small(ng-click='save()')
+                i.fa.fa-save
+                span.pad-left Save Changes
+            .large-6.columns
+              button.button.small.alert
+                i.fa.fa-undo
+                span.pad-left(ng-click='undo()') Undo Changes
+  .large-6.columns
+    .row-padded
+      h2.subheader Preview
+    .row-padded.panel
+      h4 {{assignment.name}}
+        small.pad-left {{assignment.description}}
+      #hr
+      #p(ng-show='syllabus', btf-markdown='assignment.content')
