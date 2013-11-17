@@ -1,5 +1,5 @@
 define ['angular'], (angular) ->
-    return angular.module('djangoApp.controllers').controller 'LessonController',
+    return angular.module('djangoApp.controllers').controller 'AssignmentController',
         ($scope, $routeParams, Restangular, Course, Lesson, Assignment) ->
 
             if($routeParams.hasOwnProperty('lessonId'))
@@ -8,6 +8,7 @@ define ['angular'], (angular) ->
                     Course.get($scope.lesson.course).then (course) ->
                         $scope.course = course
 
-                    if _.every($scope.lesson.assignments, _.isNumber)
-                        Assignment.all($scope.lesson.assignments).then (assignments) ->
-                            $scope.lesson.assignments = assignments
+            if($routeParams.hasOwnProperty('assignmentId'))
+                Assignment.get(Number($routeParams.assignmentId)).then (assignment) ->
+                    $scope.assignment = assignment
+                    console.log assignment

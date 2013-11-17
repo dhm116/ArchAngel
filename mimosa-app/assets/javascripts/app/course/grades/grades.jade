@@ -1,16 +1,14 @@
 .content-padded(ng-cloak)
   .large-12.columns
     .row
-      h2 Week {{lesson.week_no}}: {{lesson.name}}
-        small.pad-left {{lesson.description}}
+      h2 {{course.name}}: Section {{section}} Grades
       hr
     .row
       dl.sub-nav
         dt
           i.fa.fa-book
-          span.pad-left Assignments:
-        dd(ng-repeat='assignment in lesson.assignments')
-          a(href='#') {{assignment.name}}
+          span.pad-left Grades:
+        dd(ng-repeat='grade in grades')
     .row
       .large-11.large-offset-1.columns
         p(ng-show='lesson.content', btf-markdown='lesson.content', ng-cloak)

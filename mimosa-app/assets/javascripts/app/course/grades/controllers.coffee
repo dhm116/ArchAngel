@@ -1,5 +1,5 @@
 define ['angular'], (angular) ->
-    return angular.module('djangoApp.controllers').controller 'GradeController', ($scope, $routeParams, Restangular, Course, CourseSection, Grade) ->
+    return angular.module('djangoApp.controllers').controller 'GradeController', ($scope, $routeParams, Restangular, Course, CourseSection, Submission, Grade) ->
         # $scope.user = User
         # Restangular.setBaseUrl 'http://macpro.local:8000/'
         # getAllData(Restangular, $scope, 'users')
@@ -22,10 +22,10 @@ define ['angular'], (angular) ->
                     if($routeParams.hasOwnProperty('assignmentId'))
                         $scope.assignment = _.findWhere(assignments, {id: Number($routeParams.assignmentId)})
 
-                AssignmentSubmission.get(assignment.submissions).then (submissions) ->
+                Submission.get(assignment.submissions).then (submissions) ->
                     $scope.submissions = submissions
                     if($routeParams.hasOwnProperty('submissionId'))
                         $scope.submission = _.findWhere(submissions, {id: Number($routeParams.submissionId)})
 
-                        Grade.get(submission.grades).then (grades) ->
+                        Grade.get(submission.score).then (grades) ->
                             $scope.grades = grades

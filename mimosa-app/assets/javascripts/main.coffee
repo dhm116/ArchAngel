@@ -27,16 +27,18 @@ require
             'app/course/roster/services'
             'app/course/section/services'
             'app/course/section/controllers'
+            'app/course/syllabus/controllers'
             'app/course/syllabus/services'
             'app/course/lesson/services'
             'app/course/lesson/controllers'
-            'app/course/assignment/services'
-            'app/course/assignment/controllers'
-            'app/course/assignment/submission/services'
-            'app/course/assignment/submission/controllers'
-            'app/course/assignment/grade/services'
-            'app/course/assignment/grade/controllers'
+            'app/course/lesson/assignment/services'
+            'app/course/lesson/assignment/controllers'
+            'app/course/lesson/assignment/submission/services'
+            'app/course/lesson/assignment/submission/controllers'
+            'app/course/grades/services'
+            'app/course/grades/controllers'
         ], ->
+
             isMobile = mobilecheck.isMobile()
 
             getAllData = (service, $scope, resource) ->
@@ -59,28 +61,34 @@ require
                         template: templates['course-main']
                         controller: 'CourseController'
                 }
-                $routeProvider.when '/Course/:courseId/sections/:sectionId', {
-                        template: templates['course-main']
-                        controller: 'CourseController'
+                $routeProvider.when '/Course/:courseId/Syllabus/:action', {
+                        template: templates['edit-syllabus']
+                        controller: 'SyllabusController'
+                }
+                $routeProvider.when '/Course/:courseId/Lesson/:action', {
+                        template: templates['edit-lesson']
+                        controller: 'LessonController'
                 }
                 $routeProvider.when '/Course/:courseId/Lesson/:lessonId', {
                         template: templates['lesson']
                         controller: 'LessonController'
                 }
-                $routeProvider.when
-                '/Course/:courseId/Lesson/:lessonId/assignment', {
+                $routeProvider.when '/Course/:courseId/Lesson/:lessonId/assignment/:action', {
+                        template: templates['edit-assignment']
+                        controller: 'AssignmentController'
+                }
+                $routeProvider.when '/Course/:courseId/Lesson/:lessonId/assignment/:assignmentId', {
                         template: templates['assignment']
                         controller: 'AssignmentController'
                 }
-                #$routeProvider.when
-                #'/Course/:courseId/Lesson/:lessonId/assignment/submission', {
-                #        template: templates['submission']
-                #        controller: 'AssignmentSubmissionController'
-                #}
-                #$routeProvider.when '/Course/:courseId/Lesson/:lessonId/assignment/grade', {
-                #        template: templates['grades']
-                #        controller: 'GradeController'
-                #}
+                $routeProvider.when '/Course/:courseId/Lesson/:lessonId/assignment/:assignmentId/submission', {
+                        template: templates['submission']
+                        controller: 'SubmissionController'
+                }
+                $routeProvider.when '/Course/:courseId/grades', {
+                        template: templates['grades']
+                        controller: 'GradeController'
+                }
                 $routeProvider.when '/Students', {
                         template: templates['students']
                         controller: 'StudentController'
@@ -96,6 +104,8 @@ require
                     $scope.$storage = $localStorage.$default {useLocalData: true}
                     $scope.isMobile = isMobile
                     $scope.user = User
+                    Course.all().then (courses) ->
+                        $scope.courses = courses
 
                     # $scope.useLocalData = $localStorage.useLocalData
                     $scope.updateDataURL = () ->
@@ -111,14 +121,16 @@ require
 
                 .controller 'ArchangelController', ($scope, Restangular, User, Course) ->
                     $scope.isMobile = isMobile
+                    Course.all().then (courses) ->
+                        $scope.courses = courses
 
                     unless isMobile
                         getAllData(Restangular, $scope, 'users')
                         # getAllData(Restangular, $scope, 'upcoming-assignments')
 
 
-                .controller 'StudentController', ($scope, $route, $routeParams, $location, Restangular) ->
-                    getAllData(Restangular, $scope, 'students')
+                # .controller 'StudentController', ($scope, $route, $routeParams, $location, Restangular) ->
+                #     getAllData(Restangular, $scope, 'students')
 
 
             angular.bootstrap document, ['djangoApp']
