@@ -10,7 +10,7 @@
         span.label.round(ng-class="{alert: course.id > 1}") 2
         span.pad-left {{course.name}}
         i.fa.fa-arrow-right.pad-left
-        span.pad-left Week 2
+        span.pad-left Week {{moment().diff(moment(course.start_date), 'weeks')}}
 .large-8.columns
   h1.ui.header.dividing Welcome to ArchAngel
     span.pad-left(ng-if='isMobile')
