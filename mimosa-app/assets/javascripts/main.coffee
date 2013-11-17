@@ -65,9 +65,17 @@ require
                         template: templates['edit-syllabus']
                         controller: 'SyllabusController'
                 }
+                $routeProvider.when '/Course/:courseId/Lesson/:action', {
+                        template: templates['edit-lesson']
+                        controller: 'LessonController'
+                }
                 $routeProvider.when '/Course/:courseId/Lesson/:lessonId', {
                         template: templates['lesson']
                         controller: 'LessonController'
+                }
+                $routeProvider.when '/Course/:courseId/Lesson/:lessonId/assignment/:action', {
+                        template: templates['edit-assignment']
+                        controller: 'AssignmentController'
                 }
                 $routeProvider.when '/Course/:courseId/Lesson/:lessonId/assignment/:assignmentId', {
                         template: templates['assignment']
