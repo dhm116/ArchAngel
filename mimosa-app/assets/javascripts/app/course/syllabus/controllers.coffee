@@ -1,18 +1,14 @@
 define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'SyllabusController',
         ($scope, $location, $routeParams, Restangular, Course, Syllabus) ->
+            # console.log "Syllabus Controller", $routeParams
+            Course.get(Number($routeParams.parentId)).then (course) ->
+                $scope.course = course
 
-            if($routeParams.hasOwnProperty('courseId'))
-                Course.get(Number($routeParams.courseId)).then (course) ->
-                    $scope.course = course
-
-                    if _.isNumber($scope.course.syllabus)
-                        Syllabus.get($scope.course.syllabus).then (syllabus) ->
-                            $scope.original_syllabus = syllabus
-                            $scope.syllabus = Restangular.copy(syllabus)
-                    else
-                        $scope.original_syllabus = $scope.course.syllabus
-                        $scope.syllabus = Restangular.copy($scope.course.syllabus)
+            if Number($routeParams.id?)
+                Syllabus.get(Number($routeParams.id)).then (syllabus) ->
+                    $scope.original_syllabus = syllabus
+                    $scope.syllabus = Restangular.copy(syllabus)
 
             $scope.undo = ->
                 $scope.syllabus = Restangular.copy($scope.original_syllabus)
@@ -22,7 +18,8 @@ define ['angular'], (angular) ->
                 Syllabus.update($scope.syllabus)
                     .then (result) ->
                         console.log "Save worked: ", result
-                        $scope.course.syllabus = result
-                        $location.path("/Course/#{$scope.course.id}")
+                        # $scope.course.syllabus = result
+                        # $scope.syllabus = result
+                        $location.path("/course/view/#{$scope.course.id}")
                     .catch (err) ->
                         console.log "Save failed: ", err

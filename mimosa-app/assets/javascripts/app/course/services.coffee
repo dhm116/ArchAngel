@@ -1,7 +1,25 @@
 define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
-    angular.module('djangoApp.services').factory 'Course', ($q, Restangular) ->
+    angular.module('djangoApp.services').factory 'Course', ($q, Restangular, CourseSection, CourseRoster, User) ->
         class Course extends ServiceBase
             model: 'courses'
+
+            isInstructorFor: (courseId) =>
+                defer = @$q.defer()
+                @get(courseId).then (course) =>
+                    if course.hasOwnProperty('isInstructor')
+                        defer.resolve(course.isInstructor)
+                    else
+                        if course.sections.length > 0
+                            CourseSection.all(course.sections).then (sections) ->
+
+                                CourseRoster.all(sections.members).then (members) ->
+                                    if members.length > 0 and _.findWhere(members, {user:User.data.id, group: 'instructor'})
+                                        course.isInstructor = true
+                                    else
+                                        course.isInstructor = false
+                                    defer.resolve(course.isInstructor)
+                return defer.promise
+
         return new Course(Restangular, $q)
         # class Course
         #     courses: []
