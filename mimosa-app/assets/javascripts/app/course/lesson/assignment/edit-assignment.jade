@@ -1,25 +1,25 @@
-.content-padded(ng-cloak, ng-if='course.syllabus')
-  include ../course-breadcrumb
-    li.current Syllabus
+.content-padded(ng-cloak, ng-if='lesson.assignment')
+  nav.breadcrumbs(ng-cloak)
+    li
+      a(href='/') Home
+    li
+      a(href='/Course/{{course.id}}') {{course.name}}
+    li.current Assignment
   .large-6.columns
     .row-padded
-      h2.subheader Edit Syllabus
+      h2.subheader Edit Assignment
     .row-padded
       form
         fieldset
-          legend Syllabus
+          legend Assignment
           .row
             .large-12.columns
               label Title
-              input(type='text', ng-model='syllabus.name')
+              input(type='text', ng-model='assignment.name')
           .row
             .large-12.columns
               label Description
-              input(type='text', ng-model='syllabus.description')
-          .row
-            .large-12.columns
-              label Content
-              textarea(ng-model='syllabus.content')
+              input(type='text', ng-model='assignment.description')
           .row
             .large-6.columns
               button.button.small(ng-click='save()')
@@ -33,7 +33,7 @@
     .row-padded
       h2.subheader Preview
     .row-padded.panel
-      h4 {{syllabus.name}}
-        small.pad-left {{syllabus.description}}
-      hr
-      p(ng-show='syllabus', btf-markdown='syllabus.content')
+      h4 {{assignment.name}}
+        small.pad-left {{assignment.description}}
+      #hr
+      #p(ng-show='syllabus', btf-markdown='assignment.content')

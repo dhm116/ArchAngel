@@ -15,6 +15,7 @@ requirejs
         'loading-bar': 'vendor/angular-loading-bar/loading-bar'
         'markdown': 'vendor/angular-markdown-directive/markdown'
 
+
     shim:
         'angular': {'exports':'angular'}
         'angular-mocks': { deps:['angular'], 'exports':'AngularMocks'}
@@ -27,6 +28,6 @@ requirejs
         'markdown': {deps:['angular']}
 
 
-
     deps: tests
+
     callback: window.__karma__.start

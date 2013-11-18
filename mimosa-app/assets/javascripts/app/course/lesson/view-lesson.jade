@@ -1,26 +1,29 @@
 .content-padded(ng-cloak)
-  nav.breadcrumbs(ng-cloak)
-    li
-      a(href='/') Home
-    li
-      a(href='/Course/{{course.id}}') {{course.name}}
+  include ../course-breadcrumb
     li.current Week {{lesson.week_no}}: {{lesson.name}}
   .large-12.columns
     .row
       h2 Week {{lesson.week_no}}: {{lesson.name}}
         small.pad-left {{lesson.description}}
+          span.pad-left(ng-show='isInstructor')
+            a.button.tiny.round(href='/course/view/{{course.id}}/lesson/edit/{{lesson.id}}')
+              i.fa.fa-edit
+              span.pad-left Edit
+
       hr
     .row
       dl.sub-nav
         dt
           i.fa.fa-book
           span.pad-left Assignments:
-        dd(ng-repeat='assignment in lesson.assignments')
+            span.pad-left(ng-show='assignments.length == 0')
+              em None
+        dd(ng-repeat='assignment in assignments')
           a(href='#') {{assignment.name}}
     .row
       .large-11.large-offset-1.columns
         p(ng-show='lesson.content', btf-markdown='lesson.content', ng-cloak)
-    .row
+    .row(ng-show='assignments.length > 0')
       h4.subheader
         i.fa.fa-book
         span.pad-left Assignments

@@ -54,14 +54,14 @@ exports.config = {
       'tests/test-main.coffee'
     ]
 
-    browsers: ['Chrome']
+    browsers: ['PhantomJS']
     reporters: ['progress', 'html']
     htmlReporter: {
-      outputDir: '../tests/html_report',
-      templatePath: '../mimosa-app/tests/html_report/template/jasmine_template.html'
+      outputDir: 'tests/html_report',
+      templatePath: __dirname + '/tests/html_report/template/jasmine_template.html'
     }
     autoWatch: true
-    
+
 
 
 

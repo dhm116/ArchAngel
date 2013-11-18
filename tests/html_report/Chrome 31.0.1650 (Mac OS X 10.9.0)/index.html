@@ -1,0 +1,377 @@
+<html>
+<head>
+<style>
+body { background-color: #eeeeee; padding: 0; margin: 5px; overflow-y: scroll; }
+#HTMLReporter { font-size: 11px; font-family: Monaco, "Lucida Console", monospace; line-height: 14px; color: #333333; }
+#HTMLReporter a { text-decoration: none; }
+#HTMLReporter a:hover { text-decoration: underline; }
+#HTMLReporter p, #HTMLReporter h1, #HTMLReporter h2, #HTMLReporter h3, #HTMLReporter h4, #HTMLReporter h5, #HTMLReporter h6 { margin: 0; line-height: 14px; }
+#HTMLReporter .banner, #HTMLReporter .symbolSummary, #HTMLReporter .summary, #HTMLReporter .resultMessage, #HTMLReporter .specDetail .description, #HTMLReporter .alert .bar, #HTMLReporter .stackTrace { padding-left: 9px; padding-right: 9px; }
+#HTMLReporter #jasmine_content { position: fixed; right: 100%; }
+#HTMLReporter .version { color: #aaaaaa; }
+#HTMLReporter .banner { margin-top: 14px; }
+#HTMLReporter .duration { color: #aaaaaa; float: right; }
+#HTMLReporter .exceptions { color: #fff; float: right; margin-top: 5px; margin-right: 5px; }
+#HTMLReporter .bar { line-height: 28px; font-size: 14px; display: block; color: #eee; }
+#HTMLReporter .runningAlert { background-color: #666666; }
+#HTMLReporter .skippedAlert { background-color: #aaaaaa; }
+#HTMLReporter .skippedAlert:first-child { background-color: #333333; }
+#HTMLReporter .skippedAlert:hover { text-decoration: none; color: white; text-decoration: underline; }
+#HTMLReporter .passingAlert { background-color: #a6b779; }
+#HTMLReporter .passingAlert:first-child { background-color: #5e7d00; }
+#HTMLReporter .failingAlert { background-color: #cf867e; }
+#HTMLReporter .failingAlert:first-child { background-color: #b03911; }
+#HTMLReporter .results { margin-top: 14px; }
+#HTMLReporter #details { display: none; }
+#HTMLReporter .resultsMenu, #HTMLReporter .resultsMenu a { background-color: #fff; color: #333333; }
+#HTMLReporter.showDetails .summaryMenuItem { font-weight: normal; text-decoration: inherit; }
+#HTMLReporter.showDetails .summaryMenuItem:hover { text-decoration: underline; }
+#HTMLReporter.showDetails .detailsMenuItem { font-weight: bold; text-decoration: underline; }
+#HTMLReporter.showDetails .summary { display: none; }
+#HTMLReporter.showDetails #details { display: block; }
+#HTMLReporter .summaryMenuItem { font-weight: bold; text-decoration: underline; }
+#HTMLReporter .summary { margin-top: 14px; }
+#HTMLReporter .summary .suite .suite, #HTMLReporter .summary .specSummary { margin-left: 14px; }
+#HTMLReporter .summary .specSummary.passed span { color: #5e7d00; }
+#HTMLReporter .summary .specSummary.failed span { color: #b03911; }
+#HTMLReporter .description + .suite { margin-top: 0; }
+#HTMLReporter .suite { margin-top: 14px; }
+#HTMLReporter .suite a { color: #333333; }
+#HTMLReporter #details .specDetail { margin-bottom: 28px; }
+#HTMLReporter #details .specDetail .description { display: block; color: white; background-color: #b03911; }
+#HTMLReporter .resultMessage { padding-top: 14px; color: #333333; }
+#HTMLReporter .resultMessage span.result { display: block; }
+#HTMLReporter .stackTrace { margin: 5px 0 0 0; max-height: 224px; overflow: auto; line-height: 18px; color: #666666; border: 1px solid #ddd; background: white; white-space: pre; }
+</style>
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+ <script>
+         $(function(){
+                $("a.summaryMenuItem").on("click", function(){
+                        $("body").removeClass("showDetails").addClass("showSummary");
+                });
+                $("a.detailsMenuItem").on("click", function(){
+                        $("body").addClass("showDetails").removeClass("showSummary");
+                });
+
+        });
+ </script>
+</head>
+
+<body id="HTMLReporter" class="html-reporter showDetails">
+<h1>Chrome 31.0.1650 (Mac OS X 10.9.0)</h1>
+
+<div class="alert">
+
+
+<span class="failingAlert bar">Failed 13 specs</span>
+<span class="resultsMenu bar">
+<a class="summaryMenuItem" href="#">24 specs<a>|<a class="detailsMenuItem" href="#">13 failing</a>
+</span>
+
+
+
+</div>
+<div class="results">
+        <div class="summary">
+
+
+        
+                <div class="suite passed">
+                        <span class="description">Login Services</span>
+                
+                        <div class="specSummary passed">
+                        <span class="description">the User service should be defined</span>
+                        </div>
+                
+                        <div class="specSummary passed">
+                        <span class="description">the login should be defined</span>
+                        </div>
+                
+                        <div class="specSummary passed">
+                        <span class="description">a user tries to login with an invalid username/password</span>
+                        </div>
+                
+                        <div class="specSummary passed">
+                        <span class="description">then tries to login with a valid username/password</span>
+                        </div>
+                
+                </div>
+        
+                <div class="suite failed">
+                        <span class="description">Login Services unit testing:</span>
+                
+                        <div class="specSummary passed">
+                        <span class="description">the User service should be defined</span>
+                        </div>
+                
+                        <div class="specSummary passed">
+                        <span class="description">login() should be defined</span>
+                        </div>
+                
+                        <div class="specSummary failed">
+                        <span class="description">if the service is defined, a user tries to login with an invalid username/password (baduser/badpassword) and it should fail</span>
+                        </div>
+                
+                        <div class="specSummary failed">
+                        <span class="description">then a user tries to login with a valid username/password (admin/admin)</span>
+                        </div>
+                
+                        <div class="specSummary passed">
+                        <span class="description">to logout, logout() should be defined</span>
+                        </div>
+                
+                        <div class="specSummary failed">
+                        <span class="description">then the logged in user logs out</span>
+                        </div>
+                
+                </div>
+        
+                <div class="suite failed">
+                        <span class="description">AssignmentServices unit testing:</span>
+                
+                        <div class="specSummary failed">
+                        <span class="description">should initially fail</span>
+                        </div>
+                
+                </div>
+        
+                <div class="suite failed">
+                        <span class="description">CourseServices unit testing:</span>
+                
+                        <div class="specSummary failed">
+                        <span class="description">should initially fail</span>
+                        </div>
+                
+                </div>
+        
+                <div class="suite failed">
+                        <span class="description">LessonServices unit testing:</span>
+                
+                        <div class="specSummary failed">
+                        <span class="description">should initially fail</span>
+                        </div>
+                
+                </div>
+        
+                <div class="suite failed">
+                        <span class="description">SectionServices unit testing:</span>
+                
+                        <div class="specSummary failed">
+                        <span class="description">should initially fail</span>
+                        </div>
+                
+                </div>
+        
+                <div class="suite failed">
+                        <span class="description">SyllabusServices unit testing:</span>
+                
+                        <div class="specSummary failed">
+                        <span class="description">should initially fail</span>
+                        </div>
+                
+                </div>
+        
+                <div class="suite failed">
+                        <span class="description">RosterServices unit testing:</span>
+                
+                        <div class="specSummary failed">
+                        <span class="description">should initially fail</span>
+                        </div>
+                
+                </div>
+        
+                <div class="suite failed">
+                        <span class="description">CourseControllers unit testing:</span>
+                
+                        <div class="specSummary failed">
+                        <span class="description">should initially fail</span>
+                        </div>
+                
+                </div>
+        
+                <div class="suite failed">
+                        <span class="description">LessonControllers unit testing:</span>
+                
+                        <div class="specSummary failed">
+                        <span class="description">should initially fail</span>
+                        </div>
+                
+                </div>
+        
+                <div class="suite failed">
+                        <span class="description">Login Controllers unit testing: LoginController scope properties</span>
+                
+                        <div class="specSummary passed">
+                        <span class="description">should have scope.$storage.user defined</span>
+                        </div>
+                
+                        <div class="specSummary passed">
+                        <span class="description">should have scope.login defined</span>
+                        </div>
+                
+                        <div class="specSummary passed">
+                        <span class="description">should have scope.user undefined as it needs to be set externally</span>
+                        </div>
+                
+                        <div class="specSummary passed">
+                        <span class="description">should have scope.user defined as username: testuser, password: password</span>
+                        </div>
+                
+                        <div class="specSummary failed">
+                        <span class="description">should allow user to login</span>
+                        </div>
+                
+                </div>
+        
+                <div class="suite failed">
+                        <span class="description">SectionControllers unit testing:</span>
+                
+                        <div class="specSummary failed">
+                        <span class="description">should initially fail</span>
+                        </div>
+                
+                </div>
+        
+</div>
+
+<div id="details">
+        
+        
+        <div class="specDetail failed">
+                <span class="description">Login Services unit testing: if the service is defined, a user tries to login with an invalid username/password (baduser/badpassword) and it should fail</span>
+                <div class="stackTrace">
+                        <div class="resultMessage">timeout: timed out after 5000 msec waiting for login() should have returned</div>
+                </div>
+        </div>
+        
+        <div class="specDetail failed">
+                <span class="description">Login Services unit testing: then a user tries to login with a valid username/password (admin/admin)</span>
+                <div class="stackTrace">
+                        <div class="resultMessage">timeout: timed out after 5000 msec waiting for login() call should have returned</div>
+                </div>
+        </div>
+        
+        <div class="specDetail failed">
+                <span class="description">Login Services unit testing: then the logged in user logs out</span>
+                <div class="stackTrace">
+                        <div class="resultMessage">timeout: timed out after 5000 msec waiting for logout() call should have returned</div>
+                </div>
+        </div>
+        
+        
+        
+        <div class="specDetail failed">
+                <span class="description">AssignmentServices unit testing: should initially fail</span>
+                <div class="stackTrace">
+                        <div class="resultMessage">Expected true to be false.
+Error: Expected true to be false.
+    at null.&lt;anonymous&gt; (http://localhost:9876/base/tests/specs/assignmentServices-spec.js?1384550987000:4:27)</div>
+                </div>
+        </div>
+        
+        
+        
+        <div class="specDetail failed">
+                <span class="description">CourseServices unit testing: should initially fail</span>
+                <div class="stackTrace">
+                        <div class="resultMessage">Expected true to be false.
+Error: Expected true to be false.
+    at null.&lt;anonymous&gt; (http://localhost:9876/base/tests/specs/courseServices-spec.js?1384550987000:4:27)</div>
+                </div>
+        </div>
+        
+        
+        
+        <div class="specDetail failed">
+                <span class="description">LessonServices unit testing: should initially fail</span>
+                <div class="stackTrace">
+                        <div class="resultMessage">Expected true to be false.
+Error: Expected true to be false.
+    at null.&lt;anonymous&gt; (http://localhost:9876/base/tests/specs/lessonService-spec.js?1384550987000:4:27)</div>
+                </div>
+        </div>
+        
+        
+        
+        <div class="specDetail failed">
+                <span class="description">SectionServices unit testing: should initially fail</span>
+                <div class="stackTrace">
+                        <div class="resultMessage">Expected true to be false.
+Error: Expected true to be false.
+    at null.&lt;anonymous&gt; (http://localhost:9876/base/tests/specs/sectionService-spec.js?1384550987000:4:27)</div>
+                </div>
+        </div>
+        
+        
+        
+        <div class="specDetail failed">
+                <span class="description">SyllabusServices unit testing: should initially fail</span>
+                <div class="stackTrace">
+                        <div class="resultMessage">Expected true to be false.
+Error: Expected true to be false.
+    at null.&lt;anonymous&gt; (http://localhost:9876/base/tests/specs/syllabusService-spec.js?1384550987000:4:27)</div>
+                </div>
+        </div>
+        
+        
+        
+        <div class="specDetail failed">
+                <span class="description">RosterServices unit testing: should initially fail</span>
+                <div class="stackTrace">
+                        <div class="resultMessage">Expected true to be false.
+Error: Expected true to be false.
+    at null.&lt;anonymous&gt; (http://localhost:9876/base/tests/specs/rosterService-spec.js?1384550987000:4:27)</div>
+                </div>
+        </div>
+        
+        
+        
+        <div class="specDetail failed">
+                <span class="description">CourseControllers unit testing: should initially fail</span>
+                <div class="stackTrace">
+                        <div class="resultMessage">Expected true to be false.
+Error: Expected true to be false.
+    at null.&lt;anonymous&gt; (http://localhost:9876/base/tests/specs/courseController-spec.js?1384550987000:4:27)</div>
+                </div>
+        </div>
+        
+        
+        
+        <div class="specDetail failed">
+                <span class="description">LessonControllers unit testing: should initially fail</span>
+                <div class="stackTrace">
+                        <div class="resultMessage">Expected true to be false.
+Error: Expected true to be false.
+    at null.&lt;anonymous&gt; (http://localhost:9876/base/tests/specs/lessonControllers-spec.js?1384550987000:4:27)</div>
+                </div>
+        </div>
+        
+        
+        
+        <div class="specDetail failed">
+                <span class="description">Login Controllers unit testing: LoginController scope properties should allow user to login</span>
+                <div class="stackTrace">
+                        <div class="resultMessage">Error: No pending request to flush !
+    at Function.$httpBackend.flush (http://localhost:9876/base/public/javascripts/vendor/angular-mocks/angular-mocks.js?1384223131000:1454:34)
+    at null.&lt;anonymous&gt; (http://localhost:9876/base/tests/specs/loginController-spec.js?1384550987000:66:22),Error: Unsatisfied requests: POST http://django-archangel.rhcloud.com/api-token-auth/?format=json
+    at Function.$httpBackend.verifyNoOutstandingExpectation (http://localhost:9876/base/public/javascripts/vendor/angular-mocks/angular-mocks.js?1384223131000:1488:13)
+    at null.&lt;anonymous&gt; (http://localhost:9876/base/tests/specs/loginController-spec.js?1384550987000:20:22)</div>
+                </div>
+        </div>
+        
+        
+        
+        <div class="specDetail failed">
+                <span class="description">SectionControllers unit testing: should initially fail</span>
+                <div class="stackTrace">
+                        <div class="resultMessage">Expected true to be false.
+Error: Expected true to be false.
+    at null.&lt;anonymous&gt; (http://localhost:9876/base/tests/specs/sectionControllers-spec.js?1384550987000:4:27)</div>
+                </div>
+        </div>
+        
+        
+</div>
+</body>
+</html>
+

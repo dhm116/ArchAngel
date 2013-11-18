@@ -2,6 +2,13 @@ define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
     angular.module('djangoApp.services').factory 'CourseRoster', ($q, Restangular) ->
         class CourseRoster extends ServiceBase
             model: 'courserosters'
+
+            students: (ids) =>
+                defer = @$q.defer()
+                @all(ids).then (students) =>
+                    defer.resolve(_.filter(students, {group: 'student'}))
+                return defer.promise
+
         return new CourseRoster(Restangular, $q)
         # class CourseRoster
         #     rosters: []
