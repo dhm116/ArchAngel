@@ -29,16 +29,16 @@
         span.pad-left Assignments
       hr
       .large-11.large-offset-1.columns
-        .row(ng-repeat='assignment in lesson.assignments')
+        .row(ng-repeat='assignment in assignments')
           h5
-            a(href='/Course/{{course.id}}/Lesson/{{lesson.id}}/assignment/view/{{assignment.id}}') {{lesson.assignments.indexOf(assignment)+1}}) {{assignment.name}}
+            a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}') {{assignments.indexOf(assignment)+1}}) {{assignment.name}}
           p This assignment is worth
             span.pad-left
             span.label.round {{assignment.points}}
             span.pad-left points and is due on {{assignment.due_date}}
        .large-6.columns(ng-cloak)
         .row-padded(ng-if='assignment.name')
-          a.button.tiny.round(href='/Course/{{course.id}}/Lesson/{{lesson.id}}/assignment/edit', ng-show='isInstructor')
+          a.button.tiny.round(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/edit/{{assignment.id}}', ng-show='isInstructor')
             i.fa.fa-edit
             span.pad-left Edit
           h4 {{assignment.name}}

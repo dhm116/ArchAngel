@@ -70,10 +70,10 @@ require
                             restful: true
                             template: 'lesson'
                             # controller: 'LessonController'
-                            #nested:
-                            #    assignment:
-                            #        restful: true
-                            #        template: 'assignment'
+                            nested:
+                               assignment:
+                                   restful: true
+                                   template: 'assignment'
                             #        controller: 'AssignmentController'
                             #        nested:
                             #            submission:
@@ -126,7 +126,7 @@ require
                     createRoute($routeProvider, route, name, data)
 
                     if data.nested?
-                        recursiveRouteBuilder($routeProvider, data.nested, "/#{name}/:parentAction/:parentId")
+                        recursiveRouteBuilder($routeProvider, data.nested, "#{baseURL}/#{name}/:parentAction/:parentId")
 
             app.config ($routeProvider, $locationProvider) ->
                 # $routeProvider.when '/login', {

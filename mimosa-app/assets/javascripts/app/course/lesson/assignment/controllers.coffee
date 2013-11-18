@@ -1,14 +1,14 @@
 define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'AssignmentController',
         ($scope, $routeParams, Restangular, Course, Lesson, Assignment) ->
-
-            if($routeParams.hasOwnProperty('lessonId'))
-                Lesson.get(Number($routeParams.lessonId)).then (lesson) ->
+            console.log $routeParams
+            if($routeParams.hasOwnProperty('parentId'))
+                Lesson.get(Number($routeParams.parentId)).then (lesson) ->
                     $scope.lesson = lesson
                     Course.get($scope.lesson.course).then (course) ->
                         $scope.course = course
 
-            if($routeParams.hasOwnProperty('assignmentId'))
-                Assignment.get(Number($routeParams.assignmentId)).then (assignment) ->
+            if($routeParams.hasOwnProperty('id'))
+                Assignment.get(Number($routeParams.id)).then (assignment) ->
                     $scope.assignment = assignment
-            console.log assignment
+            # console.log assignment
