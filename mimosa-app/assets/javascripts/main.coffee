@@ -70,11 +70,16 @@ require
                             restful: true
                             template: 'lesson'
                             # controller: 'LessonController'
-                            nested:
-                                assignment:
-                                    restful: true
-                                    template: 'assignment'
-                                    controller: 'AssignmentController'
+                            #nested:
+                            #    assignment:
+                            #        restful: true
+                            #        template: 'assignment'
+                            #        controller: 'AssignmentController'
+                            #        nested:
+                            #            submission:
+                            #                restful: true
+                            #                template: 'submission'
+                            #                controller: 'SubmissionController'
                         syllabus:
                             restful: true
                             template: 'syllabus'
