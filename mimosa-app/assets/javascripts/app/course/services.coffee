@@ -1,5 +1,5 @@
 define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
-    angular.module('djangoApp.services').factory 'Course', ($q, Restangular, CourseSection, CourseRoster, User) ->
+    angular.module('djangoApp.services').factory 'Course', ($q, Restangular, CourseSection, CourseRoster, Lesson, Assignment, User) ->
         class Course extends ServiceBase
             model: 'courses'
 
@@ -20,6 +20,25 @@ define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
                                     defer.resolve(course.isInstructor)
                 return defer.promise
 
+            upcomingAssignments: (courseId) =>
+                defer = @$q.defer()
+
+                @get(courseId).then (course) =>
+                    if course.lessons.length > 0
+                        Lesson.all(course.lessons).then (lessons) =>
+                            assignmentIds = _.flatten(_.pluck(lessons, 'assignments'))
+
+                            if assignmentIds.length > 0
+                                Assignment.all(assignmentIds).then (assignments) =>
+                                    upcoming = []
+                                    upcoming.push assignment for assignment in assignments when moment(assignment.due_date) >= moment() and moment().diff(moment(assignment.due_date), 'weeks') <= 1
+                                    defer.resolve(upcoming)
+                            else
+                                defer.resolve([])
+                    else
+                        defer.resolve([])
+
+                return defer.promise
         return new Course(Restangular, $q)
         # class Course
         #     courses: []

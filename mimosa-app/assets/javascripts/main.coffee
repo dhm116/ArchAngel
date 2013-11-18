@@ -114,33 +114,9 @@ require
                         recursiveRouteBuilder($routeProvider, data.nested, "/#{name}/:parentAction/:parentId")
 
             app.config ($routeProvider, $locationProvider) ->
-                # $routeProvider.when '/login', {
-                #         template: templates['login']
-                #         controller: 'LoginController'
-                # }
 
                 recursiveRouteBuilder($routeProvider, routeMap, "")
 
-                # $routeProvider.when '/Course/:courseId', {
-                #         template: templates['course-main']
-                #         controller: 'CourseController'
-                # }
-                # $routeProvider.when '/Course/:courseId/Syllabus/:action', {
-                #         template: templates['edit-syllabus']
-                #         controller: 'SyllabusController'
-                # }
-                # $routeProvider.when '/Course/:courseId/Lesson/:lessonId', {
-                #         template: templates['lesson']
-                #         controller: 'LessonController'
-                # }
-                # $routeProvider.when '/Course/:courseId/Lesson/add', {
-                #         template: templates['edit-lesson']
-                #         controller: 'LessonController'
-                # }
-                # $routeProvider.when '/Students', {
-                #         template: templates['students']
-                #         controller: 'StudentController'
-                # }
                 $routeProvider.otherwise {
                         template: getTemplate('main-screen') #templates['main-screen']
                         controller: 'ArchangelController'
@@ -167,18 +143,21 @@ require
 
                         $location.path('/')
 
-                .controller 'ArchangelController', ($scope, Restangular, User, Course) ->
+                .controller 'ArchangelController', ($scope, $location, Restangular, User, Course) ->
                     $scope.isMobile = isMobile
-                    Course.all().then (courses) ->
-                        $scope.courses = courses
-                    $scope.moment = moment
-                    unless isMobile
-                        getAllData(Restangular, $scope, 'users')
-                        # getAllData(Restangular, $scope, 'upcoming-assignments')
+                    $scope.user = User
 
-
-                # .controller 'StudentController', ($scope, $route, $routeParams, $location, Restangular) ->
-                #     getAllData(Restangular, $scope, 'students')
+                    unless User.authenticated
+                        $location.path('/login')
+                    else
+                        Course.all().then (courses) ->
+                            $scope.courses = courses
+                            for course in $scope.courses
+                                Course.upcomingAssignments(course.id).then (upcoming) =>
+                                    course.upcoming = upcoming
+                        $scope.moment = moment
+                        unless isMobile
+                            getAllData(Restangular, $scope, 'users')
 
 
             angular.bootstrap document, ['djangoApp']

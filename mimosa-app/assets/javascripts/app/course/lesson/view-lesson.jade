@@ -34,4 +34,4 @@
           p This assignment is worth
             span.pad-left
             span.label.round {{assignment.points}}
-            span.pad-left points and is due on {{assignment.due_date}}
+            span.pad-left points and is due on {{assignment.due_date | amCalendar}}
