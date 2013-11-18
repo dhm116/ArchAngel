@@ -53,7 +53,7 @@ define ['angular'], (angular) ->
                 defer = @$q.defer()
 
                 # Let's choose to only handle arrays
-                unless Array.isArray(ids)
+                unless _.isArray(ids)
                     # But only if they actually provided some ids
                     ids = [ids] if ids?
 
