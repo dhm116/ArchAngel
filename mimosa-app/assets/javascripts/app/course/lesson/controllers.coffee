@@ -12,11 +12,11 @@ define ['angular'], (angular) ->
             unless $routeParams.action.indexOf('add') is 0
                 Lesson.get(Number($routeParams.id)).then (lesson) ->
                     $scope.lesson = lesson
-                    $scope.assignments = []
+                    $scope.lesson.assignments = []
 
                     if $scope.lesson.assignments.length
                         Assignment.all($scope.lesson.assignments).then (assignments) ->
-                            $scope.assignments = assignments
+                            $scope.lesson.assignments = assignments
 
             else if $routeParams.action.indexOf('add') is 0
                 $scope.lesson = {course:$routeParams.parentId, author: User.data.id}

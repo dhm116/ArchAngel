@@ -11,4 +11,4 @@ define ['angular'], (angular) ->
             if($routeParams.hasOwnProperty('assignmentId'))
                 Assignment.get(Number($routeParams.assignmentId)).then (assignment) ->
                     $scope.assignment = assignment
-                    console.log assignment
+            console.log assignment

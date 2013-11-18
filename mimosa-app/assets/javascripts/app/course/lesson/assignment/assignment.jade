@@ -1,10 +1,11 @@
-.content-padded(ng-cloak)
+.content-padded(ng-cloak, ng-if='lesson.assignment')
   nav.breadcrumbs(ng-cloak)
     li
       a(href='/') Home
     li
       a(href='/Course/{{course.id}}') {{course.name}}
     li.current Week {{lesson.week_no}}: {{lesson.name}}
+    #li.current Assignment
   .large-12.columns
     .row
     h2 {{assignment.name}}
