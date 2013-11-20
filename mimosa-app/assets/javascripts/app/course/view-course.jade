@@ -1,82 +1,100 @@
+append stylesheets
+  link(rel='stylesheet', href='/stylesheets/vendor/metronic/pages/timeline.css')
+
 .content-padded(ng-cloak)
-  include course-breadcrumb
-  .large-12.columns
-    .row
-      h2 {{course.full_name}}
-        small.pad-left {{course.description}}
-      hr
-    .row
-      .large-6.columns
-        .row-padded
-          h4 Lessons
-          hr
-          table(width='100%', ng-cloak)
+  .row
+    include course-breadcrumb
+    h3.page-title {{course.full_name}}
+      small.pad-left {{course.description}}
+    hr
+  .row
+    .col-md-12
+      ul.timeline
+        li.timeline-blue(ng-repeat='lesson in lessons')
+          .timeline-time
+            span.date Week
+            span.time {{lesson.week_no}}
+          .timeline-icon
+            i.fa.fa-file-text
+          .timeline-body
+            h2 {{lesson.name}}
+            .timeline-content {{lesson.description}}
+            .timeline-footer
+              a.nav-link.pull-right(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}')
+                span View lesson
+                i.pad-left.fa.fa-arrow-circle-o-right
+  .row
+    .col-md-8
+      .row-padded
+        h4 Lessons
+        hr
+        table(width='100%', ng-cloak)
+          thead
+            tr
+              th Week
+              th Lesson
+              th Assignments Due
+          tfoot
+            tr
+              td(colspan='3')
+                a.button.tiny.round(href='/course/view/{{course.id}}/lesson/add/new', ng-show='isInstructor')
+                  i.fa.fa-plus-square
+                  span.pad-left Add
+          tbody
+            tr(ng-repeat='lesson in lessons')
+              td
+                a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}')
+                  span.label.round {{lesson.week_no}}
+              td
+                a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}') {{lesson.name}}
+              td
+                a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}')
+                  span.label.round.secondary {{lesson.assignments.length}}
+      .row-padded(ng-if='isInstructor')
+        hr
+        dl.sub-nav
+          dt Sections:
+          dd(ng-class='{active: section == null}')
+            a(href='/course/view/{{course.id}}') All
+          dd(ng-repeat='s in sections', ng-class='{active: section.id == s.id}')
+            a(href='/course/view/{{course.id}}/section/view/{{s.id}}') {{s.section_no}}
+        .large-8.columns
+          h4
+            i.subheader.fa.fa-user
+            span.pad-left Students
+          table
             thead
               tr
-                th Week
-                th Lesson
-                th Assignments Due
-            tfoot
-              tr
-                td(colspan='3')
-                  a.button.tiny.round(href='/course/view/{{course.id}}/lesson/add/new', ng-show='isInstructor')
-                    i.fa.fa-plus-square
-                    span.pad-left Add
+                th
+                th
             tbody
-              tr(ng-repeat='lesson in lessons')
+              tr(ng-if='!students.length > 0')
+                td(colspan='2')
+                  em No students enrolled
+              tr(ng-repeat='student in students')
                 td
-                  a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}')
-                    span.label.round {{lesson.week_no}}
+                  a(href='#') {{student.first_name}} {{student.last_name}}
                 td
-                  a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}') {{lesson.name}}
-                td
-                  a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}')
-                    span.label.round.secondary {{lesson.assignments.length}}
-        .row-padded(ng-if='isInstructor')
-          hr
-          dl.sub-nav
-            dt Sections:
-            dd(ng-class='{active: section == null}')
-              a(href='/course/view/{{course.id}}') All
-            dd(ng-repeat='s in sections', ng-class='{active: section.id == s.id}')
-              a(href='/course/view/{{course.id}}/section/view/{{s.id}}') {{s.section_no}}
-          .large-8.columns
-            h4
-              i.subheader.fa.fa-user
-              span.pad-left Students
-            table
-              thead
-                tr
-                  th
-                  th
-              tbody
-                tr(ng-if='!students.length > 0')
-                  td(colspan='2')
-                    em No students enrolled
-                tr(ng-repeat='student in students')
-                  td
-                    a(href='#') {{student.first_name}} {{student.last_name}}
-                  td
-                    a.tiny.button.round(href='mailto: {{student.email}}')
-                      i.fa.fa-envelope
-                    span.pad-left
-                    a.tiny.button.round(href='#')
-                      i.fa.fa-info
-          .large-4.columns
-            h4
-              i.subheader.fa.fa-group
-              span.pad-left Teams
-            ul.side-nav
-              li(ng-if='!teams.length > 0')
-                em None
-      .large-6.columns(ng-cloak)
-        .row-padded(ng-if='syllabus.name')
-          a.button.tiny.round(href='/course/view/{{course.id}}/syllabus/edit/{{syllabus.id}}', ng-show='isInstructor')
-            i.fa.fa-edit
-            span.pad-left Edit
-          h4 {{syllabus.name}}
-            small.pad-left {{syllabus.description}}
-          hr
-          p(ng-show='syllabus.content', btf-markdown='syllabus.content')
-        .row-padded(ng-if='!syllabus.name')
-          h5.subheader Loading syllabus data
+                  a.tiny.button.round(href='mailto: {{student.email}}')
+                    i.fa.fa-envelope
+                  span.pad-left
+                  a.tiny.button.round(href='#')
+                    i.fa.fa-info
+        .large-4.columns
+          h4
+            i.subheader.fa.fa-group
+            span.pad-left Teams
+          ul.side-nav
+            li(ng-if='!teams.length > 0')
+              em None
+    .col-md-4(ng-cloak)
+      .row-padded(ng-if='syllabus.name')
+        a.button.tiny.round(href='/course/view/{{course.id}}/syllabus/edit/{{syllabus.id}}', ng-show='isInstructor')
+          i.fa.fa-edit
+          span.pad-left Edit
+        h4 {{syllabus.name}}
+          small.pad-left {{syllabus.description}}
+        hr
+        p(ng-show='syllabus.content', btf-markdown='syllabus.content')
+      .row-padded(ng-if='!syllabus.name')
+        h5.subheader Loading syllabus data

@@ -1,37 +1,36 @@
 append navigation
-  .contain-to-grid.sticky(ng-controller='NavbarController')
-    nav.top-bar.hide-for-small(data-options='is_hover:false')
-      ul.title-area
-        li.name
-          h1
-            a(href='/')
-              img(src='http://webstyleguide.psu.edu/img/white-border10.png')
-              span ArchAngel
-      section.top-bar-section
+  .header.navbar.navbar-inverse.navbar-fixed-top(ng-controller='NavbarController')
+    .header-inner
+      a.navbar-brand(href='/')
+        img.img-responsive(src='http://webstyleguide.psu.edu/img/white-border10.png', style='max-height:50px; margin-top: -18px; display: inline;')
+        span.pad-left ArchAngel
+      a.navbar-toggle(href='javascript:;', data-toggle='collapse', data-target='.navbar-collapse')
+        img(src='img/menu-toggler.png')
+      ul.nav.navbar-nav.pull-right
+        li.dropdown.user
+          a.dropdown-toggle(href='#', data-toggle='dropdown', data-hover='dropdown', data-close-others='true')
+            span.username {{user.data.first_name}} {{user.data.last_name}}
+            i.fa.fa-caret-down
+          ul.dropdown-menu
+            li
+              a(href='#')
+                i.fa.fa-user
+                span.pad-left My Profile
+            li
+              a(href='#')
+                i.fa.fa-calendar
+                span.pad-left My Calendar
+            li
+              a(href='#')
+                i.fa.fa-comment
+                span.pad-left My Messages
+            li
+              a(href='#')
+                i.fa.fa-check-square
+                span.pad-left My Tasks
+            li.divider
+            li
+              a(href='#',ng-click='user.logout()')
+                i.fa.fa-lock
+                span.pad-left Log Out
         block navigation-items
-  nav.bar-tab.show-for-small
-    ul.tab-inner
-      li.tab-item.active
-        a(href='/')
-          i.tab-icon.fa.fa-home
-          .tab-label Home
-      li.tab-item
-        a(href='#')
-          i.tab-icon.fa.fa-paste
-          .tab-label Courses
-      li.tab-item
-        a(href='#')
-          i.tab-icon.fa.fa-comments-o
-          .tab-label Messages
-      li.tab-item
-        a(href='#')
-          i.tab-icon.fa.fa-calendar
-          .tab-label Events
-      li.tab-item
-        a(href='#')
-          i.tab-icon.fa.fa-ellipsis-horizontal
-          .tab-label More
-      li.tab-item
-        a(href='#')
-          i.tab-icon.fa.fa-gears
-          .tab-label Settings

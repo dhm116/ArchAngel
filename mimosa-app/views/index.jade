@@ -1,52 +1,33 @@
 extends layout
 
-append navigation-items
-  ul.right
-    li.divider
-    li
-      a(href='#', ng-click='updateDataURL()')
-        span(ng-if='$storage.useLocalData')
-          i.fa.fa-desktop
-          span.pad-left Local Data
-        span(ng-if='!$storage.useLocalData')
-          i.fa.fa-cloud(style='color: #2ba6cb;')
-          span.pad-left Cloud Data
-    li.divider
-    li.has-dropdown.ng-hide(ng-show='user.authenticated')
-      a(href='#') Admin
-      ul.dropdown
-        li
-          a(href='/Students')
-            i.fa.fa-group
-            span.pad-left Students
-        li
-          a.item(href='/tests')
-            i.fa.fa-check-square-o
-            span.pad-left Unit Tests Report
-    li.ng-hide(ng-show='!user.authenticated')
-      a(href='/login')
-        i.fa.fa-sign-in
-        span.pad-left Login
-    li.ng-hide(ng-show='user.authenticated')
-      a(href='#', ng-click='user.logout()')
-        i.fa.fa-sign-in
-        span.pad-left Logout
-    li.ng-hide(ng-show='user.authenticated')
-      a.full-name(href='#') Welcome back {{user.data.first_name}}
-  ul.left
-    li.divider
-    li.has-dropdown
-      a(href='#')
-        span Courses
-        //- i.pad-left.icon-caret-down
-        span.pad-left
-        span.round.label {{courses.length}}
-      ul.dropdown
-        li(ng-repeat='course in courses')
-          a.item(href='/Course/{{course.id}}')
-            i.fa.fa-clock-o.alert.label.round
-            span.pad-left {{course.name}}
-
 append content
-  .row
+  .page-sidebar.navbar-collapse.collapse
+    ul.page-sidebar-menu(ng-controller='SidebarController')
+      li
+        .sidebar-toggler.hidden-phone
+      li
+        form.sidebar-search
+          .form-container
+            .input-box
+              a.remove(href='javascript:;')
+              input(type='text', placeholder='Search...')
+              input.submit(type='button', value=' ')
+      li.start(ng-class='{active: !routeParams.resource}')
+        a(href='/')
+          i.fa.fa-home
+          span.pad-left.title ArchAngel
+      li(ng-class='{active: routeParams.resource == "course"}')
+        a(href='javascript:;')
+          i.fa.fa-paste
+          span.pad-left.title Courses
+          span.selected(ng-if='routeParams.resource == "course"')
+          span.arrow(ng-class='{open: routeParams.resource == "course"}')
+        ul.sub-menu
+          li(ng-repeat='course in courses', ng-class='{active: routeParams.resource == "course" && routeParams.id == course.id}')
+            a(href='/course/view/{{course.id}}')
+              //- span.label.round(ng-class="{alert: course.id > 1}") {{course.upcoming.length}}
+              span.pad-left {{course.name}}
+              i.fa.fa-arrow-right.pad-left
+              span.pad-left Week {{moment().diff(moment(course.start_date), 'weeks')}}
+  .page-content
     .ng-view

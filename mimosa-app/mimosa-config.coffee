@@ -30,7 +30,7 @@ exports.config = {
     'bower'
     'server-template-compile'
     'client-jade-static'
-    'karma'
+    # 'karma'
     # 'server-reload'
   ]
 
@@ -83,10 +83,16 @@ exports.config = {
                                                     # file.
         order: [
           'normalize-css/normalize.css'
-          'font-awesome/font-awesome-ie7.css'
           'font-awesome/font-awesome.css'
-          'foundation/foundation.css'
-          'ratchet/ratchet.css'
+          'bootstrap/bootstrap.css'
+          'metronic/uniform.default.css'
+          'metronic/style-metronic.css'
+          'metronic/style.css'
+          'metronic/style-non-responsive.css'
+          'metronic/style-responsive.css'
+          'metronic/plugins.css'
+          'metronic/themes/default.css'
+          'metronic/themes/light.css'
         ]                              # An array of paths to the files to place at the start
                                                     # of the merged file.  You do not need to name every
                                                     # file, just those whose order is important. Paths
@@ -103,9 +109,16 @@ exports.config = {
           'requirejs/require.js'
         ]
         order: [
-          'jquery/jquery.js'
+          'jquery/jquery.min.js'
           'underscore/underscore.js'
           'angular/angular.js'
+          'jquery/jquery-ui-1.10.3.custom.js'
+          'bootstrap/bootstrap.js'
+          'bootstrap/twitter-bootstrap-hover-dropdown.js'
+          'metronic/jquery.slimscroll.js'
+          'metronic/jquery.blockui.min.js'
+          'metronic/jquery.cookie.min.js'
+          'metronic/jquery.uniform.js'
         ]
       }
     ]

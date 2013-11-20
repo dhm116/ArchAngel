@@ -17,7 +17,11 @@ require
         'app/app'
     ]
     ,(angular, templates, mobilecheck, app) ->
-        $(document).foundation()
+        #$(document).foundation()
+        $(document).ready ->
+            console.log 'Initializing metronic'
+            Metronic.init()
+            return
 
         require [
             'app/login/services'
@@ -95,6 +99,7 @@ require
                             resource = locationParts[-1..-1] + ""
 
                         $routeParams.resource = resource
+
                         if resource
                             options = routeMap[resource] or recursiveResourceFinder(routeMap, resource)?.options
                             # console.log "Options for #{resource}", options
@@ -142,6 +147,21 @@ require
                         Restangular.setBaseUrl "#{url}/"
 
                         $location.path('/')
+
+                .controller 'SidebarController', ($scope, $location, $routeParams, Restangular, User, Course) ->
+                    $scope.isMobile = isMobile
+                    $scope.user = User
+                    $scope.routeParams = $routeParams
+
+                    if User.authenticated
+                        Course.all().then (courses) ->
+                            $scope.courses = courses
+                            for course in $scope.courses
+                                Course.upcomingAssignments(course.id).then (upcoming) =>
+                                    course.upcoming = upcoming
+                        $scope.moment = moment
+                        unless isMobile
+                            getAllData(Restangular, $scope, 'users')
 
                 .controller 'ArchangelController', ($scope, $location, Restangular, User, Course) ->
                     $scope.isMobile = isMobile

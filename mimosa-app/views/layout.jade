@@ -1,43 +1,41 @@
 doctype 5
 //- html(ng-app)
-html
+html.no-js(lang='en')
   head
     title ArchAngel
-    //- link(rel='stylesheet', href='stylesheets/vendor/normalize/normalize.css' + cachebust)
-    //- link(rel='stylesheet', href='stylesheets/vendor/fontawesome/font-awesome.css' + cachebust)
-    //- link(rel='stylesheet', href='stylesheets/vendor/fontawesome/font-awesome-ie7.css' + cachebust)
-    //- link(rel='stylesheet', href='stylesheets/vendor/foundation/foundation.min.css' + cachebust)
-    link(rel='stylesheet', href='/stylesheets/vendor.css' + cachebust)
-    link(rel='stylesheet', href='/stylesheets/style.css' + cachebust)
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='MobileOptimized', content='320')
+
+    block stylesheets
+      //- link(rel='stylesheet', href='/stylesheets/vendor.css' + cachebust)
+
+      link(rel='stylesheet', href='/stylesheets/vendor/font-awesome/font-awesome.css' + cachebust)
+      link(rel='stylesheet', href='/stylesheets/vendor/bootstrap/bootstrap.css' + cachebust)
+      link(rel='stylesheet', href='/stylesheets/vendor/metronic/uniform.default.css' + cachebust)
+      link(rel='stylesheet', href='/stylesheets/vendor/metronic/style-metronic.css' + cachebust)
+      link(rel='stylesheet', href='/stylesheets/vendor/metronic/style.css' + cachebust)
+      link(rel='stylesheet', href='/stylesheets/vendor/metronic/style-responsive.css' + cachebust)
+      link(rel='stylesheet', href='/stylesheets/vendor/metronic/plugins.css' + cachebust)
+      link(rel='stylesheet', href='/stylesheets/vendor/metronic/themes/light.css' + cachebust, id='style_color')
+      link(rel='stylesheet', href='/stylesheets/style.css' + cachebust)
 
     if typeof(reload) !== 'undefined' && reload
       script(src='/socket.io/socket.io.js')
       script(src='/javascripts/reload-client.js')
 
-    //- script(src='/javascripts/vendor/jquery/jquery.js')
-    //- script(src='/javascripts/vendor/underscore/underscore.js')
-    //- script(src='/javascripts/vendor/angular/angular.js')
-    //- script(src='/javascripts/vendor/angular-route/angular-route.js')
-    //- script(src='/javascripts/vendor/angular-resource/angular-resource.js')
-    //- script(src='/javascripts/vendor/angular-loading-bar/loading-bar.js')
-    //- script(src='/javascripts/vendor/restangular/restangular.min.js')
-    //- script(src='/javascripts/vendor/flowtype/flowtype.js')
-    //- script(src='/javascripts/vendor/keypress/keypress.js')
-    //- script(src='/javascripts/vendor/keypress/zepto.js')
-    //- script(src='/javascripts/vendor/foundation/foundation.min.js')
-    script(src='/javascripts/vendor.js')
-
-    if typeof(optimize) !== 'undefined' && optimize
-      script(src='/javascripts/main-built.js')
-    else
-      script(src='/javascripts/vendor/requirejs/require.js', data-main='/javascripts/main.js')
-      //- script(src='/javascripts/vendor/requirejs/require.js', data-main='/javascripts/app/example-view.js')
-      //- script(src='/javascripts/main.js')
-
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-
-  body(ng-cloak)
+  body.page-header-fixed(ng-cloak)
     block navigation
       include nav
 
-    block content
+    .clearfix
+    .page-container
+      block content
+
+    block scripts
+      script(src='/javascripts/vendor.js')
+
+      if typeof(optimize) !== 'undefined' && optimize
+        script(src='/javascripts/main-built.js')
+      else
+        script(src='/javascripts/vendor/requirejs/require.js', data-main='/javascripts/main.js')
