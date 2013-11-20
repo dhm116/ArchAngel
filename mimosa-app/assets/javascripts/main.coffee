@@ -15,6 +15,7 @@ require
         'templates'
         'app/mobile-check'
         'app/app'
+        'app/s3'
     ]
     ,(angular, templates, mobilecheck, app) ->
         #$(document).foundation()
@@ -40,6 +41,11 @@ require
         ], ->
 
             isMobile = mobilecheck.isMobile()
+
+            bucket = new AWS.S3 {params: {Bucket: 'archangel'}}
+
+            bucket.listObjects (err, data) ->
+                console.log "S3 Results: ", err, " ", data
 
             getAllData = (service, $scope, resource) ->
                 service.all(resource).getList().then (items) ->
