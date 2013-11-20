@@ -95,15 +95,15 @@ define ['angular'], (angular) ->
                             # We need to combine all of the team references
                             # into a single list to load
                             teamIds = []
-                            console.log $scope.sections
+
                             teamIds.push section.teams for section in $scope.sections
 
                             # This flattens the array to keep it as a
                             # single dimension
                             teamIds = _.flatten(teamIds)
-                            console.log teamIds
+
                             Team.all(teamIds).then (teams) ->
-                                console.log teams
+
                                 $scope.teams = teams
 
                         # The user has selected a specific section

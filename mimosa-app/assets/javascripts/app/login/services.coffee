@@ -11,7 +11,7 @@ define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
             __onNewInstance: (@$localStorage, params...) =>
                 if @$localStorage.user
                     console.log "Loading user from local storage", @$localStorage.user
-                    if @$localStorage.user.hasOwnProperty('data')
+                    if @$localStorage.user?.token != null
                         _.extend(@, @$localStorage.user)
                         @__attachToken()
                     else

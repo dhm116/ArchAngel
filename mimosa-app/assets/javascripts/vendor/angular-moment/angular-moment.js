@@ -1,4 +1,4 @@
-/* angular-moment.js / v0.5.1 / (c) 2013 Uri Shaked / MIT Licence */
+/* angular-moment.js / v0.5.2 / (c) 2013 Uri Shaked / MIT Licence */
 
 angular.module('angularMoment', [])
 	.constant('amTimeAgoConfig', { withoutSuffix: false })
@@ -71,6 +71,23 @@ angular.module('angularMoment', [])
 			});
 		};
 	}])
+	.filter('amCalendar', ['$window', function ($window) {
+		'use strict';
+
+		return function (value) {
+			if (typeof value === 'undefined' || value === null) {
+				return '';
+			}
+
+			if (!isNaN(parseFloat(value)) && isFinite(value)) {
+				// Milliseconds since the epoch
+				value = new Date(parseInt(value, 10));
+			}
+			// else assume the given value is already a date
+
+			return $window.moment(value).calendar();
+		};
+	}])
 	.filter('amDateFormat', ['$window', function ($window) {
 		'use strict';
 
@@ -87,14 +104,15 @@ angular.module('angularMoment', [])
 
 			return $window.moment(value).format(format);
 		};
-	}]).filter('amDurationFormat', ['$window', function ($window) {
+	}])
+	.filter('amDurationFormat', ['$window', function ($window) {
 		'use strict';
 
 		return function (value, format, suffix) {
 			if (typeof value === 'undefined' || value === null) {
 				return '';
 			}
-			
+
 			// else assume the given value is already a duration in a format (miliseconds, etc)
 			return $window.moment.duration(value, format).humanize(suffix);
 		};
