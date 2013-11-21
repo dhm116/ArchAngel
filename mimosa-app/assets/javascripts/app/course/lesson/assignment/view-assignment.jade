@@ -1,11 +1,5 @@
 .content-padded(ng-cloak, ng-if='assignment')
-  nav.breadcrumbs(ng-cloak)
-    li
-      a(href='/') Home
-    li
-      a(href='/Course/{{course.id}}') {{course.name}}
-    li.current Week {{lesson.week_no}}: {{lesson.name}}
-    #li.current Assignment
+  include assignment-breadcrumb
   .large-12.columns
     .row
     h2 {{assignment.name}}
@@ -23,11 +17,7 @@
         .row
           h5 This assignment is due {{assignment.due_date}}.
           h5
+            form(action='assets/plugins/dropzone/upload.php', class='dropzone', id='my-awesome-dropzone')
             a(href='/Course/{{course.id}}/lesson/{{lesson.id}}/assignment/{{assignment.id}}/submission') Submit Assignment
-          //- div
-          //-   input(type='text')
-          //-   input(type='file' ng-file-select='onFileSelect($files)')
-          //-   input(type='file' ng-file-select='onFileSelect($files)' multiple)
-          //-   div(ng-file-drop='onFileSelect($files)' ng-file-drag-over-class='optional-css-class' ng-show='dropSupported') Drop files here
-          //-   div(ng-file-drop-available='dropSupported=true' ng-show='!dropSupported') HTML5 Drop File is not supported
-          //-   button(ng-click='upload.abort()') Cancel Upload
+          //- div(class='row-fluid')
+          //-   div(class='span12')
