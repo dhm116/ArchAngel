@@ -1,39 +1,46 @@
 .content-padded(ng-cloak, ng-if='course.syllabus')
   include ../course-breadcrumb
-    li.current Syllabus
-  .large-6.columns
-    .row-padded
-      h2.subheader Edit Syllabus
-    .row-padded
-      form
-        fieldset
-          legend Syllabus
-          .row
-            .large-12.columns
-              label Title
-              input(type='text', ng-model='syllabus.name')
-          .row
-            .large-12.columns
-              label Description
-              input(type='text', ng-model='syllabus.description')
-          .row
-            .large-12.columns
-              label Content
-              textarea(ng-model='syllabus.content')
-          .row
-            .large-6.columns
-              button.button.small(ng-click='save()')
-                i.fa.fa-save
-                span.pad-left Save Changes
-            .large-6.columns
-              button.button.small.alert
-                i.fa.fa-undo
-                span.pad-left(ng-click='undo()') Undo Changes
-  .large-6.columns
-    .row-padded
-      h2.subheader Preview
-    .row-padded.panel
-      h4 {{syllabus.name}}
-        small.pad-left {{syllabus.description}}
-      hr
-      p(ng-show='syllabus', btf-markdown='syllabus.content')
+    append breadcrumbs
+      li
+        i.fa.fa-angle-right
+        a(href='javascript:;') Edit Syllabus
+  .row-padded
+    .col-md-12
+      ul.nav.nav-tabs
+        li.active
+          a(href='#edit_tab', data-toggle='tab') Syllabus Content
+        li
+          a(href='#preview_tab', data-toggle='tab') Preview Syllabus
+
+      .tab-content
+        .tab-pane.fade.active.in#edit_tab
+          h2.page-title {{action}} Syllabus
+
+          form.form.form-horizontal
+            .form-group
+              label.col-sm-2.control-label Title
+              .col-sm-10
+                input.form-control(type='text', ng-model='syllabus.name', placeholder='Syllabus title...')
+            .form-group
+              label.col-sm-2.control-label Description
+              .col-sm-10
+                input.form-control(type='text', ng-model='syllabus.description', placeholder='Syllabus description...')
+            .form-group
+              label.col-sm-2.control-label Content
+              .col-sm-10
+                textarea.form-control(ng-model='syllabus.content', placeholder='Syllabus content...')
+            .form-group
+              .col-sm-offset-2.col-sm-3
+                button.btn.blue(ng-click='save()')
+                  i.fa.fa-save
+                  span.pad-left Save Changes
+              .col-sm-offset-1.col-sm-6
+                button.btn.red
+                  i.fa.fa-undo
+                  span.pad-left(ng-click='undo()') Undo Changes
+
+        .tab-pane.fade#preview_tab
+          h2.page-title {{syllabus.name}}
+            small.pad-left {{syllabus.description}}
+          hr
+          p(ng-show='syllabus', btf-markdown='syllabus.content')

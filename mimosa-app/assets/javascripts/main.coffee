@@ -101,6 +101,7 @@ require
                         locationParts = window.location.pathname.split('/')
                         if locationParts.length > 3
                             resource = locationParts[-3..-3] + ""
+                            $routeParams.parentResource = locationParts[1..1] + ""
                         else
                             resource = locationParts[-1..-1] + ""
 
@@ -157,6 +158,7 @@ require
                 .controller 'SidebarController', ($scope, $location, $routeParams, Restangular, User, Course) ->
                     $scope.isMobile = isMobile
                     $scope.user = User
+
                     $scope.routeParams = $routeParams
 
                     if User.authenticated

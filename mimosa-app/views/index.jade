@@ -16,14 +16,14 @@ append content
         a(href='/')
           i.fa.fa-home
           span.pad-left.title ArchAngel
-      li(ng-class='{active: routeParams.resource == "course"}')
+      li(ng-class='{active: routeParams.resource == "course" || routeParams.parentResource == "course"}')
         a(href='javascript:;')
           i.fa.fa-paste
           span.pad-left.title Courses
-          span.selected(ng-if='routeParams.resource == "course"')
-          span.arrow(ng-class='{open: routeParams.resource == "course"}')
+          span.selected(ng-if='routeParams.resource == "course" || routeParams.parentResource == "course"')
+          span.arrow(ng-class='{open: routeParams.resource == "course" || routeParams.parentResource == "course"}')
         ul.sub-menu
-          li(ng-repeat='course in courses', ng-class='{active: routeParams.resource == "course" && routeParams.id == course.id}')
+          li(ng-repeat='course in courses', ng-class='{active: (routeParams.resource == "course" && routeParams.id == course.id) || (routeParams.parentResource == "course" && routeParams.parentId == course.id) }')
             a(href='/course/view/{{course.id}}')
               //- span.label.round(ng-class="{alert: course.id > 1}") {{course.upcoming.length}}
               span.pad-left {{course.name}}
