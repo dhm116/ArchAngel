@@ -20,46 +20,59 @@ append stylesheets
 .content-padded(ng-cloak)
   .row-padded
     include course-breadcrumb
-
-    h2.page-title {{course.full_name}}
-      small.pad-left {{course.description}}
+  .row-padded
+    .row
+      .col-md-11(style='padding-left: 0px;')
+        h2.page-title {{course.full_name}}
+          small.pad-left {{course.description}}
+      .col-md-1(ng-show='isInstructor')
+        .btn-group.pull-right
+          button.btn.blue.btn-sm.dropdown-toggle(type='button', data-toggle='dropdown')
+            i.fa.fa-edit
+            span.pad-left Edit
+            i.pad-left.fa.fa-caret-down
+          ul.dropdown-menu(role='menu')
+            li
+              a(href='/course/view/{{course.id}}/syllabus/edit/{{syllabus.id}}')
+                i.fa.fa-edit
+                span.pad-left Edit Syllabus
+            li
+              a(href='#sections')
+                i.fa.fa-group
+                span.pad-left View Sections
+            li
+              a(href='/course/view/{{course.id}}/lesson/add/new')
+                i.fa.fa-plus
+                span.pad-left Add Lesson
+            li.divider(ng-if='lessons.length > 0')
+            li(ng-repeat='lesson in lessons')
+              a(href='/course/view/{{course.id}}/lesson/edit/{{lesson.id}}')
+                i.fa.fa-book
+                span.pad-left Edit lesson
+                i.pad-left.fa.fa-angle-right
+                span.pad-left {{lesson.name}}
+  .row-padded
     hr(style='margin-bottom: 5px;')
   .row-padded
-    .col-md-12
-      .row(ng-show='isInstructor')
-        h4 Course Actions:
-          span.pad-left
-            a.btn.blue.btn-sm(href='/course/view/{{course.id}}/lesson/add/new')
-              i.fa.fa-plus
-              span.pad-left Add Lesson
-            span.pad-left
-            a.btn.blue.btn-sm(href='/course/view/{{course.id}}/syllabus/edit/{{syllabus.id}}')
+    ul.timeline
+      li.timeline-blue(ng-repeat='lesson in lessons')
+        .timeline-time
+          span.date Week
+          span.time {{lesson.week_no}}
+        .timeline-icon
+          i.fa.fa-file-text
+        .timeline-body
+          a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}', style='color: #fff;')
+            h2 {{lesson.name}}
+          .timeline-content {{lesson.description}}
+          .timeline-footer
+            a.nav-link.pull-right(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}')
+              span View lesson
+              i.pad-left.fa.fa-arrow-circle-o-right
+            a.nav-link.pull-left(href='/course/view/{{course.id}}/lesson/edit/{{lesson.id}}', ng-if='isInstructor')
               i.fa.fa-edit
-              span.pad-left Edit Syllabus
-            span.pad-left
-            a.btn.blue.btn-sm(href='#sections')
-              i.fa.fa-group
-              span.pad-left View Sections
-        .row-padded
-          hr(style='margin-top: 5px;')
-      .row
-        ul.timeline
-          li.timeline-blue(ng-repeat='lesson in lessons')
-            .timeline-time
-              span.date Week
-              span.time {{lesson.week_no}}
-            .timeline-icon
-              i.fa.fa-file-text
-            .timeline-body
-              h2 {{lesson.name}}
-              .timeline-content {{lesson.description}}
-              .timeline-footer
-                a.nav-link.pull-right(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}')
-                  span View lesson
-                  i.pad-left.fa.fa-arrow-circle-o-right
-                a.nav-link.pull-left(href='/course/view/{{course.id}}/lesson/edit/{{lesson.id}}', ng-if='isInstructor')
-                  i.fa.fa-edit
-                  span.pad-left Edit Lesson
+              span.pad-left Edit Lesson
+
   .row-padded
     hr
     .col-md-12(ng-cloak)

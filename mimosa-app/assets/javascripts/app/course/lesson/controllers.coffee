@@ -8,6 +8,7 @@ define ['angular'], (angular) ->
                     $scope.isInstructor = isInstructor
 
             $scope.action = $routeParams.action[0].toUpperCase() + $routeParams.action[1..-1]
+            $scope.moment = moment
 
             unless $routeParams.action.indexOf('add') is 0
                 Lesson.get(Number($routeParams.id)).then (lesson) ->
