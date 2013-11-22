@@ -1,3 +1,14 @@
+# Configure RequireJS by:
+#
+# 1) Defining an alias to the
+#   AngularJS library path, which will help simplify
+#   future requires for angular.
+#
+# 2) Adjust the base url used for all require
+#   statements.
+#
+# 3) Configure an angular shim in case it was not
+#   defined using the define() method of RequireJS
 require.config
     paths:
         angular: 'vendor/angular/angular'
@@ -6,24 +17,48 @@ require.config
         'angular': {'exports':'angular'}
     priority: ['angular']
 
+# This is our main application entry-point, which
+# defines our base dependencies, a url argument
+# that will be appended to every library load request
+# that helps to prevent browser caching and a jQuery
+# alias to simplify any future references.
 require
     urlArgs: "b=#{(new Date()).getTime()}"
     paths:
         jquery: 'vendor/jquery/jquery'
-    ,[
+    ,
+
+    # These are our core dependencies - our application
+    # will delay being loaded until all of these have
+    # been retrieved and are ready.
+    [
         'angular'
         'templates'
         'app/mobile-check'
         'app/app'
         'app/s3'
     ]
+
+    # Here we receive our defined base dependencies
+    # to use in our application.
     ,(angular, templates, mobilecheck, app) ->
-        #$(document).foundation()
+
+        # Initialize the Metronic theme handlers
+        # once the application is ready to render.
         $(document).ready ->
             console.log 'Initializing metronic'
             Metronic.init()
             return
 
+        # Here we load our application's angular
+        # services and controllers. We do this
+        # after angular has been loaded to avoid
+        # any race conditions since RequireJS
+        # does not load in any guaranteed order.
+        #
+        # Note that we don't handle these libraries
+        # in the callback because they already have
+        # registered themselves with angular.
         require [
             'app/login/services'
             'app/login/controllers'
@@ -40,24 +75,67 @@ require
             'app/course/team/services'
         ], ->
 
+            # Use the browser user-agent or the screen
+            # size to determine if we should render
+            # mobile-specific views.
             isMobile = mobilecheck.isMobile()
 
+            # Grab a reference to our Amazon S3 storage
+            # bucket for handling uploads
             bucket = new AWS.S3 {params: {Bucket: 'archangel'}}
 
+            # Just a test to verify connectivity to S3
             bucket.listObjects (err, data) ->
                 console.log "S3 Results: ", err, " ", data
 
+            # Simple helper method for Restangular to
+            # load all data for the provided resource
+            # and add it to the local $scope.
             getAllData = (service, $scope, resource) ->
                 service.all(resource).getList().then (items) ->
                     $scope[resource] = items
 
+            # Simple helper method for selectively
+            # returning the mobile-specific template
+            # if needed and one exists.
             getTemplate = (name) ->
                 template = templates[name]
 
+                # We check to see if the compiled Jade
+                # templates library contains a mobile
+                # version of the requested template name.
                 if isMobile and templates.hasOwnProperty("#{name}_mobile")
                     template = templates["#{name}_mobile"]
+
                 return template
 
+            # This map of URL routes helps the angular
+            # router determine which controllers and
+            # templates to load for a given URL.
+            #
+            # The pattern is:
+            # <required> [model]:
+            #       <required> template: 'name of template to load'
+            #       <optional> controller: 'name of controller to load'
+            #       <optional> restful: true/false
+            #       <optional> nested:
+            #                       -- repeated --
+            #
+            # The login route will end up looking like:
+            #   http://<hostname>/login
+            #
+            # Defining "result: true" will result in
+            # the following route being generated:
+            #   http://<hostname>/<model name>/[action]/[id]
+            #
+            # Restful routes allow for the following patterns:
+            #   http://<hostname>/course/view/1
+            #   http://<hostname>/course/add/new
+            #   http://<hostname>/course/edit/5
+            #
+            # as well as the following nested patterns:
+            #   http://<hostname>/course/view/1/lesson/view/1
+            #   http://<hostname>/course/view/1/syllabus/edit/2
             routeMap = {
                 login:
                     template: 'login'
