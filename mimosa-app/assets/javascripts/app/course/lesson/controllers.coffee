@@ -29,7 +29,7 @@ define ['angular'], (angular) ->
                     $scope.lesson = Restangular.copy($scope.original_lesson)
 
             $scope.save = ->
-                if $routeParams.action.indexOf("edit") is 0
+                if $routeParams.action.indexOf('edit') is 0
                     console.log "Saving lesson changes: ", $scope.lesson
                     Lesson.update($scope.lesson)
                         .then (result) ->

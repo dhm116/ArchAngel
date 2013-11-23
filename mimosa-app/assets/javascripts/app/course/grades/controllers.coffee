@@ -1,31 +1,27 @@
-define ['angular'], (angular) ->
-    return angular.module('djangoApp.controllers').controller 'GradeController', ($scope, $routeParams, Restangular, Course, CourseSection, Submission, Grade) ->
-        # $scope.user = User
-        # Restangular.setBaseUrl 'http://macpro.local:8000/'
-        # getAllData(Restangular, $scope, 'users')
-        # getAllData(Restangular, $scope, 'courses')
-		# getAllData(Restangular, $scope, 'grades')
-        Course.all().then (courses) ->
-            $scope.courses = courses
+# define ['angular'], (angular) ->
+#     return angular.module('djangoApp.controllers').controller 'LessonController',
+#         ($scope, $routeParams, $location, Restangular, User, Course, Lesson, Assignment) ->
 
-        if($routeParams.hasOwnProperty('courseId'))
-            Course.get(Number($routeParams.courseId)).then (course) ->
-                $scope.course = course
+#             Course.get(Number($routeParams.parentId)).then (course) ->
+#                 $scope.course = course
+#                 Course.isInstructorFor(course.id).then (isInstructor) ->
+#                     $scope.isInstructor = isInstructor
 
-            Lesson.get(course.lessons).then (lessons) ->
-                    $scope.lessons = lessons
-                    if($routeParams.hasOwnProperty('lessonId'))
-                        $scope.lesson = _.findWhere(lessons, {id: Number($routeParams.lessonId)})
+#             $scope.action = $routeParams.action[0].toUpperCase() + $routeParams.action[1..-1]
 
-                Assignment.get(lesson.assignments).then (assignments) ->
-                    $scope.assignments = assignments
-                    if($routeParams.hasOwnProperty('assignmentId'))
-                        $scope.assignment = _.findWhere(assignments, {id: Number($routeParams.assignmentId)})
+#             $scope.lessons = []
+#             $scope.assignments = []
 
-                Submission.get(assignment.submissions).then (submissions) ->
-                    $scope.submissions = submissions
-                    if($routeParams.hasOwnProperty('submissionId'))
-                        $scope.submission = _.findWhere(submissions, {id: Number($routeParams.submissionId)})
+#             # Only attempt to load lessons for this course
+#             # if there are any
+#             if $scope.course.lessons.length > 0
+#                     Lesson.all($scope.course.lessons).then (lessons) ->
+#                         $scope.lessons = lessons
 
-                        Grade.get(submission.score).then (grades) ->
-                            $scope.grades = grades
+                # loop through lessons for assignments        
+                # if $scope.lesson.assignments.length > 0
+                #         Assignment.all($scope.lesson.assignments).then (assignments) ->
+                #             $scope.assignments = assignments
+
+# student, author of assignment submission
+# instructor, author of assignment

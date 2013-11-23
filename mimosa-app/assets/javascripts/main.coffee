@@ -15,6 +15,7 @@ require
         'templates'
         'app/mobile-check'
         'app/app'
+        'app/s3'
     ]
     ,(angular, templates, mobilecheck, app) ->
         #$(document).foundation()
@@ -45,6 +46,11 @@ require
         ], ->
 
             isMobile = mobilecheck.isMobile()
+
+            bucket = new AWS.S3 {params: {Bucket: 'archangel'}}
+
+            bucket.listObjects (err, data) ->
+                console.log "S3 Results: ", err, " ", data
 
             getAllData = (service, $scope, resource) ->
                 service.all(resource).getList().then (items) ->
@@ -110,6 +116,7 @@ require
                         locationParts = window.location.pathname.split('/')
                         if locationParts.length > 3
                             resource = locationParts[-3..-3] + ""
+                            $routeParams.parentResource = locationParts[1..1] + ""
                         else
                             resource = locationParts[-1..-1] + ""
 
@@ -166,6 +173,7 @@ require
                 .controller 'SidebarController', ($scope, $location, $routeParams, Restangular, User, Course) ->
                     $scope.isMobile = isMobile
                     $scope.user = User
+
                     $scope.routeParams = $routeParams
 
                     if User.authenticated
