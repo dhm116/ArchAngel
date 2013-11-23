@@ -22,6 +22,8 @@ require
         $(document).ready ->
             console.log 'Initializing metronic'
             Metronic.init()
+            FormDropzone.init()
+            FormFileUpload.init()
             return
 
         require [

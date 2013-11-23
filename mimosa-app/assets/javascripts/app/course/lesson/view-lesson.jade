@@ -1,14 +1,7 @@
+append stylesheets
+  link(rel='stylesheet', href='/stylesheets/vendor/metronic/pages/timeline.css')
+
 .content-padded(ng-cloak)
-<<<<<<< HEAD
-  include lesson-breadcrumb
-    li.current Week {{lesson.week_no}}: {{lesson.name}}
-  .large-12.columns
-    .row
-      h2 Week {{lesson.week_no}}: {{lesson.name}}
-        small.pad-left {{lesson.description}}
-          span.pad-left(ng-show='isInstructor')
-            a.button.tiny.round(href='/course/view/{{course.id}}/lesson/edit/{{lesson.id}}')
-=======
   .row-padded
     include ../course-breadcrumb
       append breadcrumbs
@@ -18,72 +11,155 @@
   .row-padded
     .col-md-12
       .row
-        h2.page-title Week {{lesson.week_no}}: {{lesson.name}}
-          small.pad-left {{lesson.description}}
-        hr(style='margin-bottom: 5px;')
-      .row(ng-show='isInstructor')
-        h4 Course Actions:
-          span.pad-left
-            a.btn.blue.btn-sm(href='/course/view/{{course.id}}/lesson/edit/{{lesson.id}}')
->>>>>>> new_metronic_theme
+        .col-md-11(style='padding-left: 0px;')
+          h2.page-title Week {{lesson.week_no}}: {{lesson.name}}
+            small.pad-left {{lesson.description}}
+          hr(style='margin-bottom: 5px;')
+        .col-md-1(ng-show='isInstructor')
+          .btn-group.pull-right
+            button.btn.blue.btn-sm.dropdown-toggle(type='button', data-toggle='dropdown')
               i.fa.fa-edit
-              span.pad-left Edit Lesson
+              span.pad-left Edit
+              i.pad-left.fa.fa-caret-down
+            ul.dropdown-menu(role='menu')
+              li
+                a(href='/course/view/{{course.id}}/lesson/edit/{{lesson.id}}')
+                  i.fa.fa-edit
+                  span.pad-left Edit Lesson
+              li.divider(ng-if='assignments.length > 0')
+              li(ng-repeat='assignment in assignments')
+                a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/edit/{{assignment.id}}')
+                  i.fa.fa-book
+                  span.pad-left Edit {{assignment.name}}
+      .row(ng-show='isInstructor')
+        h4
+          i.fa.fa-book
+          span.pad-left Lesson Assignments:
+          span.pad-left
+          span.pad-left(ng-show='assignments.length == 0')
+            em None
+          span.pad-left(ng-repeat='assignment in assignments')
+            a.btn.green.btn-sm(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}')
+              i.fa.fa-book
+              span.pad-left {{assignment.name}}
         .row-padded
-          hr(style='margin-top: 5px;')
-      .row
-        dl.sub-nav
-          dt
-            i.fa.fa-book
-            span.pad-left Assignments:
-              span.pad-left(ng-show='assignments.length == 0')
-                em None
-          dd(ng-repeat='assignment in assignments')
-            a(href='#') {{assignment.name}}
+          hr(style='margin-top: 5px; margin-bottom: 5px;')
       .row
         .large-11.large-offset-1.columns
           p(ng-show='lesson.content', btf-markdown='lesson.content', ng-cloak)
       .row(ng-show='assignments.length > 0')
-        h4.subheader
-          i.fa.fa-book
-<<<<<<< HEAD
-          span.pad-left Assignments:
-            span.pad-left(ng-show='assignments.length == 0')
-              em None
-        dd(ng-repeat='assignment in assignments')
-          a(href='#') {{assignment.name}}
-    .row
-      .large-11.large-offset-1.columns
-        p(ng-show='lesson.content', btf-markdown='lesson.content', ng-cloak)
-    .row(ng-show='assignments.length > 0')
-      h4.subheader
-        i.fa.fa-book
-        span.pad-left Assignments
-      hr
-      .large-11.large-offset-1.columns
-        .row(ng-repeat='assignment in assignments')
-          h5
-            a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}') {{assignments.indexOf(assignment)+1}}) {{assignment.name}}
-          p This assignment is worth
-            span.pad-left
-            span.label.round {{assignment.points}}
-            span.pad-left points and is due on {{assignment.due_date}}
-       .large-6.columns(ng-cloak)
-        .row-padded(ng-if='assignment.name')
-          a.button.tiny.round(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/edit/{{assignment.id}}', ng-show='isInstructor')
-            i.fa.fa-edit
-            span.pad-left Edit
-          h4 {{assignment.name}}
-            small.pad-left {{assignment.descrption}}
-        .row-padded(ng-if='!assignment.name')
-          h5.subheader Loading assignment data
-=======
-          span.pad-left Assignments
-        hr
-        .large-11.large-offset-1.columns
-          .row(ng-repeat='assignment in assignments')
-            h5 {{assignments.indexOf(assignment)+1}}) {{assignment.name}}
-            p This assignment is worth
-              span.pad-left
-              span.label.round {{assignment.points}}
-              span.pad-left points and is due on {{assignment.due_date | amCalendar}}
->>>>>>> new_metronic_theme
+        h2.page-title Assignments Due
+        hr(style='margin-bottom: 5px;')
+        ul.timeline
+          li.timeline-grey(ng-repeat='assignment in assignments')
+            .timeline-time
+              span.date {{moment(assignment.due_date).format("MMM")}}
+              span.time {{moment(assignment.due_date).format("Do")}}
+            .timeline-icon
+              i.fa.fa-file-text
+            .timeline-body
+              a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}', style='color: #fff;')
+                h2 {{assignments.indexOf(assignment)+1}}. {{assignment.name}}
+              .timeline-content
+                span This assignment is worth
+                span.pad-left
+                span.badge.badge-primary {{assignment.points}}
+                span.pad-left points.
+              .timeline-footer
+                a.nav-link.pull-right(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}')
+                  span View Assignment
+                  i.pad-left.fa.fa-arrow-circle-o-right
+                a.nav-link.pull-left(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/edit/{{assignment.id}}', ng-if='isInstructor')
+                  i.fa.fa-edit
+                  span.pad-left Edit Assignment
+
+
+//- .content-padded(ng-cloak)
+//- <<<<<<< HEAD
+//-   include lesson-breadcrumb
+//-     li.current Week {{lesson.week_no}}: {{lesson.name}}
+//-   .large-12.columns
+//-     .row
+//-       h2 Week {{lesson.week_no}}: {{lesson.name}}
+//-         small.pad-left {{lesson.description}}
+//-           span.pad-left(ng-show='isInstructor')
+//-             a.button.tiny.round(href='/course/view/{{course.id}}/lesson/edit/{{lesson.id}}')
+//- =======
+//-   .row-padded
+//-     include ../course-breadcrumb
+//-       append breadcrumbs
+//-         li
+//-           i.fa.fa-angle-right
+//-           a(href='javascript:;') Week {{lesson.week_no}}: {{lesson.name}}
+//-   .row-padded
+//-     .col-md-12
+//-       .row
+//-         h2.page-title Week {{lesson.week_no}}: {{lesson.name}}
+//-           small.pad-left {{lesson.description}}
+//-         hr(style='margin-bottom: 5px;')
+//-       .row(ng-show='isInstructor')
+//-         h4 Course Actions:
+//-           span.pad-left
+//-             a.btn.blue.btn-sm(href='/course/view/{{course.id}}/lesson/edit/{{lesson.id}}')
+//- >>>>>>> new_metronic_theme
+//-               i.fa.fa-edit
+//-               span.pad-left Edit Lesson
+//-         .row-padded
+//-           hr(style='margin-top: 5px;')
+//-       .row
+//-         dl.sub-nav
+//-           dt
+//-             i.fa.fa-book
+//-             span.pad-left Assignments:
+//-               span.pad-left(ng-show='assignments.length == 0')
+//-                 em None
+//-           dd(ng-repeat='assignment in assignments')
+//-             a(href='#') {{assignment.name}}
+//-       .row
+//-         .large-11.large-offset-1.columns
+//-           p(ng-show='lesson.content', btf-markdown='lesson.content', ng-cloak)
+//-       .row(ng-show='assignments.length > 0')
+//-         h4.subheader
+//-           i.fa.fa-book
+//- <<<<<<< HEAD
+//-           span.pad-left Assignments:
+//-             span.pad-left(ng-show='assignments.length == 0')
+//-               em None
+//-         dd(ng-repeat='assignment in assignments')
+//-           a(href='#') {{assignment.name}}
+//-     .row
+//-       .large-11.large-offset-1.columns
+//-         p(ng-show='lesson.content', btf-markdown='lesson.content', ng-cloak)
+//-     .row(ng-show='assignments.length > 0')
+//-       h4.subheader
+//-         i.fa.fa-book
+//-         span.pad-left Assignments
+//-       hr
+//-       .large-11.large-offset-1.columns
+//-         .row(ng-repeat='assignment in assignments')
+//-           h5
+//-             a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}') {{assignments.indexOf(assignment)+1}}) {{assignment.name}}
+//-           p This assignment is worth
+//-             span.pad-left
+//-             span.label.round {{assignment.points}}
+//-             span.pad-left points and is due on {{assignment.due_date}}
+//-        .large-6.columns(ng-cloak)
+//-         .row-padded(ng-if='assignment.name')
+//-           a.button.tiny.round(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/edit/{{assignment.id}}', ng-show='isInstructor')
+//-             i.fa.fa-edit
+//-             span.pad-left Edit
+//-           h4 {{assignment.name}}
+//-             small.pad-left {{assignment.descrption}}
+//-         .row-padded(ng-if='!assignment.name')
+//-           h5.subheader Loading assignment data
+//- =======
+//-           span.pad-left Assignments
+//-         hr
+//-         .large-11.large-offset-1.columns
+//-           .row(ng-repeat='assignment in assignments')
+//-             h5 {{assignments.indexOf(assignment)+1}}) {{assignment.name}}
+//-             p This assignment is worth
+//-               span.pad-left
+//-               span.label.round {{assignment.points}}
+//-               span.pad-left points and is due on {{assignment.due_date | amCalendar}}
+//- >>>>>>> new_metronic_theme
