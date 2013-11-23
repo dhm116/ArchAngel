@@ -12,22 +12,31 @@ append content
               a.remove(href='javascript:;')
               input(type='text', placeholder='Search...')
               input.submit(type='button', value=' ')
-      li.start(ng-class='{active: !routeParams.resource}')
+      li.start(ng-class='{active: routeParams.resources.length == 0}')
         a(href='/')
           i.fa.fa-home
           span.pad-left.title ArchAngel
-      li(ng-class='{active: routeParams.resource == "course" || routeParams.parentResource == "course"}')
+      li(ng-class='{active: courseParams != null}')
         a(href='javascript:;')
           i.fa.fa-paste
           span.pad-left.title Courses
-          span.selected(ng-if='routeParams.resource == "course" || routeParams.parentResource == "course"')
-          span.arrow(ng-class='{open: routeParams.resource == "course" || routeParams.parentResource == "course"}')
+          span.selected(ng-if='courseParams != null')
+          span.arrow(ng-class='{open: courseParams != null}')
         ul.sub-menu
-          li(ng-repeat='course in courses', ng-class='{active: (routeParams.resource == "course" && routeParams.id == course.id) || (routeParams.parentResource == "course" && routeParams.parentId == course.id) }')
+          li(ng-repeat='course in courses', ng-class='{active: (courseParams != null && courseParams.id == course.id) }')
             a(href='/course/view/{{course.id}}')
               //- span.label.round(ng-class="{alert: course.id > 1}") {{course.upcoming.length}}
-              span.pad-left {{course.name}}
+              span {{course.name}}
               i.fa.fa-arrow-right.pad-left
               span.pad-left Week {{moment().diff(moment(course.start_date), 'weeks')}}
+              span.arrow(ng-class='{open: courseParams != null}')
+            ul.sub-menu
+              li(ng-class='{active: (courseParams != null && courseParams.id == course.id && lessonParams == null) }')
+                a(href='/course/view/{{course.id}}')
+                  //- span.label.round(ng-class="{alert: course.id > 1}") {{course.upcoming.length}}
+                  span Syllabus
+              li(ng-repeat='lesson in course.lessons',ng-class='{active: (lessonParams != null && lessonParams.id == lesson)}')
+                a(href='/course/view/{{course.id}}/lesson/view/{{lesson}}')
+                  span Week {{course.lessons.indexOf(lesson)+1}}
   .page-content
     .ng-view

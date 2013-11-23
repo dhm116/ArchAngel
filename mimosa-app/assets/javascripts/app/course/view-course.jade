@@ -21,36 +21,41 @@ append stylesheets
   .row-padded
     include course-breadcrumb
   .row-padded
-    .row
-      .col-md-11(style='padding-left: 0px;')
-        h2.page-title {{course.full_name}}
-          small.pad-left {{course.description}}
-      .col-md-1(ng-show='isInstructor')
-        .btn-group.pull-right
-          button.btn.blue.btn-sm.dropdown-toggle(type='button', data-toggle='dropdown')
-            i.fa.fa-edit
-            span.pad-left Edit
-            i.pad-left.fa.fa-caret-down
-          ul.dropdown-menu(role='menu')
-            li
-              a(href='/course/view/{{course.id}}/syllabus/edit/{{syllabus.id}}')
-                i.fa.fa-edit
-                span.pad-left Edit Syllabus
-            li
-              a(href='#sections')
-                i.fa.fa-group
-                span.pad-left View Sections
-            li
-              a(href='/course/view/{{course.id}}/lesson/add/new')
-                i.fa.fa-plus
-                span.pad-left Add Lesson
-            li.divider(ng-if='lessons.length > 0')
-            li(ng-repeat='lesson in lessons')
-              a(href='/course/view/{{course.id}}/lesson/edit/{{lesson.id}}')
-                i.fa.fa-book
-                span.pad-left Edit lesson
-                i.pad-left.fa.fa-angle-right
-                span.pad-left {{lesson.name}}
+    .col-md-11(style='padding-left: 0px;')
+      h2.page-title {{course.full_name}}
+        small.pad-left {{course.description}}
+    .col-md-1(ng-show='isInstructor')
+      .btn-group.pull-right
+        button.btn.blue.btn-sm.dropdown-toggle(type='button', data-toggle='dropdown')
+          i.fa.fa-edit
+          span.pad-left Edit
+          i.pad-left.fa.fa-caret-down
+        ul.dropdown-menu(role='menu')
+          li
+            a(href='/course/view/{{course.id}}/syllabus/edit/{{syllabus.id}}')
+              i.fa.fa-edit
+              span.pad-left Edit Syllabus
+          li
+            a(href='#sections')
+              i.fa.fa-group
+              span.pad-left View Sections
+          li.divider(ng-if='lessons.length > 0')
+          li
+            a(href='/course/view/{{course.id}}/lesson/add/new')
+              i.fa.fa-plus
+              span.pad-left Add Lesson
+          li
+            a(href='/course/view/{{course.id}}/forum/add/new')
+              i.fa.fa-plus
+              span.pad-left Add Forum
+          li.divider(ng-if='lessons.length > 0')
+          li(ng-repeat='lesson in lessons')
+            a(href='/course/view/{{course.id}}/lesson/edit/{{lesson.id}}')
+              i.fa.fa-book
+              span.pad-left Edit lesson
+              i.pad-left.fa.fa-angle-right
+              span.pad-left {{lesson.name}}
+  .row
   .row-padded
     hr(style='margin-bottom: 5px;')
   .row-padded
@@ -74,7 +79,21 @@ append stylesheets
               span.pad-left Edit Lesson
 
   .row-padded
-    hr
+    hr(style='margin-top: 5px; margin-bottom: 5px;')
+  .row.padded
+    .col-md-12
+      h4
+        i.fa.fa-comments
+        span.pad-left Forums:
+        span.pad-left
+        span.pad-left(ng-show='course.forums.length == 0')
+          em None
+        span.pad-left(ng-repeat='forum in forums')
+          a.btn.green.btn-sm(href='/course/view/{{course.id}}/forum/view/{{forum.id}}')
+            i.fa.fa-comments-o
+            span.pad-left {{forum.name}}
+  .row-padded
+    hr(style='margin-top: 5px; margin-bottom: 5px;')
     .col-md-12(ng-cloak)
       .row(ng-if='syllabus.name')
         h2 {{syllabus.name}}
@@ -84,7 +103,7 @@ append stylesheets
       .row(ng-if='!syllabus.name')
         h5.subheader Loading syllabus data
   .row-padded(ng-if='isInstructor')
-    hr
+    hr(style='margin-bottom: 5px;')
     h2 Sections:
       a#sections
     ul.nav.nav-pills
@@ -93,14 +112,13 @@ append stylesheets
       li(ng-repeat='s in sections', ng-class='{active: section.id == s.id}')
         a(href='/course/view/{{course.id}}/section/view/{{s.id}}') {{s.section_no}}
     .col-md-8
-      h4
-        i.subheader.fa.fa-user
-        span.pad-left Students
-      table
+      table.table
         thead
           tr
-            th
-            th
+            th(colspan='2')
+              h4
+                i.subheader.fa.fa-user
+                span.pad-left Students
         tbody
           tr(ng-if='!students.length > 0')
             td(colspan='2')
@@ -109,10 +127,10 @@ append stylesheets
             td
               a(href='#') {{student.first_name}} {{student.last_name}}
             td
-              a.tiny.button.round(href='mailto: {{student.email}}')
+              a.btn.blue.btn-sm(href='mailto: {{student.email}}')
                 i.fa.fa-envelope
               span.pad-left
-              a.tiny.button.round(href='#')
+              a.btn.blue.btn-sm(href='#')
                 i.fa.fa-info
     .col-md-4
       h4
@@ -121,3 +139,4 @@ append stylesheets
       ul.side-nav
         li(ng-if='!teams.length > 0')
           em None
+  .row

@@ -1,20 +1,25 @@
 define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'CourseController',
-        ($scope, $routeParams, Restangular, User, Course, CourseSection, CourseRoster, Syllabus, Lesson, Team) ->
+        ($scope, $routeParams, Restangular, User, Course, CourseSection, CourseRoster, Syllabus, Lesson, Team, Forum) ->
 
             # Keep track of what model we're loading
             # (not sure why...)
-            $scope.resource = $routeParams.resource
+            params = _.last($routeParams.resources)
+
+            courseParams = _.findWhere($routeParams.resources, {resource:'course'})
+            sectionParams = _.findWhere($routeParams.resources, {resource:'section'})
 
             # We'll assume we're trying to load a specific
             # course
-            courseId = Number($routeParams.id)
+            courseId = Number(courseParams.id)
+
+            $scope.resource = courseParams.resource
 
             # But if not, the course id should be defined
             # as the route parentId parameter
-            if $routeParams.resource.indexOf('course')
-                courseId = Number($routeParams.parentId)
-                $scope.resource = 'course'
+            # if courseParams.resource.indexOf('course')
+            #     courseId = Number($routeParams.parentId)
+            #     $scope.resource = 'course'
 
             # If we haven't already defined the list of
             # courses for this scope
@@ -54,6 +59,10 @@ define ['angular'], (angular) ->
                     Lesson.all($scope.course.lessons).then (lessons) ->
                         $scope.lessons = lessons
 
+                if $scope.course.forums.length > 0
+                    Forum.all($scope.course.forums).then (forums) ->
+                        $scope.forums = forums
+
                 # Create an empty list of sections and section
                 # members to avoid any null references
                 $scope.sections = []
@@ -68,7 +77,7 @@ define ['angular'], (angular) ->
                         $scope.sections = sections
 
                         # If the user hasn't selected a specific section
-                        unless $routeParams.resource.indexOf('section') isnt -1
+                        unless sectionParams
                             # We need to combine all of the roster references
                             # into a single list to load
                             rosterIds = []
@@ -110,7 +119,7 @@ define ['angular'], (angular) ->
                         else
                             # Get this section based on the id passed in the
                             # url (we need to parse the string version)
-                            CourseSection.get(Number($routeParams.id)).then (section) ->
+                            CourseSection.get(Number(sectionParams.id)).then (section) ->
                                 $scope.section = section
 
                                 # Load the students for this section

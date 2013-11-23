@@ -73,6 +73,8 @@ require
             'app/course/lesson/controllers'
             'app/course/assignment/services'
             'app/course/team/services'
+            'app/course/forum/services'
+            'app/course/forum/controllers'
         ], ->
 
             # Use the browser user-agent or the screen
@@ -153,10 +155,17 @@ require
                             restful: true
                             template: 'lesson'
                             # controller: 'LessonController'
+                            nested:
+                                forum:
+                                    restful: true
+                                    template: 'forum'
                         syllabus:
                             restful: true
                             template: 'syllabus'
                             # controller: 'SyllabusController'
+                        forum:
+                            restful: true
+                            template: 'forum'
             }
 
             recursiveResourceFinder = (parent, resource) ->
@@ -175,20 +184,35 @@ require
                 console.log "Building routes for #{name}: #{route}"
                 $routeProvider.when route, {
                     template: ($routeParams) ->
-                        resource = ""
-                        locationParts = window.location.pathname.split('/')
-                        if locationParts.length > 3
-                            resource = locationParts[-3..-3] + ""
-                            $routeParams.parentResource = locationParts[1..1] + ""
+                        # resource = ""
+                        # locationParts = window.location.pathname.split('/')
+                        # if locationParts.length > 3
+                        #     resource = locationParts[-3..-3] + ""
+                        #     $routeParams.parentResource = locationParts[1..1] + ""
+                        # else
+                        #     resource = locationParts[-1..-1] + ""
+
+                        # $routeParams.resource = resource
+                        $routeParams.resources = []
+                        if _.keys($routeParams).length > 1
+                            for key,val of $routeParams when key isnt 'resources'
+                                [resource, type] = key.split('_')
+                                existing = _.findWhere($routeParams.resources,{resource:resource})
+                                unless existing
+                                    existing = {resource:resource}
+                                    $routeParams.resources.push existing
+                                existing[type] = val
+                                delete $routeParams[key]
                         else
-                            resource = locationParts[-1..-1] + ""
+                            locationParts = window.location.pathname.split('/')
+                            $routeParams.resources.push {resource: locationParts[-1..-1]+""}
 
-                        $routeParams.resource = resource
-
-                        if resource
+                        if $routeParams.resources.length > 0
+                            param = _.last($routeParams.resources)
+                            resource = param.resource
                             options = routeMap[resource] or recursiveResourceFinder(routeMap, resource)?.options
                             # console.log "Options for #{resource}", options
-                            return getTemplate(unless options.restful then options.template else "#{$routeParams.action}-#{options.template}")
+                            return getTemplate(unless options.restful then options.template else "#{param.action}-#{options.template}")
                         return
                     controller: if data.controller then data.controller else "#{name[0].toUpperCase()}#{name[1..-1]}Controller"
                 }
@@ -197,11 +221,11 @@ require
                 for name, data of routes
                     route = baseURL + "/#{name}"
                     if data.restful
-                        route += "/:action/:id"
+                        route += "/:#{name}_action/:#{name}_id"
                     createRoute($routeProvider, route, name, data)
 
                     if data.nested?
-                        recursiveRouteBuilder($routeProvider, data.nested, "/#{name}/:parentAction/:parentId")
+                        recursiveRouteBuilder($routeProvider, data.nested, route)
 
             app.config ($routeProvider, $locationProvider) ->
 
@@ -237,17 +261,25 @@ require
                     $scope.isMobile = isMobile
                     $scope.user = User
 
-                    $scope.routeParams = $routeParams
+                    params = _.last($routeParams.resources)
+                    updateRouteParams = () =>
+                        $scope.courseParams = _.findWhere($routeParams.resources, {resource:'course'})
+                        $scope.lessonParams = _.findWhere($routeParams.resources, {resource:'lesson'})
+                        $scope.routeParams = $routeParams
 
                     if User.authenticated
                         Course.all().then (courses) ->
                             $scope.courses = courses
-                            for course in $scope.courses
-                                Course.upcomingAssignments(course.id).then (upcoming) =>
-                                    course.upcoming = upcoming
+                            # for course in $scope.courses
+                            #     Course.upcomingAssignments(course.id).then (upcoming) =>
+                            #         course.upcoming = upcoming
                         $scope.moment = moment
                         unless isMobile
                             getAllData(Restangular, $scope, 'users')
+
+                    $scope.$on '$routeChangeSuccess', () =>
+                        console.log "route changed", arguments
+                        updateRouteParams()
 
                 .controller 'ArchangelController', ($scope, $location, Restangular, User, Course) ->
                     $scope.isMobile = isMobile

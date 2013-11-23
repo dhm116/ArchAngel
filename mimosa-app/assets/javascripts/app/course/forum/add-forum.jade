@@ -1,0 +1,35 @@
+.content-padded(ng-cloak)
+  .row-padded
+    include ../course-breadcrumb
+      append breadcrumbs
+        li
+          i.fa.fa-angle-right
+          a(href='javascript:;') {{action}} Forum
+  .row-padded
+    .col-md-12
+      ul.nav.nav-tabs
+        li.active
+          a(href='#edit_tab', data-toggle='tab') Forum Content
+
+      .tab-content
+        .tab-pane.fade.active.in#edit_tab
+          h2.page-title {{action}} Forum
+
+          form.form.form-horizontal
+            .form-group
+              label.col-sm-2.control-label Title
+              .col-sm-10
+                input.form-control(type='text', ng-model='forum.name', placeholder='Forum title...')
+            .form-group
+              label.col-sm-2.control-label Description
+              .col-sm-10
+                input.form-control(type='text', ng-model='forum.description', placeholder='Forum description...')
+            .form-group
+              .col-sm-offset-2.col-sm-3
+                button.btn.blue(ng-click='save()')
+                  i.fa.fa-save
+                  span.pad-left Save Changes
+              .col-sm-offset-1.col-sm-6
+                button.btn.red
+                  i.fa.fa-undo
+                  span.pad-left(ng-click='undo()') Undo Changes
