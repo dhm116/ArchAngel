@@ -48,6 +48,8 @@ require
         $(document).ready ->
             console.log 'Initializing metronic'
             Metronic.init()
+            FormDropzone.init()
+            FormFileUpload.init()
             return
 
         # Here we load our application's angular
@@ -71,7 +73,12 @@ require
             'app/course/syllabus/services'
             'app/course/lesson/services'
             'app/course/lesson/controllers'
-            'app/course/assignment/services'
+            'app/course/lesson/assignment/services'
+            'app/course/lesson/assignment/controllers'
+            'app/course/lesson/assignment/submission/services'
+            'app/course/lesson/assignment/submission/controllers'
+            'app/course/grades/services'
+            'app/course/grades/controllers'
             'app/course/team/services'
             'app/course/forum/services'
             'app/course/forum/controllers'
@@ -159,6 +166,15 @@ require
                                 forum:
                                     restful: true
                                     template: 'forum'
+                               assignment:
+                                   restful: true
+                                   template: 'assignment'
+                            #        controller: 'AssignmentController'
+                            #        nested:
+                            #            submission:
+                            #                restful: true
+                            #                template: 'submission'
+                            #                controller: 'SubmissionController'
                         syllabus:
                             restful: true
                             template: 'syllabus'

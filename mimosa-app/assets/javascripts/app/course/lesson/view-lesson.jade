@@ -75,7 +75,7 @@ append stylesheets
             .timeline-icon
               i.fa.fa-file-text
             .timeline-body
-              a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignments/view/{{assignment.id}}', style='color: #fff;')
+              a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}', style='color: #fff;')
                 h2 {{assignments.indexOf(assignment)+1}}. {{assignment.name}}
               .timeline-content
                 span This assignment is worth
@@ -83,9 +83,9 @@ append stylesheets
                 span.badge.badge-primary {{assignment.points}}
                 span.pad-left points.
               .timeline-footer
-                a.nav-link.pull-right(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignments/view/{{assignment.id}}')
+                a.nav-link.pull-right(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}')
                   span View Assignment
                   i.pad-left.fa.fa-arrow-circle-o-right
-                a.nav-link.pull-left(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignments/edit/{{assignment.id}}', ng-if='isInstructor')
+                a.nav-link.pull-left(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/edit/{{assignment.id}}', ng-if='isInstructor')
                   i.fa.fa-edit
                   span.pad-left Edit Assignment
