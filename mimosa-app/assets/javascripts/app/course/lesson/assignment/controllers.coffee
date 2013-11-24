@@ -1,26 +1,38 @@
 define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'AssignmentController',
         ($scope, $routeParams, Restangular, Course, Lesson, Assignment) ->
-            console.log $routeParams
+            courseParams = _.findWhere($routeParams.resources, {resource:'course'})
+            lessonParams = _.findWhere($routeParams.resources, {resource:'lesson'})
+            assignmentParams = _.findWhere($routeParams.resources, {resource:'assignment'})
 
-            Lesson.get(Number($routeParams.parentId)).then (lesson) ->
-                $scope.lesson = lesson
-                Course.isInstructorFor(lesson.course).then (isInstructor) ->
-                    $scope.isInstructor = isInstructor
+            Dropzone.discover()
 
-            unless $routeParams.action.indexOf('add') is 0
-                Assignment.get(Number($routeParams.id)).then (assignment) ->
-                    $scope.assignment = assignment
+            console.log AWS.config.credentials
+            $scope.aws = AWS.config.credentials
 
-            else if $routeParams.action.indexOf('add') is 0
-                $scope.assignment = {lesson:$routeParams.parentId, author: User.data.id}
+            # Load the desired course defined in the courseId
+            Course.get(Number(courseParams.id)).then (course) ->
+                # Set our scope reference to the course
+                $scope.course = course
+
+                Lesson.get(Number(lessonParams.id)).then (lesson) ->
+                    $scope.lesson = lesson
+                    Course.isInstructorFor(lesson.course).then (isInstructor) ->
+                        $scope.isInstructor = isInstructor
+
+                unless assignmentParams.action.indexOf('add') is 0
+                    Assignment.get(Number(assignmentParams.id)).then (assignment) ->
+                        $scope.assignment = assignment
+
+                else if assignmentParams.action.indexOf('add') is 0
+                    $scope.assignment = {lesson:lessonParams.id, author: User.data.id}
 
             $scope.undo = ->
                 if $scope.original_assignment
                     $scope.assignment = Restangular.copy($scope.original_assignment)
 
             $scope.save = ->
-                if $routeParams.action.indexOf('edit') is 0
+                if assignmentParams.action.indexOf('edit') is 0
                     console.log "Saving assignment changes: ", $scope.assignment
                     Assignment.update($scope.assignment)
                         .then (result) ->
@@ -29,13 +41,13 @@ define ['angular'], (angular) ->
                             $location.path("/course/view/#{$scope.course.id}/lesson/view/#{$scope.lesson.id}/assignment/view/#{result.id}")
                         .catch (err) ->
                             console.log "Save failed: ", err
-                else if $routeParams.action.indexOf('add') is 0
+                else if assignmentParams.action.indexOf('add') is 0
                     console.log "Saving new Assignment: ", $scope.assignment
                     Assignment.add($scope.assignment)
                         .then (result) ->
                             console.log "Adding worked: ", result
                             # $scope.lesson.assignments.push result
-                            $scope.course.lesson.assignments.push(result.id)
+                            $scope.lesson.assignments.push(result.id)
                             $location.path("/course/view/#{$scope.course.id}/lesson/view/#{$scope.lesson.id}/assignment/view/#{result.id}")
                         .catch (err) ->
                             console.log "Adding failed: ", err

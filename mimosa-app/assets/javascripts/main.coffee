@@ -49,7 +49,7 @@ require
             console.log 'Initializing metronic'
             Metronic.init()
             FormDropzone.init()
-            FormFileUpload.init()
+            # FormFileUpload.init()
             return
 
         # Here we load our application's angular
@@ -166,9 +166,9 @@ require
                                 forum:
                                     restful: true
                                     template: 'forum'
-                               assignment:
-                                   restful: true
-                                   template: 'assignment'
+                                assignment:
+                                    restful: true
+                                    template: 'assignment'
                             #        controller: 'AssignmentController'
                             #        nested:
                             #            submission:

@@ -1,202 +1,15 @@
-;(function(){
-
-/**
- * Require the given path.
- *
- * @param {String} path
- * @return {Object} exports
- * @api public
- */
-
-function require(path, parent, orig) {
-  var resolved = require.resolve(path);
-
-  // lookup failed
-  if (null == resolved) {
-    orig = orig || path;
-    parent = parent || 'root';
-    var err = new Error('Failed to require "' + orig + '" from "' + parent + '"');
-    err.path = orig;
-    err.parent = parent;
-    err.require = true;
-    throw err;
+// Uses AMD or browser globals to create a jQuery plugin.
+(function (factory) {
+  if (typeof define === 'function' && define.amd) {
+      // AMD. Register as an anonymous module.
+      define(['jquery'], factory);
+  } else {
+      // Browser globals
+      factory(jQuery);
   }
+} (function (jQuery) {
+    var module = { exports: { } }; // Fake component
 
-  var module = require.modules[resolved];
-
-  // perform real require()
-  // by invoking the module's
-  // registered function
-  if (!module.exports) {
-    module.exports = {};
-    module.client = module.component = true;
-    module.call(this, module.exports, require.relative(resolved), module);
-  }
-
-  return module.exports;
-}
-
-/**
- * Registered modules.
- */
-
-require.modules = {};
-
-/**
- * Registered aliases.
- */
-
-require.aliases = {};
-
-/**
- * Resolve `path`.
- *
- * Lookup:
- *
- *   - PATH/index.js
- *   - PATH.js
- *   - PATH
- *
- * @param {String} path
- * @return {String} path or null
- * @api private
- */
-
-require.resolve = function(path) {
-  if (path.charAt(0) === '/') path = path.slice(1);
-
-  var paths = [
-    path,
-    path + '.js',
-    path + '.json',
-    path + '/index.js',
-    path + '/index.json'
-  ];
-
-  for (var i = 0; i < paths.length; i++) {
-    var path = paths[i];
-    if (require.modules.hasOwnProperty(path)) return path;
-    if (require.aliases.hasOwnProperty(path)) return require.aliases[path];
-  }
-};
-
-/**
- * Normalize `path` relative to the current path.
- *
- * @param {String} curr
- * @param {String} path
- * @return {String}
- * @api private
- */
-
-require.normalize = function(curr, path) {
-  var segs = [];
-
-  if ('.' != path.charAt(0)) return path;
-
-  curr = curr.split('/');
-  path = path.split('/');
-
-  for (var i = 0; i < path.length; ++i) {
-    if ('..' == path[i]) {
-      curr.pop();
-    } else if ('.' != path[i] && '' != path[i]) {
-      segs.push(path[i]);
-    }
-  }
-
-  return curr.concat(segs).join('/');
-};
-
-/**
- * Register module at `path` with callback `definition`.
- *
- * @param {String} path
- * @param {Function} definition
- * @api private
- */
-
-require.register = function(path, definition) {
-  require.modules[path] = definition;
-};
-
-/**
- * Alias a module definition.
- *
- * @param {String} from
- * @param {String} to
- * @api private
- */
-
-require.alias = function(from, to) {
-  if (!require.modules.hasOwnProperty(from)) {
-    throw new Error('Failed to alias "' + from + '", it does not exist');
-  }
-  require.aliases[to] = from;
-};
-
-/**
- * Return a require function relative to the `parent` path.
- *
- * @param {String} parent
- * @return {Function}
- * @api private
- */
-
-require.relative = function(parent) {
-  var p = require.normalize(parent, '..');
-
-  /**
-   * lastIndexOf helper.
-   */
-
-  function lastIndexOf(arr, obj) {
-    var i = arr.length;
-    while (i--) {
-      if (arr[i] === obj) return i;
-    }
-    return -1;
-  }
-
-  /**
-   * The relative require() itself.
-   */
-
-  function localRequire(path) {
-    var resolved = localRequire.resolve(path);
-    return require(resolved, parent, path);
-  }
-
-  /**
-   * Resolve relative to the parent.
-   */
-
-  localRequire.resolve = function(path) {
-    var c = path.charAt(0);
-    if ('/' == c) return path.slice(1);
-    if ('.' == c) return require.normalize(p, path);
-
-    // resolve deps by returning
-    // the dep in the nearest "deps"
-    // directory
-    var segs = parent.split('/');
-    var i = lastIndexOf(segs, 'deps') + 1;
-    if (!i) i = 0;
-    path = segs.slice(0, i + 1).join('/') + '/deps/' + path;
-    return path;
-  };
-
-  /**
-   * Check if module is defined at `path`.
-   */
-
-  localRequire.exists = function(path) {
-    return require.modules.hasOwnProperty(localRequire.resolve(path));
-  };
-
-  return localRequire;
-};
-require.register("component-emitter/index.js", function(exports, require, module){
 
 /**
  * Expose `Emitter`.
@@ -346,33 +159,22 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-});
-require.register("dropzone/index.js", function(exports, require, module){
-
-
-/**
- * Exposing dropzone
- */
-module.exports = require("./lib/dropzone.js");
-
-});
-require.register("dropzone/lib/dropzone.js", function(exports, require, module){
 /*
 #
 # More info at [www.dropzonejs.com](http://www.dropzonejs.com)
-# 
-# Copyright (c) 2012, Matias Meno  
-# 
+#
+# Copyright (c) 2012, Matias Meno
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -401,9 +203,9 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
 
     /*
     This is a list of all available events you can register on a dropzone object.
-    
+
     You can register an event handler like this:
-    
+
         dropzone.on("dragEnter", function() { });
     */
 
@@ -531,12 +333,21 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
         return this.element.classList.remove("dz-started");
       },
       addedfile: function(file) {
-        var _this = this;
-        file.previewElement = Dropzone.createElement(this.options.previewTemplate);
+        var node, _i, _j, _len, _len1, _ref, _ref1,
+          _this = this;
+        file.previewElement = Dropzone.createElement(this.options.previewTemplate.trim());
         file.previewTemplate = file.previewElement;
         this.previewsContainer.appendChild(file.previewElement);
-        file.previewElement.querySelector("[data-dz-name]").textContent = file.name;
-        file.previewElement.querySelector("[data-dz-size]").innerHTML = this.filesize(file.size);
+        _ref = file.previewElement.querySelectorAll("[data-dz-name]");
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          node = _ref[_i];
+          node.textContent = file.name;
+        }
+        _ref1 = file.previewElement.querySelectorAll("[data-dz-size]");
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          node = _ref1[_j];
+          node.innerHTML = this.filesize(file.size);
+        }
         if (this.options.addRemoveLinks) {
           file._removeLink = Dropzone.createElement("<a class=\"dz-remove\" href=\"javascript:undefined;\">" + this.options.dictRemoveFile + "</a>");
           file._removeLink.addEventListener("click", function(e) {
@@ -568,16 +379,28 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
         return this._updateMaxFilesReachedClass();
       },
       thumbnail: function(file, dataUrl) {
-        var thumbnailElement;
+        var thumbnailElement, _i, _len, _ref, _results;
         file.previewElement.classList.remove("dz-file-preview");
         file.previewElement.classList.add("dz-image-preview");
-        thumbnailElement = file.previewElement.querySelector("[data-dz-thumbnail]");
-        thumbnailElement.alt = file.name;
-        return thumbnailElement.src = dataUrl;
+        _ref = file.previewElement.querySelectorAll("[data-dz-thumbnail]");
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          thumbnailElement = _ref[_i];
+          thumbnailElement.alt = file.name;
+          _results.push(thumbnailElement.src = dataUrl);
+        }
+        return _results;
       },
       error: function(file, message) {
+        var node, _i, _len, _ref, _results;
         file.previewElement.classList.add("dz-error");
-        return file.previewElement.querySelector("[data-dz-errormessage]").textContent = message;
+        _ref = file.previewElement.querySelectorAll("[data-dz-errormessage]");
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          node = _ref[_i];
+          _results.push(node.textContent = message);
+        }
+        return _results;
       },
       errormultiple: noop,
       processing: function(file) {
@@ -588,7 +411,14 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       },
       processingmultiple: noop,
       uploadprogress: function(file, progress, bytesSent) {
-        return file.previewElement.querySelector("[data-dz-uploadprogress]").style.width = "" + progress + "%";
+        var node, _i, _len, _ref, _results;
+        _ref = file.previewElement.querySelectorAll("[data-dz-uploadprogress]");
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          node = _ref[_i];
+          _results.push(node.style.width = "" + progress + "%");
+        }
+        return _results;
       },
       totaluploadprogress: noop,
       sending: noop,
@@ -642,7 +472,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
         throw new Error("Dropzone already attached.");
       }
       Dropzone.instances.push(this);
-      element.dropzone = this;
+      this.element.dropzone = this;
       elementOptions = (_ref = Dropzone.optionsForElement(this.element)) != null ? _ref : {};
       this.options = extend({}, this.defaultOptions, elementOptions, options != null ? options : {});
       if (this.options.forceFallback || !Dropzone.isBrowserSupported()) {
@@ -748,7 +578,9 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
           }
           _this.hiddenFileInput = document.createElement("input");
           _this.hiddenFileInput.setAttribute("type", "file");
-          _this.hiddenFileInput.setAttribute("multiple", "multiple");
+          if ((_this.options.maxFiles == null) || _this.options.maxFiles > 1) {
+            _this.hiddenFileInput.setAttribute("multiple", "multiple");
+          }
           if (_this.options.acceptedFiles != null) {
             _this.hiddenFileInput.setAttribute("accept", _this.options.acceptedFiles);
           }
@@ -877,7 +709,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       if (this.options.dictFallbackText) {
         fieldsString += "<p>" + this.options.dictFallbackText + "</p>";
       }
-      fieldsString += "<input type=\"file\" name=\"" + this.options.paramName + (this.options.uploadMultiple ? "[]" : "") + "\" " + (this.options.uploadMultiple ? 'multiple="multiple"' : void 0) + " /><button type=\"submit\">Upload!</button></div>";
+      fieldsString += "<input type=\"file\" name=\"" + this.options.paramName + (this.options.uploadMultiple ? "[]" : "") + "\" " + (this.options.uploadMultiple ? 'multiple="multiple"' : void 0) + " /><input type=\"submit\" value=\"Upload!\"></div>";
       fields = Dropzone.createElement(fieldsString);
       if (this.element.tagName !== "FORM") {
         form = Dropzone.createElement("<form action=\"" + this.options.url + "\" enctype=\"multipart/form-data\" method=\"" + this.options.method + "\"></form>");
@@ -1448,7 +1280,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
 
   })(Em);
 
-  Dropzone.version = "3.7.1";
+  Dropzone.version = "3.7.4-dev";
 
   Dropzone.options = {};
 
@@ -1631,7 +1463,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
       validType = acceptedFiles[_i];
       validType = validType.trim();
       if (validType.charAt(0) === ".") {
-        if (file.name.indexOf(validType, file.name.length - validType.length) !== -1) {
+        if (file.name.toLowerCase().indexOf(validType.toLowerCase(), file.name.length - validType.length) !== -1) {
           return true;
         }
       } else if (/\/\*$/.test(validType)) {
@@ -1746,13 +1578,5 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
 
 }).call(this);
 
-});
-require.alias("component-emitter/index.js", "dropzone/deps/emitter/index.js");
-require.alias("component-emitter/index.js", "emitter/index.js");
-if (typeof exports == "object") {
-  module.exports = require("dropzone");
-} else if (typeof define == "function" && define.amd) {
-  define(function(){ return require("dropzone"); });
-} else {
-  this["Dropzone"] = require("dropzone");
-}})();
+    return module.exports;
+}));

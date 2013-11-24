@@ -45,7 +45,7 @@ append stylesheets
             span.pad-left(ng-show='assignments.length == 0')
               em None
             span.pad-left(ng-repeat='assignment in assignments')
-              a.btn.green.btn-sm(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignments/view/{{assignment.id}}')
+              a.btn.green.btn-sm(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}')
                 i.fa.fa-book
                 span.pad-left {{assignment.name}}
         .col-md-6
