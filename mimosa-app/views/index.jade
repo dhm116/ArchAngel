@@ -28,7 +28,7 @@ append content
             a(href='/course/view/{{course.id}}')
               //- span.label.round(ng-class="{alert: course.id > 1}") {{course.upcoming.length}}
               i.fa.fa-book
-              span {{course.name}}
+              span.pad-left {{course.name}}
               i.fa.fa-arrow-right.pad-left
               span.pad-left Week {{moment().diff(moment(course.start_date), 'weeks')}}
               span.arrow(ng-class='{open: courseParams != null}')
@@ -37,19 +37,19 @@ append content
               li(ng-class='{active: (courseParams != null && courseParams.id == course.id && lessonParams == null && forumParams == null) }')
                 a(href='/course/view/{{course.id}}')
                   i.fa.fa-file-text-o
-                  span Syllabus
+                  span.pad-left Syllabus
                   span.selected(ng-if='courseParams != null && courseParams.id == course.id && lessonParams == null && forumParams == null')
                     i.pull-right.fa.fa-chevron-circle-right
               li(ng-repeat='lesson in course.lessons',ng-class='{active: (lessonParams != null && lessonParams.id == lesson)}')
                 a(href='/course/view/{{course.id}}/lesson/view/{{lesson}}')
                   i.fa.fa-pencil
-                  span Week {{course.lessons.indexOf(lesson)+1}}
+                  span.pad-left Week {{course.lessons.indexOf(lesson)+1}}
                   span.selected(ng-if='lessonParams != null && lessonParams.id == lesson')
                     i.pull-right.fa.fa-chevron-circle-right
               li(ng-repeat='forum in course.forums',ng-class='{active: (forumParams != null && forumParams.id == forum)}')
                 a(href='/course/view/{{course.id}}/forum/view/{{forum}}')
                   i.fa.fa-comments-o
-                  span Forum {{course.forums.indexOf(forum)+1}}
+                  span.pad-left Forum {{course.forums.indexOf(forum)+1}}
                   span.selected(ng-if='forumParams != null && forumParams.id == forum')
                     i.pull-right.fa.fa-chevron-circle-right
   .page-content
