@@ -1,0 +1,88 @@
+script(src="assets/javascripts/")
+.content-padded(ng-cloak)
+  .row-padded
+    include ../course-breadcrumb
+      append breadcrumbs
+        li
+          i.fa.fa-angle-right
+          a(href='javascript:;') Course Forum
+  .col-md-12
+    .portlet.box.blue
+      .portlet-title
+        .caption
+          i.fa.fa-comments-o
+          span Course Forum
+
+      .portlet-body
+        .well
+          img.avatar.img-responsive(alt="Prof Pict", src="") 
+          h4.bold.pad-left Object Oriented Design Principles
+          ol
+            li Of the five Class design principles you have learned about in this course, which do you think is most important and why?
+            li Choose a well known OO design pattern that you have used in your work and describe how you used it.
+            button.btn.yellow.btn-sm.pull-right(type='button')
+              i.fa.fa-comments
+              span.pad-left Create Post
+
+        .row-padded
+          .panel-group(id='accordian')
+            .panel.panel-default
+              .panel-heading
+                .panel-title
+                  a(href='#collapseOne', data-toggle='collapse', data-parent='#accordian') 
+                    span John Smith
+                    .datetime.pull-right original post - June 18, 2013 8:55PM
+            .panel-collapse.collapse(id='collapseOne')
+              .panel-body
+                .media
+                  a.pull-left(href='#')
+                    img.media-object(src='', alt='Pict')
+                  .media-body
+                    h5 Rob Jones
+                      .datetime.pull-right June 19, 2013 7:23AM
+                    i.pad-left this is a response
+                      button.btn.green.btn-sm.pull-right(type='button')
+                        i.fa.fa-comments
+                        span.pad-left Respond
+                    .media
+                      a.pull-left(href='#')
+                        img.media-object(src='', alt='Pict')
+                      .media-body
+                        h5 John Smith
+                          .datetime.pull-right June 19, 2013 8:49AM
+                        i.pad-left Another response
+                          button.btn.green.btn-sm.pull-right(type='button')
+                            i.fa.fa-comments
+                            span.pad-left Respond
+
+            .panel.panel-default
+              .panel-heading
+                .panel-title
+                  a(href='#collapseTwo', data-toggle='collapse', data-parent='#accordian')
+                    span Rob Jones
+                    .datetime.pull-right original post - June 18, 2013 10:15PM
+            .panel-collapse.collapse(id='collapseTwo')
+              .panel-body
+                .media
+                  a.pull-left(href='#')
+                    img.media-object(src='', alt='Pict')
+                  .media-body
+                    h5 John Smith
+                      .datetime.pull-right June 19, 2013 8:55AM
+                    i.pad-left this is a response
+                      button.btn.green.btn-sm.pull-right(type='button')
+                        i.fa.fa-comments
+                        span.pad-left Respond
+                    .media
+                      a.pull-left(href='#')
+                        img.media-object(src='', alt='Pict')
+                      .media-body
+                        h5 Rob Jones
+                          .datetime.pull-right June 19, 2013 10:02AM
+                        i.pad-left Another response
+                          button.btn.green.btn-sm.pull-right(type='button')
+                            i.fa.fa-comments
+                            span.pad-left Respond
+
+  .row-padded
+  

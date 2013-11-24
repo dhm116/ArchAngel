@@ -157,6 +157,10 @@ require
                             restful: true
                             template: 'syllabus'
                             # controller: 'SyllabusController'
+                        cForum:
+                            restful: true
+                            template: 'cForum'
+                            controller: 'CourseController'
             }
 
             recursiveResourceFinder = (parent, resource) ->

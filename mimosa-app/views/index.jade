@@ -29,5 +29,15 @@ append content
               span.pad-left {{course.name}}
               i.fa.fa-arrow-right.pad-left
               span.pad-left Week {{moment().diff(moment(course.start_date), 'weeks')}}
+      li(ng-if='routeParams.resource == "course"')
+        a(href='javascript:;')
+          i.fa.fa-comment
+          span.pad-left.title Forums
+          span.selected(ng-if='routeParams.resource == "cForum"')
+          span.arrow(ng-class='{open: routeParams.resource == "cForum"}')
+        ul.sub-menu
+          li
+            a(href='1/cForum/view/1')
+              span.pad-left General
   .page-content
     .ng-view
