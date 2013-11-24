@@ -7,7 +7,7 @@ define ['angular'], (angular) ->
 
             Dropzone.discover()
 
-            console.log AWS.config.credentials
+            # console.log AWS.config.credentials
             $scope.aws = AWS.config.credentials
 
             # Load the desired course defined in the courseId
