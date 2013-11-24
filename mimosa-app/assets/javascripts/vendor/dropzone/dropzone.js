@@ -2,9 +2,11 @@
 (function (factory) {
   if (typeof define === 'function' && define.amd) {
       // AMD. Register as an anonymous module.
+      // console.log('Anonymous AMD module');
       define(['jquery'], factory);
   } else {
       // Browser globals
+      // console.log('Using browser globals');
       factory(jQuery);
   }
 } (function (jQuery) {
@@ -1488,8 +1490,11 @@ Emitter.prototype.hasListeners = function(event){
   }
 
   if (typeof module !== "undefined" && module !== null) {
+    // console.log("Exporting dropzone module");
     module.exports = Dropzone;
+    window.Dropzone = Dropzone;
   } else {
+    // console.log('Making dropzone global');
     window.Dropzone = Dropzone;
   }
 

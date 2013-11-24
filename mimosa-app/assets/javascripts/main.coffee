@@ -25,7 +25,7 @@ require.config
 require
     urlArgs: "b=#{(new Date()).getTime()}"
     paths:
-        jquery: 'vendor/jquery/jquery'
+        jquery: 'vendor/jquery/jquery.min'
     ,
 
     # These are our core dependencies - our application
