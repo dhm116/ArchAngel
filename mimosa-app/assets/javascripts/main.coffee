@@ -23,7 +23,7 @@ require
             console.log 'Initializing metronic'
             Metronic.init()
             FormDropzone.init()
-            FormFileUpload.init()
+            # FormFileUpload.init()
             return
 
         require [
@@ -96,6 +96,9 @@ require
                             restful: true
                             template: 'syllabus'
                             # controller: 'SyllabusController'
+                        grades:
+                            restful: true
+                            template: 'grades'
             }
 
             recursiveResourceFinder = (parent, resource) ->

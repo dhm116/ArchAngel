@@ -1,7 +1,7 @@
 define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
     angular.module('djangoApp.services').factory 'Grade', ($q, Restangular) ->
         class Grade extends ServiceBase
-            model: 'gradedassignmentsubmissions'
+            model: 'gradedassignmentsubmission'
         return new Grade(Restangular, $q)
 
 
