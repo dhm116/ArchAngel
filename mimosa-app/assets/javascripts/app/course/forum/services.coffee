@@ -1,9 +1,9 @@
 define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
-    angular.module('djangoApp.services').factory 'Forum', ($q, Restangular) ->
+    angular.module('djangoApp.services').factory 'Forum', ($q, $rootScope, Restangular) ->
         class Forum extends ServiceBase
             model: 'forums'
         return new Forum(Restangular, $q)
-    angular.module('djangoApp.services').factory 'ForumPost', ($q, Restangular) ->
+    angular.module('djangoApp.services').factory 'ForumPost', ($q, $rootScope, Restangular) ->
         class ForumPost extends ServiceBase
             model: 'forumposts'
         return new ForumPost(Restangular, $q)

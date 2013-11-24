@@ -12,10 +12,11 @@ append content
               a.remove(href='javascript:;')
               input(type='text', placeholder='Search...')
               input.submit(type='button', value=' ')
-      li.start(ng-class='{active: routeParams.resources.length == 0}')
+      li.start(ng-class='{active: routeParams.resources == null}')
         a(href='/')
           i.fa.fa-home
           span.pad-left.title ArchAngel
+          span.selected(ng-if='routeParams.resources == null')
       li(ng-class='{active: courseParams != null}')
         a(href='javascript:;')
           i.fa.fa-paste
@@ -26,17 +27,30 @@ append content
           li(ng-repeat='course in courses', ng-class='{active: (courseParams != null && courseParams.id == course.id) }')
             a(href='/course/view/{{course.id}}')
               //- span.label.round(ng-class="{alert: course.id > 1}") {{course.upcoming.length}}
+              i.fa.fa-book
               span {{course.name}}
               i.fa.fa-arrow-right.pad-left
               span.pad-left Week {{moment().diff(moment(course.start_date), 'weeks')}}
               span.arrow(ng-class='{open: courseParams != null}')
+              span.selected(ng-if='courseParams != null')
             ul.sub-menu
-              li(ng-class='{active: (courseParams != null && courseParams.id == course.id && lessonParams == null) }')
+              li(ng-class='{active: (courseParams != null && courseParams.id == course.id && lessonParams == null && forumParams == null) }')
                 a(href='/course/view/{{course.id}}')
-                  //- span.label.round(ng-class="{alert: course.id > 1}") {{course.upcoming.length}}
+                  i.fa.fa-file-text-o
                   span Syllabus
+                  span.selected(ng-if='courseParams != null && courseParams.id == course.id && lessonParams == null && forumParams == null')
+                    i.pull-right.fa.fa-chevron-circle-right
               li(ng-repeat='lesson in course.lessons',ng-class='{active: (lessonParams != null && lessonParams.id == lesson)}')
                 a(href='/course/view/{{course.id}}/lesson/view/{{lesson}}')
+                  i.fa.fa-pencil
                   span Week {{course.lessons.indexOf(lesson)+1}}
+                  span.selected(ng-if='lessonParams != null && lessonParams.id == lesson')
+                    i.pull-right.fa.fa-chevron-circle-right
+              li(ng-repeat='forum in course.forums',ng-class='{active: (forumParams != null && forumParams.id == forum)}')
+                a(href='/course/view/{{course.id}}/forum/view/{{forum}}')
+                  i.fa.fa-comments-o
+                  span Forum {{course.forums.indexOf(forum)+1}}
+                  span.selected(ng-if='forumParams != null && forumParams.id == forum')
+                    i.pull-right.fa.fa-chevron-circle-right
   .page-content
     .ng-view

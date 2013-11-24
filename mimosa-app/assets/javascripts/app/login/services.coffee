@@ -1,7 +1,7 @@
 # define ['angular'], (angular) ->
 #     angular.module('djangoApp.services').factory 'User', (Restangular,$localStorage) ->
 define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
-    angular.module('djangoApp.services').factory 'User', ($q, Restangular,$localStorage) ->
+    angular.module('djangoApp.services').factory 'User', ($q, $rootScope, Restangular,$localStorage) ->
         class User extends ServiceBase
             model: 'users'
             token: ''
@@ -39,6 +39,7 @@ define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
                         # Add token to Restangular.setDefaultHeaders
                         @__attachToken()
                         defer.resolve(@authenticated)
+                        $rootScope.$broadcast 'login', @
                     .catch (response) =>
                         # console.log "Invalid username/password"
                         defer.reject(response)
@@ -58,6 +59,8 @@ define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
                 # Remove token from Restangular.setDefaultHeaders
                 @Restangular.setDefaultHeaders {}
                 defer.resolve()
+
+                $rootScope.$broadcast 'logout'
 
                 return defer.promise
 

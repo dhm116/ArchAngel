@@ -7,9 +7,14 @@ append navigation
       a.navbar-toggle(href='javascript:;', data-toggle='collapse', data-target='.navbar-collapse')
         img(src='img/menu-toggler.png')
       ul.nav.navbar-nav.pull-right
-        li.dropdown.user
+        li(ng-if='!user.authenticated')
+          a(href='/login')
+            i.fa.fa-sign-in
+            span.pad-left Login
+        li.dropdown.user(ng-if='user.authenticated')
           a.dropdown-toggle(href='#', data-toggle='dropdown', data-hover='dropdown', data-close-others='true')
-            span.username {{user.data.first_name}} {{user.data.last_name}}
+            i.fa.fa-user
+            span.pad-left.username {{user.data.first_name}} {{user.data.last_name}}
             i.fa.fa-caret-down
           ul.dropdown-menu
             li
@@ -31,6 +36,6 @@ append navigation
             li.divider
             li
               a(href='#',ng-click='user.logout()')
-                i.fa.fa-lock
+                i.fa.fa-sign-out
                 span.pad-left Log Out
         block navigation-items

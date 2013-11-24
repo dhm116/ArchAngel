@@ -1,5 +1,5 @@
 define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
-    angular.module('djangoApp.services').factory 'CourseSection', ($q, Restangular) ->
+    angular.module('djangoApp.services').factory 'CourseSection', ($q, $rootScope, Restangular) ->
         class CourseSection extends ServiceBase
             model: 'coursesections'
         return new CourseSection(Restangular, $q)

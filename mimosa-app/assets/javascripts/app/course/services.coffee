@@ -1,7 +1,12 @@
 define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
-    angular.module('djangoApp.services').factory 'Course', ($q, Restangular, CourseSection, CourseRoster, Lesson, Assignment, User) ->
+    angular.module('djangoApp.services').factory 'Course', ($q, $rootScope, Restangular, CourseSection, CourseRoster, Lesson, Assignment, User) ->
         class Course extends ServiceBase
             model: 'courses'
+
+            __onNewInstance: () =>
+                $rootScope.$on 'logout', () =>
+                    console.log "Detected user logout event, deleting data"
+                    @items = []
 
             isInstructorFor: (courseId) =>
                 defer = @$q.defer()

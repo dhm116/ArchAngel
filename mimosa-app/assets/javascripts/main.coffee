@@ -242,8 +242,12 @@ require
                     $scope.$storage = $localStorage.$default {useLocalData: true}
                     $scope.isMobile = isMobile
                     $scope.user = User
-                    Course.all().then (courses) ->
-                        $scope.courses = courses
+
+                    $scope.$on 'logout', =>
+                        $location.path('/login')
+
+                    # Course.all().then (courses) ->
+                    #     $scope.courses = courses
 
                     # $scope.useLocalData = $localStorage.useLocalData
                     $scope.updateDataURL = () ->
@@ -260,25 +264,38 @@ require
                 .controller 'SidebarController', ($scope, $location, $routeParams, Restangular, User, Course) ->
                     $scope.isMobile = isMobile
                     $scope.user = User
+                    $scope.moment = moment
 
-                    params = _.last($routeParams.resources)
+                    $scope.$on 'login', =>
+                        Course.all().then (courses) ->
+                            $scope.courses = courses
+
+                    $scope.$on 'logout', =>
+                        $scope.courses = []
+                        $scope.courseParams = null
+                        $scope.lessonParams = null
+                        $scope.forumParams = null
+                        $scope.routeParams = null
+                    # params = _.last($routeParams.resources)
+
                     updateRouteParams = () =>
                         $scope.courseParams = _.findWhere($routeParams.resources, {resource:'course'})
                         $scope.lessonParams = _.findWhere($routeParams.resources, {resource:'lesson'})
+                        $scope.forumParams = _.findWhere($routeParams.resources, {resource:'forum'})
                         $scope.routeParams = $routeParams
+
 
                     if User.authenticated
                         Course.all().then (courses) ->
                             $scope.courses = courses
-                            # for course in $scope.courses
-                            #     Course.upcomingAssignments(course.id).then (upcoming) =>
-                            #         course.upcoming = upcoming
-                        $scope.moment = moment
-                        unless isMobile
-                            getAllData(Restangular, $scope, 'users')
+                    #         # for course in $scope.courses
+                    #         #     Course.upcomingAssignments(course.id).then (upcoming) =>
+                    #         #         course.upcoming = upcoming
+                    #     unless isMobile
+                    #         getAllData(Restangular, $scope, 'users')
 
                     $scope.$on '$routeChangeSuccess', () =>
-                        console.log "route changed", arguments
+                        # console.log "route changed", arguments
                         updateRouteParams()
 
                 .controller 'ArchangelController', ($scope, $location, Restangular, User, Course) ->
@@ -290,12 +307,12 @@ require
                     else
                         Course.all().then (courses) ->
                             $scope.courses = courses
-                            for course in $scope.courses
-                                Course.upcomingAssignments(course.id).then (upcoming) =>
-                                    course.upcoming = upcoming
-                        $scope.moment = moment
-                        unless isMobile
-                            getAllData(Restangular, $scope, 'users')
+                        #     for course in $scope.courses
+                        #         Course.upcomingAssignments(course.id).then (upcoming) =>
+                        #             course.upcoming = upcoming
+                        # $scope.moment = moment
+                        # unless isMobile
+                        #     getAllData(Restangular, $scope, 'users')
 
 
             angular.bootstrap document, ['djangoApp']

@@ -1,6 +1,8 @@
 define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'LoginController', ($scope, $location, $localStorage, User) ->
-        $scope.$storage = $localStorage.$default(user:User)
+        $scope.$storage = $localStorage.$default(user:User.user)
+
+        $('.make-switch')['bootstrapSwitch']()
 
         $scope.login = ->
             unless User.authenticated

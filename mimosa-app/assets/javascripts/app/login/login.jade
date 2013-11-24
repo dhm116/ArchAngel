@@ -1,22 +1,27 @@
+link(rel='stylesheet', href='/stylesheets/vendor/metronic/pages/login.css')
+link(rel='stylesheet', href='/stylesheets/vendor/bootstrap-switch/bootstrap-switch-metro.css')
 
-block navigation
-  p
-
-block content
-  h1 Login
-  form(method='', action="", ng-submit='login()')
-    fieldset
-      .row
-        .large-8.columns
-          .row
-            .small-3.columns
-              label.right.inline(for='username') Username
-            .small-9.columns
-              input(type='text', id='username', name='username', ng-model='user.username')
-          .row
-            .small-3.columns
-              label.right.inline(for='password') Password
-            .small-9.columns
-              input(type='password', id='password', name='password', ng-model='user.password')
-          .row
-            input.large.button.expand(type='submit') Submit
+.content-padded(ng-cloak)
+  .row-padded
+    form.login-form(ng-submit='login()')
+      .form-body
+        h3.form-title Login to your account
+        .alert.alert-danger.display-hide
+          button.close(data-close='alert')
+          span {{error}}
+        .form-group
+          .input-icon
+            i.fa.fa-user
+            input.form-control.placeholder-no-fix(type='text', ng-model='user.username', placeholder='Username')
+        .form-group
+          .input-icon
+            i.fa.fa-lock
+            input.form-control(type='password', ng-model='user.password', placeholder='Password')
+        .form-actions
+          .form-group
+            .make-switch
+              input.toggle(type='checkbox', checked, ng-model='user.rememberme')
+            span.pad-left Remember Me
+          button.btn.green(type='submit')
+            span Login
+            i.pad-left.fa.fa-arrow-right-o

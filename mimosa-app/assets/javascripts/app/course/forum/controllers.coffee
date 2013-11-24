@@ -22,8 +22,8 @@ define ['angular'], (angular) ->
                 Forum.get(Number(forumParams.id)).then (forum) ->
                     $scope.forum = forum
 
-                if forumParams.action.indexOf('edit') is 0
-                    $scope.original_forum = Restangular.copy($scope.forum)
+                    if forumParams.action.indexOf('edit') is 0
+                        $scope.original_forum = Restangular.copy($scope.forum)
 
             else if forumParams.action.indexOf('add') is 0
                 $scope.forum = {}
