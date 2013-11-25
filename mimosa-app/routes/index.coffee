@@ -4,6 +4,7 @@ index = (config) ->
     reload:    config.liveReload.enabled
     optimize:  config.isOptimize ? false
     cachebust: if process.env.NODE_ENV isnt "production" then "?b=#{(new Date()).getTime()}" else ''
+    baseURL: '/'
 
   # In the event plain html pages are being used, need to
   # switch to different page for optimized view

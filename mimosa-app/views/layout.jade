@@ -7,22 +7,27 @@ html.no-js(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     meta(name='MobileOptimized', content='320')
 
-    block stylesheets
-      //- link(rel='stylesheet', href='/stylesheets/vendor.css' + cachebust)
+    base(href=baseURL)
 
-      link(rel='stylesheet', href='/stylesheets/vendor/font-awesome/font-awesome.css' + cachebust)
-      link(rel='stylesheet', href='/stylesheets/vendor/bootstrap/bootstrap.css' + cachebust)
-      link(rel='stylesheet', href='/stylesheets/vendor/metronic/uniform.default.css' + cachebust)
-      link(rel='stylesheet', href='/stylesheets/vendor/metronic/style-metronic.css' + cachebust)
-      link(rel='stylesheet', href='/stylesheets/vendor/metronic/style.css' + cachebust)
-      link(rel='stylesheet', href='/stylesheets/vendor/metronic/style-responsive.css' + cachebust)
-      link(rel='stylesheet', href='/stylesheets/vendor/metronic/plugins.css' + cachebust)
-      link(rel='stylesheet', href='/stylesheets/vendor/metronic/themes/light.css' + cachebust, id='style_color')
-      link(rel='stylesheet', href='/stylesheets/style.css' + cachebust)
+    block stylesheets
+      //- link(rel='stylesheet', href='stylesheets/vendor.css' + cachebust)
+
+      link(rel='stylesheet', href='stylesheets/vendor/font-awesome/font-awesome.css' + cachebust)
+      link(rel='stylesheet', href='stylesheets/vendor/bootstrap/bootstrap.css' + cachebust)
+      link(rel='stylesheet', href='stylesheets/vendor/metronic/uniform.default.css' + cachebust)
+      link(rel='stylesheet', href='stylesheets/vendor/metronic/style-metronic.css' + cachebust)
+      link(rel='stylesheet', href='stylesheets/vendor/metronic/style.css' + cachebust)
+      link(rel='stylesheet', href='stylesheets/vendor/metronic/style-responsive.css' + cachebust)
+      link(rel='stylesheet', href='stylesheets/vendor/metronic/plugins.css' + cachebust)
+      link(rel='stylesheet', href='stylesheets/vendor/metronic/themes/light.css' + cachebust, id='style_color')
+      link(rel='stylesheet', href='stylesheets/vendor/metronic/pages/timeline.css')
+      link(rel='stylesheet', href='stylesheets/vendor/bootstrap-switch/bootstrap-switch-metro.css')
+      link(rel='stylesheet', href='stylesheets/style.css' + cachebust)
 
     if typeof(reload) !== 'undefined' && reload
       script(src='/socket.io/socket.io.js')
       script(src='/javascripts/reload-client.js')
+
 
   body.page-header-fixed(ng-cloak)
     block navigation
@@ -34,9 +39,9 @@ html.no-js(lang='en')
 
     block scripts
       script(src='https://sdk.amazonaws.com/js/aws-sdk-2.0.0-rc1.min.js')
-      script(src='/javascripts/vendor.js')
+      script(src='javascripts/vendor.js')
 
       if typeof(optimize) !== 'undefined' && optimize
-        script(src='/javascripts/main-built.js')
+        script(src='javascripts/main-built.js')
       else
-        script(src='/javascripts/vendor/requirejs/require.js', data-main='/javascripts/main.js')
+        script(src='javascripts/vendor/requirejs/require.js', data-main='javascripts/main.js')

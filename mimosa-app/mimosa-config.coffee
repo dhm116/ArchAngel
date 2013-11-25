@@ -62,7 +62,12 @@ exports.config = {
     }
     autoWatch: true
 
-
+  serverTemplate:
+    locals:
+      baseURL: ''
+      reload:    false
+      optimize:  false
+      cachebust: ''
 
 
   combine:
