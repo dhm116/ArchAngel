@@ -22,7 +22,7 @@ define ['angular'], (angular) ->
                     $scope.lesson = lesson
                     $scope.assignments = []
 
-                    if $scope.lesson.assignments.length
+                    if $scope.lesson.assignments.length > 0
                         Assignment.all($scope.lesson.assignments).then (assignments) ->
                             $scope.assignments = assignments
 
