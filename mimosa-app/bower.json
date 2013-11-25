@@ -10,6 +10,7 @@
     "angular-resource": "*",
     "restangular": "1.1.6",
     "underscore": "*",
+    "lodash": "~2.3.0",
     "angular-loading-bar": "~0.0.5",
     "angular-route": "~1.2.0-rc.3",
     "angular-cookies": "~1.0.8",
