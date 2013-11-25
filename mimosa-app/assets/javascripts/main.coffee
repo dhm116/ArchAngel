@@ -12,7 +12,7 @@
 require.config
     paths:
         angular: 'vendor/angular/angular'
-    baseUrl: '/javascripts'
+    baseUrl: 'javascripts'
     shim:
         'angular': {'exports':'angular'}
     priority: ['angular']
@@ -317,6 +317,8 @@ require
                 .controller 'ArchangelController', ($scope, $location, Restangular, User, Course) ->
                     $scope.isMobile = isMobile
                     $scope.user = User
+
+                    console.log $location
 
                     unless User.authenticated
                         $location.path('/login')

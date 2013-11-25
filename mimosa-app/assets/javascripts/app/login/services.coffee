@@ -54,7 +54,10 @@ define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
 
                 if @$localStorage.user
                     console.log "Deleting user from local storage"
+                    console.log @$localStorage
                     delete @$localStorage.user
+                    console.log @$localStorage
+
 
                 # Remove token from Restangular.setDefaultHeaders
                 @Restangular.setDefaultHeaders {}
