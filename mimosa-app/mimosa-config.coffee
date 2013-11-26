@@ -117,6 +117,7 @@ exports.config = {
           'jquery/jquery.min.js'
           'underscore/underscore.js'
           'angular/angular.js'
+          'moment/moment.js'
           'jquery/jquery-ui-1.10.3.custom.js'
           'bootstrap/bootstrap.js'
           'bootstrap/twitter-bootstrap-hover-dropdown.js'

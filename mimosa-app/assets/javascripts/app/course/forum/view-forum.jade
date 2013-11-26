@@ -14,8 +14,7 @@
     .col-md-12
       .row
         .col-md-11(style='padding-left: 0px;')
-          h2.page-title {{forum.name}}
-            small.pad-left {{forum.description}}
+          h2.page-title {{forum.name}} Forum
           hr(style='margin-bottom: 5px;')
         .col-md-1(ng-show='isInstructor')
           .btn-group.pull-right
@@ -32,80 +31,52 @@
                 a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/forum/edit/{{forum.id}}')
                   i.fa.fa-edit
                   span.pad-left Edit Forum
-
+      .row
+        .well
+          .row
+            .col-md-2
+              img.avatar.img-responsive(alt="Prof Pict", src="stylesheets/vendor/img/pages/3.jpg")
+            .col-md-10
+                blockquote
+                  p(ng-show='forum.description', btf-markdown='forum.description')
+          .row
+            .col-md-12
+              a.btn.btn-sm.blue(href='#')
+                i.fa.fa-comments
+                span.pad-left New Post
   .row
     .col-md-12
-      .portlet.box.blue
-        .portlet-title
-          .caption
-            i.fa.fa-comments-o
-            span Course Forum
-
-        .portlet-body
-          .well
-            img.avatar.img-responsive(alt="Prof Pict", src="")
-            h4.bold.pad-left Object Oriented Design Principles
-            ol
-              li Of the five Class design principles you have learned about in this course, which do you think is most important and why?
-              li Choose a well known OO design pattern that you have used in your work and describe how you used it.
-              button.btn.green.btn-sm.pull-right(type='button')
-                i.fa.fa-comments
-                span.pad-left Respond
-
-          .row-padded
-            .panel-group(id='accordian')
-              .panel.panel-default
-                .panel-heading
-                  .panel-title
-                    a(href='#collapseOne', data-toggle='collapse', data-parent='#accordian')
-                      span John Smith
-                      .datetime.pull-right original post - June 18, 2013 8:55PM
-              .panel-collapse.collapse(id='collapseOne')
-                .panel-body
-                  .media
-                    a.pull-left(href='#')
-                      img.media-object(src='', alt='Pict')
-                    .media-body
-                      h5 Rob Jones
-                        .datetime.pull-right June 19, 2013 7:23AM
-                      i.pad-left this is a response
-                        .btn-group.pull-right
-                          button.btn.yellow.btn-sm(type='button')
-                            i.fa.fa-edit
-                            span.pad-left Edit
-                          button.btn.green.btn-sm(type='button')
-                            i.fa.fa-comments
-                            span.pad-left Respond
-                      .media
-                        a.pull-left(href='#')
-                          img.media-object(src='', alt='Pict')
-                        .media-body
-                          h5 John Smith
-                            .datetime.pull-right June 19, 2013 8:49AM
-                          i.pad-left Another response
-                            .btn-group.pull-right
-                              button.btn.yellow.btn-sm(type='button')
-                                i.fa.fa-edit
-                                span.pad-left Edit
-                              button.btn.green.btn-sm(type='button')
-                                i.fa.fa-comments
-                                span.pad-left Respond
-
-              .panel.panel-default
-                .panel-heading
-                  .panel-title
-                    a(href='#collapseTwo', data-toggle='collapse', data-parent='#accordian')
-                      span Rob Jones
-                      .datetime.pull-right original post - June 18, 2013 10:15PM
-              .panel-collapse.collapse(id='collapseTwo')
-                .panel-body
+      .row-padded
+        .panel-group(id='accordian')
+          .panel.panel-default
+            .panel-heading
+              .panel-title
+                a(href='#collapseOne', data-toggle='collapse', data-parent='#accordian')
+                  span John Smith
+                  .datetime.pull-right original post - June 18, 2013 8:55PM
+          .panel-collapse.collapse(id='collapseOne')
+            .panel-body
+              .media
+                a.pull-left(href='#')
+                  img.media-object(src='', alt='Pict')
+                .media-body
+                  h5 Rob Jones
+                    .datetime.pull-right June 19, 2013 7:23AM
+                  i.pad-left this is a response
+                    .btn-group.pull-right
+                      button.btn.yellow.btn-sm(type='button')
+                        i.fa.fa-edit
+                        span.pad-left Edit
+                      button.btn.green.btn-sm(type='button')
+                        i.fa.fa-comments
+                        span.pad-left Respond
                   .media
                     a.pull-left(href='#')
                       img.media-object(src='', alt='Pict')
                     .media-body
                       h5 John Smith
-                        .datetime.pull-right June 19, 2013 8:55AM
-                      i.pad-left this is a response
+                        .datetime.pull-right June 19, 2013 8:49AM
+                      i.pad-left Another response
                         .btn-group.pull-right
                           button.btn.yellow.btn-sm(type='button')
                             i.fa.fa-edit
@@ -113,17 +84,40 @@
                           button.btn.green.btn-sm(type='button')
                             i.fa.fa-comments
                             span.pad-left Respond
-                      .media
-                        a.pull-left(href='#')
-                          img.media-object(src='', alt='Pict')
-                        .media-body
-                          h5 Rob Jones
-                            .datetime.pull-right June 19, 2013 10:02AM
-                          i.pad-left Another response
-                            .btn-group.pull-right
-                              button.btn.yellow.btn-sm(type='button')
-                                i.fa.fa-edit
-                                span.pad-left Edit
-                              button.btn.green.btn-sm(type='button')
-                                i.fa.fa-comments
-                                span.pad-left Respond
+
+          .panel.panel-default
+            .panel-heading
+              .panel-title
+                a(href='#collapseTwo', data-toggle='collapse', data-parent='#accordian')
+                  span Rob Jones
+                  .datetime.pull-right original post - June 18, 2013 10:15PM
+          .panel-collapse.collapse(id='collapseTwo')
+            .panel-body
+              .media
+                a.pull-left(href='#')
+                  img.media-object(src='', alt='Pict')
+                .media-body
+                  h5 John Smith
+                    .datetime.pull-right June 19, 2013 8:55AM
+                  i.pad-left this is a response
+                    .btn-group.pull-right
+                      button.btn.yellow.btn-sm(type='button')
+                        i.fa.fa-edit
+                        span.pad-left Edit
+                      button.btn.green.btn-sm(type='button')
+                        i.fa.fa-comments
+                        span.pad-left Respond
+                  .media
+                    a.pull-left(href='#')
+                      img.media-object(src='', alt='Pict')
+                    .media-body
+                      h5 Rob Jones
+                        .datetime.pull-right June 19, 2013 10:02AM
+                      i.pad-left Another response
+                        .btn-group.pull-right
+                          button.btn.yellow.btn-sm(type='button')
+                            i.fa.fa-edit
+                            span.pad-left Edit
+                          button.btn.green.btn-sm(type='button')
+                            i.fa.fa-comments
+                            span.pad-left Respond

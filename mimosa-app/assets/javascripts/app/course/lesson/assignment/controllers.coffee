@@ -1,16 +1,71 @@
 define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'AssignmentController',
-        ($scope, $routeParams, $location, Restangular, User, Course, Lesson, Assignment, AssignmentSubmission) ->
+        ($scope, $routeParams, $location, $sce, Restangular, User, Course, Lesson, Assignment, AssignmentSubmission) ->
             courseParams = _.findWhere($routeParams.resources, {resource:'course'})
             lessonParams = _.findWhere($routeParams.resources, {resource:'lesson'})
             assignmentParams = _.findWhere($routeParams.resources, {resource:'assignment'})
 
             $scope.action = assignmentParams.action[0].toUpperCase() + assignmentParams.action[1..-1]
+            $scope.moment = moment
 
-            Dropzone.discover()
+            $('#dueDate').datetimepicker {
+                pickTime: false
+                autoclose: true
+                # format: 'yyyy-mm-ddThh:mm' #"dd MM yyyy - hh:ii"
+            }
 
             # console.log AWS.config.credentials
             $scope.aws = AWS.config.credentials
+            console.log $scope.aws
+            bucket = new AWS.S3 {params: {Bucket: 'archangel'}}
+
+            # bucket.getSignedUrl 'putObject', {Key: 'testKey'}, (err, url) =>
+            #     if err
+            #         console.log err
+            #     else
+            #         #$scope.signedURL = $sce.trustAsResourceUrl(url)
+            #         $('#assignmentDropzone').attr('action', _.unescape(url))
+            #         console.log url
+            #         Dropzone.discover()
+
+            Dropzone.options.assignmentDropzone = {
+                autoProcessQueue: false
+
+                init: ->
+                    @on "addedfile", (file) =>
+                        console.log file
+                        bucket.getSignedUrl 'putObject', {Key: "#{User.data.id}/#{new Date().getTime()}/${filename}"}, (err, url) =>
+                            if err
+                                console.log err
+                            else
+                                #$scope.signedURL = $sce.trustAsResourceUrl(url)
+                                # $('#assignmentDropzone').attr('action', _.unescape(url))
+                                console.log url
+                                @options.url = url
+                                @enqueueFile(file)
+                                @processQueue()
+
+                        # Create the remove button
+                        removeButton = Dropzone.createElement("<button class='btn btn-sm btn-block'>Remove file</button>")
+
+                        # Listen to the click event
+                        removeButton.addEventListener "click", (e) =>
+                            # Make sure the button click doesn't submit the form:
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            # Remove the file preview.
+                            @removeFile(file);
+                            # If you want to the delete the file on the server as well,
+                            # you can do the AJAX request here.
+
+                        # Add the button to the file preview element.
+                        file.previewElement.appendChild(removeButton);
+                    @on 'sending', (file, xhr, data) =>
+                        console.log arguments
+            }
+            Dropzone.discover()
+
 
             # Load the desired course defined in the courseId
             Course.get(Number(courseParams.id)).then (course) ->
@@ -34,8 +89,6 @@ define ['angular'], (angular) ->
 
                             User.all(_.pluck(submissions, 'author')).then (students) ->
                                 $scope.students = _.indexBy(students, 'id')
-
-                                console.log $scope.students
 
 
             else if assignmentParams.action.indexOf('add') is 0

@@ -28,12 +28,14 @@ append stylesheets
                   span.pad-left Edit Assignment
       .row
         p(ng-show='assignment.content', btf-markdown='assignment.content', ng-cloak)
-      .row(ng-if='!isInstructor')
+      .row
+        h3 Due on {{moment(assignment.due_date).format("LLL")}}
+      .row
         h3 Submit Assignment
-        form(action='https://s3-bucket.s3.amazonaws.com/', class='dropzone', id='dropzone1')
-          input(type='hidden', name='key', value='uploads/${filename}')
-          input(type='hidden', name='AWSAccessKeyId', value='{{aws.accessKeyId}}')
-          input(type='hidden', name='acl', value='private')
+        form(action='#', method='PUT', class='dropzone', id='assignmentDropzone')
+          //- input(type='hidden', name='key', value='uploads/${filename}')
+          //- input(type='hidden', name='AWSAccessKeyId', value='{{aws.accessKeyId}}')
+          //- input(type='hidden', name='acl', value='private')
           //- input(type='hidden', name='success_action_redirect', value='')
           //- input(type='hidden', name='policy', value='')
           //- input(type='hidden', name='signature', value='')

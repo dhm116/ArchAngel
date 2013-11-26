@@ -91,11 +91,11 @@ require
 
             # Grab a reference to our Amazon S3 storage
             # bucket for handling uploads
-            bucket = new AWS.S3 {params: {Bucket: 'archangel'}}
+            # bucket = new AWS.S3 {params: {Bucket: 'archangel'}}
 
             # Just a test to verify connectivity to S3
-            bucket.listObjects (err, data) ->
-                console.log "S3 Results: ", err, " ", data
+            # bucket.listObjects (err, data) ->
+            #     console.log "S3 Results: ", err, " ", data
 
             # Simple helper method for Restangular to
             # load all data for the provided resource

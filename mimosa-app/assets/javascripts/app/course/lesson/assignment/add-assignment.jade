@@ -29,11 +29,15 @@
             .form-group
               label.col-sm-2.control-label Content
               .col-sm-10
-                input.form-control(type='text', ng-model='assignment.content', placeholder='Assignment content...')
+                textarea.form-control(ng-model='assignment.content', placeholder='Assignment content...')
             .form-group
-              label.col-sm-2.control-label Due Date
-              .col-sm-10
-                input.form-control(type='text', ng-model='assignment.due_date', placeholder='Assignment due date...')
+              label.col-md-2.control-label Due Date
+              .col-md-4.col-sm-10
+                .input-group.date#dueDate
+                  input.form-control(type='text', ng-model='assignment.due_date', placeholder='Assignment due date...', readonly, data-format='yyyy-MM-dd HH:mm')
+                  span.input-group-btn
+                    button.btn.default.date-set(type='button')
+                      i.fa.fa-calendar
             .form-group
               label.col-sm-2.control-label Points
               .col-sm-10

@@ -3,7 +3,7 @@ Install the Sublime Text PlainTasks package to see this file properly:
 Todo:
   Bugs:
     ✔ Fix week numbers for assignments (navbar not matching up) @done (13-11-26 09:09)
-    ☐ Review edit assignment formatting
+    ✔ Review edit assignment formatting @done (13-11-26 13:20)
     ✔ Editing assignment, on save returns $location cannot be found @done (13-11-26 11:06)
     ✔ Adding assignment, on save returns $location cannot be found @done (13-11-26 11:06)
   Features:
@@ -12,7 +12,7 @@ Todo:
     ☐ Grade report (prof + student)
     ☐ Display REST errors
     Forums:
-      ☐ Make description form entry a text area
+      ✔ Make description form entry a text area @done (13-11-26 17:16)
       ☐ Create new post
       ☐ Edit post
       ☐ View replies
