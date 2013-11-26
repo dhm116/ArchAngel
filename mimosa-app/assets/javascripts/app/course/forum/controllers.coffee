@@ -2,6 +2,7 @@ define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'ForumController',
         ($scope, $routeParams, $location, Restangular, User, Course, Lesson, Forum) ->
 
+            $scope.$routeParams = $routeParams
             courseParams = _.findWhere($routeParams.resources, {resource:'course'})
             lessonParams = _.findWhere($routeParams.resources, {resource:'lesson'})
             forumParams = _.findWhere($routeParams.resources, {resource:'forum'})
