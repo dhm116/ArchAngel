@@ -4,11 +4,13 @@ Todo:
   Bugs:
     ✔ Fix week numbers for assignments (navbar not matching up) @done (13-11-26 09:09)
     ☐ Review edit assignment formatting
-    ☐ Editing assignment, on save returns $location cannot be found
+    ✔ Editing assignment, on save returns $location cannot be found @done (13-11-26 11:06)
+    ✔ Adding assignment, on save returns $location cannot be found @done (13-11-26 11:06)
   Features:
-    ☐ Add assignments
+    ✔ Add assignments @done (13-11-26 09:41)
     ☐ View assignment submission
     ☐ Grade report (prof + student)
+    ☐ Display REST errors
     Forums:
       ☐ Make description form entry a text area
       ☐ Create new post

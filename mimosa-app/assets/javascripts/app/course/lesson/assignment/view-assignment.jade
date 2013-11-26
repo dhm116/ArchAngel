@@ -37,14 +37,17 @@ append stylesheets
           //- input(type='hidden', name='success_action_redirect', value='')
           //- input(type='hidden', name='policy', value='')
           //- input(type='hidden', name='signature', value='')
-      .row(ng-if='!isInstructor')
-        h4 Your Submissions
-        li
-          i
-            a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{submission.id}}', ng-repeat='submission in submissions') {{submission.name}}, submitted {{submission.creation_date | amCalendar}}
-      .row(ng-if='isInstructor')
-        h4 Student Submissions
-        li
-          i
-            a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{submission.id}}', ng-repeat='submission in submissions') {{students[submission.author].last_name}}, {{students[submission.author].first_name}}: {{submission.name}}, submitted {{submission.creation_date | amCalendar}}
-
+      .row
+        h4
+          span(ng-if='!isInstructor') Your
+          span(ng-if='isInstructor') Student
+          span.pad-left Submissions
+        ul.list-group
+          li.list-group-item(ng-if='submissions.length == 0')
+            em No submissions yet
+          li.list-group-item(ng-repeat='submission in submissions')
+            a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{submission.id}}')
+              span(ng-if='isInstructor')
+                span {{students[submission.author].last_name}}, {{students[submission.author].first_name}}:
+                span.pad-left
+              span {{submission.name}}, submitted {{submission.creation_date | amCalendar}}

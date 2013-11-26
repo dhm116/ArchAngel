@@ -1,9 +1,11 @@
 define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'AssignmentController',
-        ($scope, $routeParams, Restangular, User, Course, Lesson, Assignment, AssignmentSubmission) ->
+        ($scope, $routeParams, $location, Restangular, User, Course, Lesson, Assignment, AssignmentSubmission) ->
             courseParams = _.findWhere($routeParams.resources, {resource:'course'})
             lessonParams = _.findWhere($routeParams.resources, {resource:'lesson'})
             assignmentParams = _.findWhere($routeParams.resources, {resource:'assignment'})
+
+            $scope.action = assignmentParams.action[0].toUpperCase() + assignmentParams.action[1..-1]
 
             Dropzone.discover()
 
@@ -15,29 +17,29 @@ define ['angular'], (angular) ->
                 # Set our scope reference to the course
                 $scope.course = course
 
-                Lesson.get(Number(lessonParams.id)).then (lesson) ->
-                    $scope.lesson = lesson
-                    Course.isInstructorFor(lesson.course).then (isInstructor) ->
-                        $scope.isInstructor = isInstructor
+            Lesson.get(Number(lessonParams.id)).then (lesson) ->
+                $scope.lesson = lesson
+                Course.isInstructorFor(lesson.course).then (isInstructor) ->
+                    $scope.isInstructor = isInstructor
 
-                unless assignmentParams.action.indexOf('add') is 0
-                    Assignment.get(Number(assignmentParams.id)).then (assignment) ->
-                        $scope.assignment = assignment
-                        $scope.submissions = []
+            unless assignmentParams.action.indexOf('add') is 0
+                Assignment.get(Number(assignmentParams.id)).then (assignment) ->
+                    $scope.assignment = assignment
+                    $scope.submissions = []
 
-                        # Gather all user submissions for the assignment
-                        if $scope.assignment.submissions.length
-                            AssignmentSubmission.all($scope.assignment.submissions).then (submissions) ->
-                                $scope.submissions = submissions
+                    # Gather all user submissions for the assignment
+                    if $scope.assignment.submissions.length
+                        AssignmentSubmission.all($scope.assignment.submissions).then (submissions) ->
+                            $scope.submissions = submissions
 
-                                User.all(_.pluck(submissions, 'author')).then (students) ->
-                                    $scope.students = _.indexBy(students, 'id')
+                            User.all(_.pluck(submissions, 'author')).then (students) ->
+                                $scope.students = _.indexBy(students, 'id')
 
-                                    console.log $scope.students
+                                console.log $scope.students
 
 
-                else if assignmentParams.action.indexOf('add') is 0
-                    $scope.assignment = {lesson:lessonParams.id, author: User.data.id}
+            else if assignmentParams.action.indexOf('add') is 0
+                $scope.assignment = {lesson:lessonParams.id, author: User.data.id}
 
             $scope.undo = ->
                 if $scope.original_assignment

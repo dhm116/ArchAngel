@@ -335,8 +335,6 @@ require
                     $scope.isMobile = isMobile
                     $scope.user = User
 
-                    console.log $location
-
                     unless User.authenticated
                         $location.path('/login')
                     else
