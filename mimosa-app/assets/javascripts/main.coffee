@@ -170,10 +170,10 @@ require
                                     restful: true
                                     template: 'assignment'
                             #        controller: 'AssignmentController'
-                            #        nested:
-                            #            submission:
-                            #                restful: true
-                            #                template: 'submission'
+                                   nested:
+                                       submission:
+                                           restful: true
+                                           template: 'submission'
                             #                controller: 'SubmissionController'
                         syllabus:
                             restful: true

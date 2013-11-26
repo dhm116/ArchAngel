@@ -1,28 +1,28 @@
 define ['angular'], (angular) ->
-    return angular.module('djangoApp.controllers').controller 'AssignmentSubmissionController', ($scope, $routeParams, Restangular, Course, CourseSection, Lesson, Assignment, AssignmentSubmission) ->
-        # $scope.user = User
-        # Restangular.setBaseUrl 'http://macpro.local:8000/'
-        # getAllData(Restangular, $scope, 'users')
-        # getAllData(Restangular, $scope, 'courses')
-		# getAllData(Restangular, $scope, 'grades')
-        Course.all().then (courses) ->
-            $scope.courses = courses
+    return angular.module('djangoApp.controllers').controller 'AssignmentSubmissionController',
+        ($scope, $routeParams, Restangular, User, Course, Lesson, Assignment, AssignmentSubmission) ->
 
-        if($routeParams.hasOwnProperty('courseId'))
-            Course.get(Number($routeParams.courseId)).then (course) ->
+            courseParams = _.findWhere($routeParams.resources, {resource:'course'})
+            lessonParams = _.findWhere($routeParams.resources, {resource:'lesson'})
+            assignmentParams = _.findWhere($routeParams.resources, {resource:'assignment'})
+            submissionParams = _.findWhere($routerParams.resources, {resource:'submission'})
+
+            # Load the desired course defined in the courseId
+            Course.get(Number(courseParams.id)).then (course) ->
+                # Set our scope reference to the course
                 $scope.course = course
 
-                Lesson.get(course.lessons).then (lessons) ->
-                    $scope.lessons = lessons
-                    if($routeParams.hasOwnProperty('lessonId'))
-                        $scope.lesson = _.findWhere(lessons, {id: Number($routeParams.lessonId)})
+            # Load the desired lesson defined in the lessonId
+            Lesson.get(Number(lessonParams.id)).then (lesson) ->
+                # Set our scope reference to the lesson
+                $scope.lesson = lesson
 
-                Assignment.get(lesson.assignments).then (assignments) ->
-                    $scope.assignments = assignments
-                    if($routeParams.hasOwnProperty('assignmentId'))
-                        $scope.assignment = _.findWhere(assignments, {id: Number($routeParams.assignmentId)})
+            # Load the desired assignment defined in the assignmentId
+            Assignment.get(Number(assignmentParams.id)).then (asssignment) ->
+                # Set our scope reference to the assignment
+                $scope.assignment = assignment
 
-                AssignmentSubmission.get(assignment.submissions).then (submissions) ->
-                    $scope.submissions = submissions
-                    if($routeParams.hasOwnProperty('submissionId'))
-                        $scope.submission = _.findWhere(submissions, {id: Number($routeParams.submissionId)})
+            # Load the desired submission defined in the submissionId
+            AssignmentSubmission.get(Number(submissionParams.id)).then (submission) ->
+                # Set our scope reference to the submission
+                $scope.submission = submission
