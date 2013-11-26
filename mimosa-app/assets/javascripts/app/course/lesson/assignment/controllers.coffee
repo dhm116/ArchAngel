@@ -8,15 +8,16 @@ define ['angular'], (angular) ->
             $scope.action = assignmentParams.action[0].toUpperCase() + assignmentParams.action[1..-1]
             $scope.moment = moment
 
-            $('#dueDate').datetimepicker {
+            $('#dueDate').datetimepicker({
                 pickTime: false
                 autoclose: true
                 # format: 'yyyy-mm-ddThh:mm' #"dd MM yyyy - hh:ii"
-            }
+            }).on 'changeDate', (ev) ->
+                $scope.assignment.due_date = ev.date
 
             # console.log AWS.config.credentials
             $scope.aws = AWS.config.credentials
-            console.log $scope.aws
+            # console.log $scope.aws
             bucket = new AWS.S3 {params: {Bucket: 'archangel'}}
 
             # bucket.getSignedUrl 'putObject', {Key: 'testKey'}, (err, url) =>

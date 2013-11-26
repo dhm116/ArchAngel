@@ -58,6 +58,7 @@
   .row-padded
     hr(style='margin-bottom: 5px;')
   .row-padded
+    h3.page-title Lessons
     ul.timeline
       li.timeline-blue(ng-repeat='lesson in lessons')
         .timeline-time
@@ -81,8 +82,7 @@
     hr(style='margin-top: 5px; margin-bottom: 5px;')
   .row.padded
     .col-md-12
-      h4
-        i.fa.fa-comments
+      h3
         span.pad-left Forums:
         span.pad-left
         span.pad-left(ng-show='course.forums.length == 0')
@@ -93,9 +93,10 @@
             span.pad-left {{forum.name}}
   .row-padded
     hr(style='margin-top: 5px; margin-bottom: 5px;')
+    h3.page-title Syllabus
     .col-md-12(ng-cloak)
       .row(ng-if='syllabus.name')
-        h2 {{syllabus.name}}
+        h4 {{syllabus.name}}
           small.pad-left {{syllabus.description}}
         blockquote
           p(ng-show='syllabus.content', btf-markdown='syllabus.content')
@@ -103,7 +104,7 @@
         h5.subheader Loading syllabus data
   .row-padded(ng-if='isInstructor')
     hr(style='margin-bottom: 5px;')
-    h2 Sections:
+    h3.page-title Sections:
       a#sections
     ul.nav.nav-pills
       li(ng-class='{active: section == null}')

@@ -40,32 +40,24 @@
                   i.fa.fa-book
                   span.pad-left Edit {{assignment.name}}
       .row
-        .col-md-6
-          h4
-            i.fa.fa-book
-            span.pad-left Lesson Assignments:
-            span.pad-left
-            span.pad-left(ng-show='assignments.length == 0')
-              em None
-            span.pad-left(ng-repeat='assignment in assignments')
-              a.btn.green.btn-sm(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}')
+        .col-md-6(style='padding-left: 0px;')
+          .panel.panel-default
+            .panel-heading
+              h4(style='margin-top: 0px; margin-bottom: 0px;') Assignments
+            .list-group
+              a.list-group-item(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}',ng-repeat='assignment in assignments')
                 i.fa.fa-book
                 span.pad-left {{assignment.name}}
-        .col-md-6
-          h4
-            i.fa.fa-comments
-            span.pad-left Forums:
-            span.pad-left
-            span.pad-left(ng-show='lesson.forums.length == 0')
-              em None
-            span.pad-left(ng-repeat='forum in forums')
-              a.btn.green.btn-sm(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/forum/view/{{forum.id}}')
+        .col-md-6(style='padding-left: 0px;')
+          .panel.panel-default
+            .panel-heading
+              h4(style='margin-top: 0px; margin-bottom: 0px;') Forums
+            .list-group
+              a.list-group-item(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/forum/view/{{forum.id}}',ng-repeat='forum in forums')
                 i.fa.fa-comments-o
                 span.pad-left {{forum.name}}
       .row
-        hr(style='margin-top: 5px; margin-bottom: 5px;')
-      .row
-        .large-11.large-offset-1.columns
+        .col-md-12(style='padding-left: 0px;')
           p(ng-show='lesson.content', btf-markdown='lesson.content', ng-cloak)
       .row(ng-show='assignments.length > 0')
         h2.page-title Assignments Due
