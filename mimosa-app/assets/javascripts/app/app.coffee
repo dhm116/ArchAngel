@@ -12,4 +12,4 @@ define ['angular', 'templates', 'app/mobile-check'], (angular, templates, mobile
 
     angular.module('djangoApp.services', ['configuration', 'ngStorage'])
     angular.module('djangoApp.controllers', ['restangular', 'djangoApp.services', 'configuration', 'ngStorage'])
-    return angular.module('djangoApp', ['ngRoute', 'angularMoment','djangoApp.controllers','chieffancypants.loadingBar','btford.markdown'])
+    return angular.module('djangoApp', ['ngRoute', 'angularMoment','djangoApp.controllers','chieffancypants.loadingBar','btford.markdown', 'zj.namedRoutes'])

@@ -188,16 +188,17 @@ require
                 for item, options of parent
                     if item.indexOf(resource) is 0 and resource.indexOf(item) is 0
                         # console.log "Found #{resource}!", item, options
-                        return {resource: item, options: options}
+                        return {resource: item, options: options, routeName: item}
                     else if options.nested?
                         # console.log "Searching for nested resource in #{item}: ",options
                         nested = recursiveResourceFinder(options.nested, resource)
                         if nested
+                            nested.routeName = "#{item}-#{nested.routeName}"
                             return nested
                 return null
 
             createRoute = ($routeProvider, route, name, data) ->
-                console.log "Building routes for #{name}: #{route}"
+                console.log "Building routes for #{name} (#{data.namedRoute}): #{route}"
                 $routeProvider.when route, {
                     template: ($routeParams) ->
                         # resource = ""
@@ -218,7 +219,7 @@ require
                                     existing = {resource:resource}
                                     $routeParams.resources.push existing
                                 existing[type] = val
-                                delete $routeParams[key]
+                                # delete $routeParams[key]
                         else
                             locationParts = window.location.pathname.split('/')
                             $routeParams.resources.push {resource: locationParts[-1..-1]+""}
@@ -231,17 +232,19 @@ require
                             return getTemplate(unless options.restful then options.template else "#{param.action}-#{options.template}")
                         return
                     controller: if data.controller then data.controller else "#{name[0].toUpperCase()}#{name[1..-1]}Controller"
+                    name: data.namedRoute
                 }
 
-            recursiveRouteBuilder = ($routeProvider, routes, baseURL) ->
+            recursiveRouteBuilder = ($routeProvider, routes, baseURL, parentResource) ->
                 for name, data of routes
                     route = baseURL + "/#{name}"
                     if data.restful
                         route += "/:#{name}_action/:#{name}_id"
+                    data.namedRoute = (parentResource or '') + name
                     createRoute($routeProvider, route, name, data)
 
                     if data.nested?
-                        recursiveRouteBuilder($routeProvider, data.nested, route)
+                        recursiveRouteBuilder($routeProvider, data.nested, route, data.namedRoute + "-")
 
             app.config ($routeProvider, $locationProvider) ->
 
