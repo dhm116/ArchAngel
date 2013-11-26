@@ -1,0 +1,33 @@
+Install the Sublime Text PlainTasks package to see this file properly:
+
+Todo:
+  Bugs:
+    ✔ Fix week numbers for assignments (navbar not matching up) @done (13-11-26 09:09)
+    ☐ Review edit assignment formatting
+    ☐ Editing assignment, on save returns $location cannot be found
+  Features:
+    ☐ Add assignments
+    ☐ View assignment submission
+    ☐ Grade report (prof + student)
+    Forums:
+      ☐ Make description form entry a text area
+      ☐ Create new post
+      ☐ Edit post
+      ☐ View replies
+    Teams:
+      ☐ Add/remove teams
+      ☐ Add/remove students to teams
+    File upload:
+      ☐ Get it working with S3
+    Home Screen:
+      ☐ Activity stream
+      ☐ Chats
+      ☐ Calendar
+    Chat Service:
+      ☐ Openfire backend?
+      ☐ Converse.js for UI
+    Email:
+     ☐ Simple form for sending emails to team/professor/etc.
+
+  Mobile:
+   ☐ Fix layout issues
