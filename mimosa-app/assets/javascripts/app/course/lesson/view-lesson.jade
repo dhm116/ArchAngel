@@ -30,6 +30,11 @@
                   i.fa.fa-plus
                   span.pad-left Add Forum
               li.divider(ng-if='assignments.length > 0')
+              li
+                a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/add/new')
+                  i.fa.fa-plus
+                  span.pad-left Add Assignment
+              li.divider(ng-if='assignments.length > 0')
               li(ng-repeat='assignment in assignments')
                 a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignments/edit/{{assignment.id}}')
                   i.fa.fa-book

@@ -1,6 +1,6 @@
 define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'AssignmentController',
-        ($scope, $routeParams, Restangular, Course, Lesson, Assignment, AssignmentSubmission) ->
+        ($scope, $routeParams, Restangular, User, Course, Lesson, Assignment, AssignmentSubmission) ->
             courseParams = _.findWhere($routeParams.resources, {resource:'course'})
             lessonParams = _.findWhere($routeParams.resources, {resource:'lesson'})
             assignmentParams = _.findWhere($routeParams.resources, {resource:'assignment'})
@@ -30,7 +30,11 @@ define ['angular'], (angular) ->
                             AssignmentSubmission.all($scope.assignment.submissions).then (submissions) ->
                                 $scope.submissions = submissions
 
-                                console.log submissions
+                                User.all(_.pluck(submissions, 'author')).then (students) ->
+                                    $scope.students = _.indexBy(students, 'id')
+
+                                    console.log $scope.students
+
 
                 else if assignmentParams.action.indexOf('add') is 0
                     $scope.assignment = {lesson:lessonParams.id, author: User.data.id}

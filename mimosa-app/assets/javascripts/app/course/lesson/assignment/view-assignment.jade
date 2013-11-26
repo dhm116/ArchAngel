@@ -1,4 +1,5 @@
-link(rel='stylesheet', href='stylesheets/vendor/dropzone/dropzone.css')
+append stylesheets
+  link(rel='stylesheet', href='/stylesheets/vendor/dropzone/dropzone.css')
 
 .content-padded(ng-cloak)
   .row-padded
@@ -27,7 +28,7 @@ link(rel='stylesheet', href='stylesheets/vendor/dropzone/dropzone.css')
                   span.pad-left Edit Assignment
       .row
         p(ng-show='assignment.content', btf-markdown='assignment.content', ng-cloak)
-      .row
+      .row(ng-if='!isInstructor')
         h3 Submit Assignment
         form(action='https://s3-bucket.s3.amazonaws.com/', class='dropzone', id='dropzone1')
           input(type='hidden', name='key', value='uploads/${filename}')
@@ -36,8 +37,14 @@ link(rel='stylesheet', href='stylesheets/vendor/dropzone/dropzone.css')
           //- input(type='hidden', name='success_action_redirect', value='')
           //- input(type='hidden', name='policy', value='')
           //- input(type='hidden', name='signature', value='')
-      .row
+      .row(ng-if='!isInstructor')
         h4 Your Submissions
         li
-          i(ng-repeat='submission in submissions') {{submission.name}}, submitted {{submission.creation_date | amCalendar}}
+          i
+            a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{submission.id}}', ng-repeat='submission in submissions') {{submission.name}}, submitted {{submission.creation_date | amCalendar}}
+      .row(ng-if='isInstructor')
+        h4 Student Submissions
+        li
+          i
+            a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{submission.id}}', ng-repeat='submission in submissions') {{students[submission.author].last_name}}, {{students[submission.author].first_name}}: {{submission.name}}, submitted {{submission.creation_date | amCalendar}}
 

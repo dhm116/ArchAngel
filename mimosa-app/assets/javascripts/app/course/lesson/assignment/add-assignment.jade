@@ -1,48 +1,50 @@
 .content-padded(ng-cloak)
-  nav.breadcrumbs(ng-cloak)
-    li
-      a(href='/') Home
-    li
-      a(href='/course/view/{{course.id}}') {{course.name}}
-      a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}')  {{lesson.name}}
-    li.current Assignment
-  .large-6.columns
     .row-padded
-      h2.subheader {{action}} Assignment
+      include ../lesson-breadcrumb
+        append breadcrumbs
+          li
+            i.fa.fa-angle-right
+            a(href='javascript:;') {{action}} Assignment
     .row-padded
-      form
-        fieldset
-          legend Assignment
-          .row
-            .large-12.columns
-              label Title
-              input(type='text', ng-model='assignment.name')
-          .row
-            .large-12.columns
-              label Description
-              input(type='text', ng-model='assignment.description')
-          .row
-            .large-12.columns
-              label Content
-              textarea(ng-model='assignment.content')
-          .row
-            .large-12.columns
-              label Due Date
-              input(type='text', ng-model='assignment.due_date')
-          .row
-            .large-6.columns
-              button.button.small(ng-click='save()')
-                i.fa.fa-save
-                span.pad-left Save Changes
-            .large-6.columns
-              button.button.small.alert
-                i.fa.fa-undo
-                span.pad-left(ng-click='undo()') Undo Changes
-  .large-6.columns
-    .row-padded
-      h2.subheader Preview
-    .row-padded.panel
-      h4 {{assignment.name}}
-        small.pad-left {{assignment.description}}
-      hr
-      p(ng-show='lesson', btf-markdown='assignment.content')
+      .col-md-12
+        ul.nav.nav-tabs
+          li.active
+            a(href='#edit_tab', data-toggle='tab') Assignment Content
+          li
+            a(href='#preview-tab', data-toggle='tab') Preview Assignment
+
+        .tab-content
+          .tab-pane.fade-active.in#edit_tab
+            h2.page-title {{action}} Assignment
+
+            form.form.form-horizontal
+              .form-group
+                label.col-sm-2.cotrol.label Title
+                .col-sm-10
+                  input.form-control(type='text', ng-model='assignment.name', placeholder='Assignment title...')
+              .form-group
+                label.col-sm-2.control-label Description
+                .col-sm-10
+                  input.form-control(type='text', ng-model='assignment.description', placeholder='Assignment description...')
+              .form-group
+                label.col-sm-2.control-label Content
+                .col-sm-10
+                  input.form-control(type='text', ng-model='assignment.content', placeholder='Assignment content...')
+              .form-group
+                label.col-sm-2.control-label Due Date
+                .col-sm-10
+                  input.form-control(type='text', ng-model='assignment.due_date', placeholder='Assignment due date...')
+              .form-group
+                .col-sm-offset-2.col-sm-3
+                  button.btn.blue(ng-click='save()')
+                    i.fa.fa-save
+                      span.pad-left Save Changes
+                .col-sm-offset-1.col-sm-6
+                  button.btn.row-paddedi.fa.fa-undo
+                    span.pad-left(ng-click='undo()') Undo Changes
+
+          .tab-pane.fade#preview-tab
+            h2.page-title {{assignment.name}}
+              small.pad-left {{assignment.description}}
+            hr
+            p(ng-show='assignment', btf-markdown='assignment.content')
