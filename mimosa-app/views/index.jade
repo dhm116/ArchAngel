@@ -43,13 +43,13 @@ append content
               li(ng-repeat='lesson in course.lessons',ng-class='{active: (lessonParams != null && lessonParams.id == lesson)}')
                 a(href='/course/view/{{course.id}}/lesson/view/{{lesson}}')
                   i.fa.fa-pencil
-                  span.pad-left Week {{course.lessons.indexOf(lesson)+1}}
+                  span.pad-left Week {{lessons[lesson].week_no}}
                   span.selected(ng-if='lessonParams != null && lessonParams.id == lesson')
                     i.pull-right.fa.fa-chevron-circle-right
               li(ng-repeat='forum in course.forums',ng-class='{active: (forumParams != null && forumParams.id == forum)}')
                 a(href='/course/view/{{course.id}}/forum/view/{{forum}}')
                   i.fa.fa-comments-o
-                  span.pad-left Forum {{course.forums.indexOf(forum)+1}}
+                  span.pad-left {{forums[forum].name}}
                   span.selected(ng-if='forumParams != null && forumParams.id == forum')
                     i.pull-right.fa.fa-chevron-circle-right
   .page-content

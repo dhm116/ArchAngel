@@ -280,7 +280,7 @@ require
 
                         $location.path('/')
 
-                .controller 'SidebarController', ($scope, $location, $routeParams, Restangular, User, Course) ->
+                .controller 'SidebarController', ($scope, $location, $routeParams, Restangular, User, Course, Lesson, Forum) ->
                     $scope.isMobile = isMobile
                     $scope.user = User
                     $scope.moment = moment
@@ -307,11 +307,25 @@ require
                     if User.authenticated
                         Course.all().then (courses) ->
                             $scope.courses = courses
-                    #         # for course in $scope.courses
-                    #         #     Course.upcomingAssignments(course.id).then (upcoming) =>
-                    #         #         course.upcoming = upcoming
-                    #     unless isMobile
-                    #         getAllData(Restangular, $scope, 'users')
+
+                            lessonIds = []
+                            lessonIds.push course.lessons for course in $scope.courses
+
+                            # This flattens the array to keep it as a
+                            # single dimension
+                            lessonIds = _.flatten(lessonIds)
+
+                            forumIds = []
+                            forumIds.push course.forums for course in $scope.courses
+
+                            # This flattens the array to keep it as a
+                            # single dimension
+                            forumIds = _.flatten(forumIds)
+
+                            Lesson.all(lessonIds).then (lessons) ->
+                                $scope.lessons = _.indexBy(lessons, 'id')
+                            Forum.all(forumIds).then (forums) ->
+                                $scope.forums = _.indexBy(forums, 'id')
 
                     $scope.$on '$routeChangeSuccess', () =>
                         # console.log "route changed", arguments
