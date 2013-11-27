@@ -45,6 +45,8 @@
             .panel-heading
               h4(style='margin-top: 0px; margin-bottom: 0px;') Assignments
             .list-group
+              a.list-group-item(href='#', ng-if='!assignments.length > 0')
+                em None
               a.list-group-item(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}',ng-repeat='assignment in assignments')
                 i.fa.fa-book
                 span.pad-left {{assignment.name}}
@@ -53,6 +55,8 @@
             .panel-heading
               h4(style='margin-top: 0px; margin-bottom: 0px;') Forums
             .list-group
+              a.list-group-item(href='#', ng-if='!forums.length > 0')
+                em None
               a.list-group-item(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/forum/view/{{forum.id}}',ng-repeat='forum in forums')
                 i.fa.fa-comments-o
                 span.pad-left {{forum.name}}

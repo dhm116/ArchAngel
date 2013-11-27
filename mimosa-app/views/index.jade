@@ -23,6 +23,7 @@ append content
           span.pad-left.title Courses
           span.selected(ng-if='courseParams != null')
           span.arrow(ng-class='{open: courseParams != null}')
+          span.badge.badge-default {{courses.length}}
         ul.sub-menu
           li(ng-repeat='course in courses', ng-class='{active: (courseParams != null && courseParams.id == course.id) }')
             a(href='/course/view/{{course.id}}')

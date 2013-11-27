@@ -6,12 +6,45 @@ append navigation
         span.pad-left ArchAngel
       a.navbar-toggle(href='javascript:;', data-toggle='collapse', data-target='.navbar-collapse')
         img(src='stylesheets/vendor/img/menu-toggler.png')
-      ul.nav.navbar-nav.pull-right
-        li(ng-if='!user.authenticated')
+      ul.nav.navbar-nav.pull-right(ng-if='!user.authenticated')
+        li
           a(href='/login')
             i.fa.fa-sign-in
             span.pad-left Login
-        li.dropdown.user(ng-if='user.authenticated')
+      ul.nav.navbar-nav.pull-right(ng-if='user.authenticated')
+        li.dropdown
+          a.dropdown-toggle(data-toggle='dropdown', data-hover='dropdown', data-close-others='true')
+            i.fa.fa-warning
+            span.badge.badge-success 1
+          ul.dropdown-menu.extended.notification
+            li
+              p You have 1 new notification
+            li
+              ul.dropdown-menu-list.scroller(style='height:250px;')
+                li
+                  a(href='#')
+                    span.label.label-icon.label-success
+                      i.fa.fa-plus
+                    span New user registered
+                    span.time Just now
+        li.dropdown
+          a.dropdown-toggle(data-toggle='dropdown', data-hover='dropdown', data-close-others='true')
+            i.fa.fa-envelope
+            span.badge.badge-info 1
+          ul.dropdown-menu.extended.inbox
+            li
+              p You have 1 new message
+            li
+              ul.dropdown-menu-list.scroller(style='height:250px;')
+                li
+                  a(href='#')
+                    span.photo
+                      img(src='stylesheets/vendor/img/avatar2.jpg')
+                    span.subject
+                      span.from Lisa Wong
+                      span.time Just now
+                    span.message Did you submit that final report?
+        li.dropdown
           a.dropdown-toggle(href='#', data-toggle='dropdown', data-hover='dropdown', data-close-others='true')
             i.fa.fa-user
             span.pad-left.username {{user.data.first_name}} {{user.data.last_name}}

@@ -1,3 +1,5 @@
+link(rel='stylesheet', href='stylesheets/vendor/metronic/pages/tasks.css')
+
 .row
   .col-md-12
     h3.page-title Welcome to ArchAngel
@@ -16,6 +18,14 @@
             i.fa.fa-arrow-circle-o-right
     .row
       .col-md-6.col-sm-6
+        .portlet.box.blue.calendar
+          .portlet-title
+            .caption
+              i.fa.fa-calendar
+              span.pad-left Calendar
+          .portlet-body.light-greay
+            #calendar
+      .col-md-6.col-sm-6
         .portlet.box.green.tasks-widget
           .portlet-title
             .caption
@@ -27,7 +37,7 @@
                 u.task-list
                   li
                     .task-checkbox
-                      input.liChild(type='checkbox')
+                      input.liChild(type='checkbox', value='')
                     .task-title
                       span.task-title-sp Present 2013 Year IPO Statistics at board meeting
                       span.label.label-sm.label-success Company

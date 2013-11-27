@@ -23,7 +23,7 @@
             .form-group
               label.col-sm-2.control-label Description
               .col-sm-10
-                input.form-control(type='text', ng-model='forum.description', placeholder='Forum description...')
+                textarea.form-control(ng-model='forum.description', placeholder='Forum description...')
             .form-group
               .col-sm-offset-2.col-sm-3
                 button.btn.blue(ng-click='save()')

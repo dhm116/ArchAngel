@@ -338,6 +338,8 @@ require
                     unless User.authenticated
                         $location.path('/login')
                     else
+                        Index.initCalendar()
+                        Tasks.initDashboardWidget()
                         Course.all().then (courses) ->
                             $scope.courses = courses
                         #     for course in $scope.courses

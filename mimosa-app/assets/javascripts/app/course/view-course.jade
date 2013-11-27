@@ -96,7 +96,7 @@
     h3.page-title Syllabus
     .col-md-12(ng-cloak)
       .row(ng-if='syllabus.name')
-        h4 {{syllabus.name}}
+        h3 {{syllabus.name}}
           small.pad-left {{syllabus.description}}
         blockquote
           p(ng-show='syllabus.content', btf-markdown='syllabus.content')
