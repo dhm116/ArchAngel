@@ -167,7 +167,7 @@
               td
                 span {{team.name}}
                 span.pad-left.pull-right
-                  a.btn.dark.btn-sm(href='#')
+                  a.btn.dark.btn-sm(href='/course/view/{{course.id}}/team/delete/{{team.id}}')
                     i.fa.fa-times
                 span.pull-right
                   span.badge(ng-class="{'badge-info': team.members.length > 0, 'badge-default': team.members.length < 1}") {{team.members.length}}

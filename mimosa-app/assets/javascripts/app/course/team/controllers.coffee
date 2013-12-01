@@ -1,6 +1,6 @@
 define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'TeamController',
-        ($scope, $routeParams, $location, Restangular, User, Course, CourseSection, CourseRoster, Syllabus, Lesson, Team, Forum) ->
+        ($scope, $routeParams, $location, Restangular, User, Course, CourseSection, CourseRoster, Syllabus, Lesson, Team, TeamMember, Forum) ->
 
             courseParams = _.findWhere($routeParams.resources, {resource:'course'})
             teamParams = _.findWhere($routeParams.resources, {resource:'team'})
@@ -33,24 +33,41 @@ define ['angular'], (angular) ->
                         $scope.sections = _.indexBy(sections, 'id')
 
                         Team.all().then (teams) ->
-                            if teams.length
-                                teams = _.groupBy(teams, 'section')
                             if teamParams.action.indexOf('add') is 0
-                                for section in sections
-                                    team_no = if teams.hasOwnProperty(section.id) then _.last(teams[section.id]).team_no + 1 else 1
-                                    team = {
-                                        section: section.id
-                                        team_no: team_no
-                                        name: "S#{section.section_no}.#{team_no}"
-                                    }
-                                    Team.add(team)
-                                        .then (result) ->
-                                            console.log "Adding worked: ", result
-                                            # $scope.lessons.push result
-                                            $scope.sections[result.section].teams.push(result.id)
+                                if teams.length
+                                    teams = _.groupBy(teams, 'section')
+                                    waitingFor = sections.length - 1
+
+                                    finishedAdding = () ->
+                                        console.log waitingFor
+                                        if waitingFor == 0
                                             Team.all(null, true).then (teams) ->
-                                                return true
-                                        .catch (err) ->
-                                            console.log "Adding failed: ", err
-                                $location.path("/course/view/#{$scope.course.id}")
+                                                TeamMember.all(null, true).then (members) ->
+                                                    $location.path("/course/view/#{$scope.course.id}")
+                                        else
+                                            waitingFor -= 1
+
+                                    for section in sections
+                                        team_no = if teams.hasOwnProperty(section.id) then _.last(teams[section.id]).team_no + 1 else 1
+                                        team = {
+                                            section: section.id
+                                            team_no: team_no
+                                            name: "S#{section.section_no}.#{team_no}"
+                                        }
+                                        Team.add(team)
+                                            .then (result) ->
+                                                console.log "Adding worked: ", result
+                                                # $scope.lessons.push result
+                                                $scope.sections[result.section].teams.push(result.id)
+                                            .catch (err) ->
+                                                console.log "Adding failed: ", err
+                                            .finally () ->
+                                                finishedAdding()
+                            else if teamParams.action.indexOf('delete') is 0
+                                team = _.findWhere(teams, {id: Number(teamParams.id)})
+                                Team.delete(team).finally () ->
+                                    Team.all(null, true).then (teams) ->
+                                        TeamMember.all(null, true).then (members) ->
+                                            $location.path("/course/view/#{$scope.course.id}")
+
 
