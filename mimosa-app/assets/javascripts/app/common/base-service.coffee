@@ -68,13 +68,14 @@ define ['angular'], (angular) ->
                         console.log "Got #{@model} data"
 
                         @items = items
-                        @$rootScope.$broadcast "#{@model}-updated", @
                         # console.log @items
 
                         # Complete the promise either with all items
                         # returned, or with a filtered list of items
                         # based on the ids supplied
                         defer.resolve(if ids then @__getItems(ids) else @items)
+
+                        @$rootScope.$broadcast "#{@model}-updated", @
                     .catch (err) =>
                         defer.reject(err)
                         @$rootScope.$broadcast "error", {service: @, error: err}
@@ -121,8 +122,8 @@ define ['angular'], (angular) ->
                 .then (result) =>
                     # Add the item to the local cache
                     @items.push(result)
-                    @$rootScope.$broadcast "#{@model}-updated", @
                     defer.resolve(result)
+                    @$rootScope.$broadcast "#{@model}-updated", @
                 .catch (err) =>
                     defer.reject(err)
                     @$rootScope.$broadcast "error", {service: @, error: err}
@@ -144,8 +145,8 @@ define ['angular'], (angular) ->
                     # Update the local cache instance
                     index = @items.indexOf(_.findWhere(@items, {id: result.id}))
                     @items[index] = result
-                    @$rootScope.$broadcast "#{@model}-updated", @
                     defer.resolve(result)
+                    @$rootScope.$broadcast "#{@model}-updated", @
                 .catch (err) =>
                     defer.reject(err)
                     @$rootScope.$broadcast "error", {service: @, error: err}
@@ -164,8 +165,8 @@ define ['angular'], (angular) ->
                     # Update the local cache instance
                     index = @items.indexOf(_.findWhere(@items, {id: id}))
                     delete @items[index]
-                    @$rootScope.$broadcast "#{@model}-updated", @
                     defer.resolve(result)
+                    @$rootScope.$broadcast "#{@model}-updated", @
                 .catch (err) =>
                     defer.reject(err)
                     @$rootScope.$broadcast "error", {service: @, error: err}

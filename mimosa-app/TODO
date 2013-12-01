@@ -21,7 +21,7 @@ Todo:
     Teams:
       ✔ Add/remove teams (2) @done (13-12-01 12:51)
       ✔ Add/remove students to teams (2) @done (13-12-01 12:51)
-      ☐ Refresh team list after adding
+      ✔ Refresh team list after adding @done (13-12-01 16:37)
     File upload:
       ✔ Get it working with S3 (not working :( ) (SCREW DROPZONE, go simple) (1) @done (13-11-28 16:44)
       ☐ After selecting a file, indicate which file was selected

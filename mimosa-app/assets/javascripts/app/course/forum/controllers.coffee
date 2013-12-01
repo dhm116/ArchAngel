@@ -73,19 +73,17 @@ define ['angular'], (angular) ->
                 path = "/course/view/#{$scope.course.id}"
                 if(lessonParams)
                     path = "#{path}/lesson/view/#{$scope.lesson.id}"
+                    delete $scope.lesson.forums[_.indexOf($scope.lesson.forums, forumId)]
+                else
+                    delete $scope.course.forums[_.indexOf($scope.course.forums, forumId)]
 
-                $location.path(path)
+                # $location.path(path)
                 Forum.delete($scope.forum)
                     .then (result) ->
                         console.log "Deleting worked: ", result
-                        path = "/course/view/#{$scope.course.id}"
-                        if(lessonParams)
-                            path = "#{path}/lesson/view/#{$scope.lesson.id}"
-                            delete $scope.lesson.forums[_.indexOf($scope.lesson.forums, forumId)]
-                        else
-                            delete $scope.course.forums[_.indexOf($scope.course.forums, forumId)]
-
-                        $location.path(path)
+                        # path = "/course/view/#{$scope.course.id}"
                     .catch (err) ->
                         console.log "Deleting failed: ", err
-                        $location.path("#{path}/forum/view/#{forumId}")
+                        # $location.path("#{path}/forum/view/#{forumId}")
+                    .finally () ->
+                        $location.path(path)

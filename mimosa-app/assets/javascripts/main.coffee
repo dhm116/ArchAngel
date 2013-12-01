@@ -299,17 +299,24 @@ require
                         $scope.forumParams = null
                         $scope.routeParams = null
 
-                    $scope.$on 'forums-updated', (event, forums) =>
-                        console.log 'Forums were updated: ', arguments
-                        $scope.forums = _.indexBy(forums.data, 'id')
+                    $scope.$on 'forums-updated', () ->
+                        # console.log 'Forums were updated: ', arguments
+                        Course.all(null, true).then (courses) ->
+                            $scope.courses = courses
+
+                            Forum.all().then (forums) ->
+                                if forums?.length > 0
+                                    $scope.forums = _.indexBy(forums, 'id')
+
+                                    # for course in courses
+
                     # params = _.last($routeParams.resources)
 
                     $scope.$on 'error', (event, err) ->
                         # console.log err
                         {service, error} = err
                         for field, msg of error.data
-                            console.log "#{field}: #{msg.join()}"
-                            growl.addErrorMessage("#{field}: #{msg.join()}")
+                            growl.addErrorMessage("#{msg.join()} - '#{field}'")
 
                     updateRouteParams = () =>
                         $scope.courseParams = _.findWhere($routeParams.resources, {resource:'course'})
