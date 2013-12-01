@@ -44,7 +44,7 @@ define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
                         defer.resolve([])
 
                 return defer.promise
-        return new Course(Restangular, $q)
+        return new Course(Restangular, $q, $rootScope)
         # class Course
         #     courses: []
         #     d: null

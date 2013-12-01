@@ -82,7 +82,7 @@
     hr(style='margin-top: 5px; margin-bottom: 5px;')
   .row.padded
     .col-md-12
-      h3
+      h3.pull-right
         span.pad-left Forums:
         span.pad-left
         span.pad-left(ng-show='course.forums.length == 0')
@@ -104,39 +104,72 @@
         h5.subheader Loading syllabus data
   .row-padded(ng-if='isInstructor')
     hr(style='margin-bottom: 5px;')
-    h3.page-title Sections:
-      a#sections
-    ul.nav.nav-pills
-      li(ng-class='{active: section == null}')
-        a(href='/course/view/{{course.id}}') All
-      li(ng-repeat='s in sections', ng-class='{active: section.id == s.id}')
-        a(href='/course/view/{{course.id}}/section/view/{{s.id}}') {{s.section_no}}
     .col-md-8
-      table.table
-        thead
-          tr
-            th(colspan='2')
-              h4
-                i.subheader.fa.fa-user
-                span.pad-left Students
-        tbody
-          tr(ng-if='!students.length > 0')
-            td(colspan='2')
-              em No students enrolled
-          tr(ng-repeat='student in students')
-            td
-              a(href='#') {{student.first_name}} {{student.last_name}}
-            td
-              a.btn.blue.btn-sm(href='mailto: {{student.email}}')
-                i.fa.fa-envelope
-              span.pad-left
-              a.btn.blue.btn-sm(href='#')
-                i.fa.fa-info
+      h3.page-title Sections:
+        a#sections
+      ul.nav.nav-pills
+        li(ng-class='{active: section == null}')
+          a(href='/course/view/{{course.id}}') All
+        li(ng-repeat='s in sections', ng-class='{active: section.id == s.id}')
+          a(href='/course/view/{{course.id}}/section/view/{{s.id}}') {{s.section_no}}
+        table.table
+          thead
+            tr
+              th(colspan='1')
+                h4
+                  i.subheader.fa.fa-user
+                  span.pad-left Student
+              th
+                h4
+                  i.subheader.fa.fa-group
+                  span.pad-left Team
+              th
+          tbody
+            tr(ng-if='!students.length > 0')
+              td(colspan='2')
+                em No students enrolled
+            tr(ng-repeat='student in students')
+              td
+                a(href='#') {{student.first_name}} {{student.last_name}}
+              td
+                a(href='#', onbeforesave='updateUserTeam($data, student.id)', editable-select='team_index[team_members[student.id].team]', e-ng-options='t.name for t in section_teams[section_members[student.id].section]')
+                  span {{team_index[team_members[student.id].team].name || 'none assigned'}}
+              td
+                a.btn.blue.btn-sm(href='mailto: {{student.email}}')
+                  i.fa.fa-envelope
+                span.pad-left
+                  a.btn.blue.btn-sm(href='#')
+                    i.fa.fa-info
+                span.pad-left
+                  a.btn.dark.btn-sm(href='#')
+                    i.fa.fa-times
+                    span.pad-left Team
     .col-md-4
-      h4
-        i.subheader.fa.fa-group
-        span.pad-left Teams
-      ul.side-nav
-        li(ng-if='!teams.length > 0')
-          em None
+      h3.page-title Teams:
+        a#teams
+      ul.nav.nav-pills
+        li.active
+          a(href='/course/view/{{course.id}}/team/add/new')
+            i.fa.fa-plus
+            span.pad-left Add
+        table.table
+          thead
+            tr
+              th
+                h4
+                  i.subheader.fa.fa-group
+                  span.pad-left Team
+          tbody
+            tr(ng-if='!teams.length > 0')
+              td
+                em No teams created
+            tr(ng-repeat='team in teams')
+              td
+                span {{team.name}}
+                span.pad-left.pull-right
+                  a.btn.dark.btn-sm(href='#')
+                    i.fa.fa-times
+                span.pull-right
+                  span.badge(ng-class="{'badge-info': team.members.length > 0, 'badge-default': team.members.length < 1}") {{team.members.length}}
+                  span.pad-left members
   .row

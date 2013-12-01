@@ -112,6 +112,7 @@ exports.config = {
         exclude: [
           /^.*\.(?!(?:js|coffee)$)[^.]+$/
           'requirejs/require.js'
+          'jquery/jquery.js'
         ]
         order: [
           'jquery/jquery.min.js'

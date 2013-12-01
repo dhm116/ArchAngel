@@ -1,19 +1,22 @@
 
 .content-padded(ng-cloak)
   .row-padded
-    include ../lesson-breadcrumb
+    include ../../lesson-breadcrumb
       append breadcrumbs
         li
           i.fa.fa-angle-right
-          a(href='javascript:;') Week {{lesson.week_no}} Assignment: {{assignment.name}}
+          a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}') {{assignment.name}}
+        li
+          i.fa.fa-angle-right
+          a(href='javascript:;') {{submission.name}}
   .row-padded
     .col-md-12
       .row
         .col-md-11(style='padding-left: 0px;')
-          h2.page-title Week {{lesson.week_no}} Assignment: {{assignment.name}}
-            small.pad-left {{assignment.description}}
+          h2.page-title {{submission.name}}
+            small.pad-left {{submission.creation_date | amCalendar}}
           hr(style='margin-bottom: 5px;')
-        .col-md-1(ng-show='isInstructor')
+        .col-md-1(ng-show='submission.author == User.data.id')
           .btn-group.pull-right
             button.btn.blue.btn-sm.dropdown-toggle(type='button', data-toggle='dropdown')
               i.fa.fa-edit
@@ -21,24 +24,20 @@
               i.pad-left.fa.fa-caret-down
             ul.dropdown-menu(role='menu')
               li
-                a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/edit/{{assignment.id}}')
+                a(data-named-url='course-lesson-assignment-submission', data-named-route-params='{{$routeParams}}', data-kwarg-submission_action='edit')
                   i.fa.fa-edit
-                  span.pad-left Edit Assignment
+                  span.pad-left Edit Submission
       .row
         p(ng-show='assignment.content', btf-markdown='assignment.content', ng-cloak)
       .row
         h3 Due on {{moment(assignment.due_date).format("LLL")}}
       .row
-        h3 Submit Assignment
+        h3 Graded Assignment
         form.form.form-horizontal
           .form-group
-            label.col-sm-2.control-label Title
+            label.col-sm-2.control-label Instructor's Comments
             .col-sm-10
-              input.form-control(type='text', ng-model='assignmentsubmission.name', placeholder='Submission title...')
-          .form-group
-            label.col-sm-2.control-label Content
-            .col-sm-10
-              textarea.form-control(ng-model='assignmentsubmission.content', placeholder='Submission content...')
+              textarea.form-control(ng-model='assignmentsubmission.content', placeholder='Graded Submission content...')
           .form-group
             label.col-sm-2.control-label Attachment
             .col-sm-10

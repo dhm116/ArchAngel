@@ -1,6 +1,6 @@
 define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'AssignmentController',
-        ($scope, $routeParams, $location, $sce, Restangular, User, Course, Lesson, Assignment, AssignmentSubmission) ->
+        ($scope, $routeParams, $location, $sce, $upload, Restangular, User, Course, Lesson, Assignment, AssignmentSubmission) ->
             courseParams = _.findWhere($routeParams.resources, {resource:'course'})
             lessonParams = _.findWhere($routeParams.resources, {resource:'lesson'})
             assignmentParams = _.findWhere($routeParams.resources, {resource:'assignment'})
@@ -20,54 +20,6 @@ define ['angular'], (angular) ->
             # console.log $scope.aws
             bucket = new AWS.S3 {params: {Bucket: 'archangel'}}
 
-            # bucket.getSignedUrl 'putObject', {Key: 'testKey'}, (err, url) =>
-            #     if err
-            #         console.log err
-            #     else
-            #         #$scope.signedURL = $sce.trustAsResourceUrl(url)
-            #         $('#assignmentDropzone').attr('action', _.unescape(url))
-            #         console.log url
-            #         Dropzone.discover()
-
-            Dropzone.options.assignmentDropzone = {
-                autoProcessQueue: false
-
-                init: ->
-                    @on "addedfile", (file) =>
-                        console.log file
-                        bucket.getSignedUrl 'putObject', {Key: "#{User.data.id}/#{new Date().getTime()}/${filename}"}, (err, url) =>
-                            if err
-                                console.log err
-                            else
-                                #$scope.signedURL = $sce.trustAsResourceUrl(url)
-                                # $('#assignmentDropzone').attr('action', _.unescape(url))
-                                console.log url
-                                @options.url = url
-                                @enqueueFile(file)
-                                @processQueue()
-
-                        # Create the remove button
-                        removeButton = Dropzone.createElement("<button class='btn btn-sm btn-block'>Remove file</button>")
-
-                        # Listen to the click event
-                        removeButton.addEventListener "click", (e) =>
-                            # Make sure the button click doesn't submit the form:
-                            e.preventDefault();
-                            e.stopPropagation();
-
-                            # Remove the file preview.
-                            @removeFile(file);
-                            # If you want to the delete the file on the server as well,
-                            # you can do the AJAX request here.
-
-                        # Add the button to the file preview element.
-                        file.previewElement.appendChild(removeButton);
-                    @on 'sending', (file, xhr, data) =>
-                        console.log arguments
-            }
-            Dropzone.discover()
-
-
             # Load the desired course defined in the courseId
             Course.get(Number(courseParams.id)).then (course) ->
                 # Set our scope reference to the course
@@ -83,10 +35,13 @@ define ['angular'], (angular) ->
                     $scope.assignment = assignment
                     $scope.submissions = []
 
+                    $scope.assignmentsubmission = {author: User.data.id, assignment: assignment.id}
+
                     # Gather all user submissions for the assignment
                     if $scope.assignment.submissions.length
                         AssignmentSubmission.all($scope.assignment.submissions).then (submissions) ->
                             $scope.submissions = submissions
+                            # console.log submissions
 
                             User.all(_.pluck(submissions, 'author')).then (students) ->
                                 $scope.students = _.indexBy(students, 'id')
@@ -119,3 +74,58 @@ define ['angular'], (angular) ->
                             $location.path("/course/view/#{$scope.course.id}/lesson/view/#{$scope.lesson.id}/assignment/view/#{result.id}")
                         .catch (err) ->
                             console.log "Adding failed: ", err
+
+            $scope.onFileSelect = (files) ->
+                $scope.assignmentsubmission.file = files[0]
+
+            $scope.saveSubmission = () ->
+                #bucket.getSignedUrl 'putObject', {Key: "#{User.data.id}/#{new Date().getTime()}/${filename}"}, (err, url) =>
+                createSubmission = () ->
+                    # submission = {
+                    #     author: User.data.id
+                    #     assignment: $scope.assignment.id
+                    #     name: "#{User.data.first_name} #{User.data.last_name}'s submission (see attached)"
+                    #     file_path: "https://s3.amazonaws.com/archangel/#{filename}"
+                    # }
+
+                    AssignmentSubmission.add($scope.assignmentsubmission)
+                        .then (result) ->
+                            $scope.submissions.push(result)
+                            $scope.assignment.submissions.push(result.id)
+                        .catch (err) ->
+                            console.log err
+                if $scope.assignmentsubmission.file
+                    file = $scope.assignmentsubmission.file
+
+                    filename = "#{$scope.assignmentsubmission.author}/#{new Date().getTime()}/#{file.name}"
+                    bucket.putObject(
+                        {
+                            Key: filename
+                            ContentType: file.type
+                            Body: file
+                        }
+                        ,(err, data) ->
+                            if err
+                                console.log err
+                            else
+                                $scope.assignmentsubmission.file_path = "https://s3.amazonaws.com/archangel/#{filename}"
+                                delete $scope.assignmentsubmission.file
+                                createSubmission()
+                    )
+                else
+                    createSubmission()
+
+            $scope.deleteSubmission = (submission) ->
+                console.log $scope.submissions
+                delete $scope.submissions[_.indexOf($scope.submissions, submission)]
+                console.log $scope.submissions
+                console.log $scope.assignment.submissions
+                delete $scope.assignment.submissions[_.indexOf($scope.assignment.submissions, submission.id)]
+                console.log $scope.assignment.submissions
+                AssignmentSubmission.delete(submission)
+                    .then (result) ->
+                        console.log result
+                    .catch (err) ->
+                        console.log error
+                        $scope.submissions.push(submission)
+                        $scope.assignment.submissions.push(submission.id)

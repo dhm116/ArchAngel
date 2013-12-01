@@ -53,5 +53,16 @@ append content
                   span.pad-left {{forums[forum].name}}
                   span.selected(ng-if='forumParams != null && forumParams.id == forum')
                     i.pull-right.fa.fa-chevron-circle-right
+      li
+        a(href='/course/view/{{course.id}}/team/view/all')
+          i.fa.fa-group
+          span.pad-left Teams
+      li
+        a(href='/course/view/{{course.id}}')
+          i.fa.fa-book
+          span.pad-left Grades
+
   .page-content
-    .ng-view
+    .growl(style='z-index: 9999;', growl)
+    #main-content
+      .ng-view

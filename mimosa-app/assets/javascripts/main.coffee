@@ -48,7 +48,7 @@ require
         $(document).ready ->
             console.log 'Initializing metronic'
             Metronic.init()
-            FormDropzone.init()
+            # FormDropzone.init()
             # FormFileUpload.init()
             return
 
@@ -80,6 +80,7 @@ require
             'app/course/grades/services'
             'app/course/grades/controllers'
             'app/course/team/services'
+            'app/course/team/controllers'
             'app/course/forum/services'
             'app/course/forum/controllers'
         ], ->
@@ -170,11 +171,10 @@ require
                                     restful: true
                                     template: 'assignment'
                             #        controller: 'AssignmentController'
-                                   nested:
-                                       submission:
-                                           restful: true
-                                           template: 'submission'
-                            #                controller: 'SubmissionController'
+                                    nested:
+                                        submission:
+                                            restful: true
+                                            template: 'submission'
                         syllabus:
                             restful: true
                             template: 'syllabus'
@@ -182,6 +182,9 @@ require
                         forum:
                             restful: true
                             template: 'forum'
+                        team:
+                            restful: true
+                            template: 'team'
             }
 
             recursiveResourceFinder = (parent, resource) ->
@@ -280,7 +283,7 @@ require
 
                         $location.path('/')
 
-                .controller 'SidebarController', ($scope, $location, $routeParams, Restangular, User, Course, Lesson, Forum) ->
+                .controller 'SidebarController', ($scope, $location, $routeParams, Restangular, growl, User, Course, Lesson, Forum) ->
                     $scope.isMobile = isMobile
                     $scope.user = User
                     $scope.moment = moment
@@ -295,7 +298,18 @@ require
                         $scope.lessonParams = null
                         $scope.forumParams = null
                         $scope.routeParams = null
+
+                    $scope.$on 'forums-updated', (event, forums) =>
+                        console.log 'Forums were updated: ', arguments
+                        $scope.forums = _.indexBy(forums.data, 'id')
                     # params = _.last($routeParams.resources)
+
+                    $scope.$on 'error', (event, err) ->
+                        # console.log err
+                        {service, error} = err
+                        for field, msg of error.data
+                            console.log "#{field}: #{msg.join()}"
+                            growl.addErrorMessage("#{field}: #{msg.join()}")
 
                     updateRouteParams = () =>
                         $scope.courseParams = _.findWhere($routeParams.resources, {resource:'course'})

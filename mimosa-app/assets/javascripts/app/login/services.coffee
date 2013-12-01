@@ -70,7 +70,7 @@ define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
             __attachToken: () =>
                 @Restangular.setDefaultHeaders {Authorization: "Token #{@token}"}
 
-        return new User(Restangular, $q, $localStorage)
+        return new User(Restangular, $q, $rootScope, $localStorage)
         # class User
         #     token: ''
         #     authenticated: false

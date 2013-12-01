@@ -27,10 +27,16 @@
                 a(href='/course/view/{{course.id}}/forum/edit/{{forum.id}}')
                   i.fa.fa-edit
                   span.pad-left Edit Forum
+                a(href='#', ng-click='delete()')
+                  i.fa.fa-minus-square-o
+                  span.pad-left Delete Forum
               li(ng-if='lesson != null')
                 a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/forum/edit/{{forum.id}}')
                   i.fa.fa-edit
                   span.pad-left Edit Forum
+                a(href='#', ng-click='delete()')
+                  i.fa.fa-minus-square-o
+                  span.pad-left Delete Forum
       .row
         .well
           .row

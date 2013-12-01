@@ -8,26 +8,33 @@ Todo:
     ✔ Adding assignment, on save returns $location cannot be found @done (13-11-26 11:06)
   Features:
     ✔ Add assignments @done (13-11-26 09:41)
-    ☐ View assignment submission
-    ☐ Grade report (prof + student)
-    ☐ Display REST errors
+    ☐ TESTS (4/5)
+    ✔ View assignment submission (1) @done (13-12-01 12:51)
+    ☐ Grade report (prof + student) (1)
+    ☐ Display REST errors (5)
     Forums:
       ✔ Make description form entry a text area @done (13-11-26 17:16)
+      ☐ Django ForumPost REST API error (4/5)
       ☐ Create new post
       ☐ Edit post
       ☐ View replies
     Teams:
-      ☐ Add/remove teams
-      ☐ Add/remove students to teams
+      ✔ Add/remove teams (2) @done (13-12-01 12:51)
+      ✔ Add/remove students to teams (2) @done (13-12-01 12:51)
+      ☐ Refresh team list after adding
     File upload:
-      ☐ Get it working with S3 (not working :( )
+      ✔ Get it working with S3 (not working :( ) (SCREW DROPZONE, go simple) (1) @done (13-11-28 16:44)
+      ☐ After selecting a file, indicate which file was selected
     Home Screen:
       ☐ Activity stream
       ☐ Chats
-      ☐ Calendar
+      ✔ Calendar @done (13-11-27 21:51)
     Chat Service:
-      ☐ Openfire backend?
-      ☐ Converse.js for UI
+      ☐ Openfire backend? (3) (Chris)
+      ☐ Converse.js for UI (3) (Chris)
+    Sidebar:
+     ☐ Update lesson list after adding
+     ☐ Add grades page to a course
     Email:
      ☐ Simple form for sending emails to team/professor/etc.
 

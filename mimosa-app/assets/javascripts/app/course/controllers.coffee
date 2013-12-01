@@ -1,6 +1,6 @@
 define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'CourseController',
-        ($scope, $routeParams, Restangular, User, Course, CourseSection, CourseRoster, Syllabus, Lesson, Team, Forum) ->
+        ($scope, $routeParams, Restangular, User, Course, CourseSection, CourseRoster, Syllabus, Lesson, Team, TeamMember, Forum) ->
 
             # Keep track of what model we're loading
             # (not sure why...)
@@ -66,7 +66,7 @@ define ['angular'], (angular) ->
                 # Create an empty list of sections and section
                 # members to avoid any null references
                 $scope.sections = []
-                $scope.section_members = []
+                # $scope.section_members = []
 
                 # Only attempt to load sections and members if
                 # there are any
@@ -91,7 +91,7 @@ define ['angular'], (angular) ->
                             # to the student group
                             CourseRoster.students(rosterIds).then (members) ->
                                 # This is our list of student roster objects
-                                $scope.section_members = members
+                                $scope.section_members = _.indexBy(members, 'user')
 
                                 # Load the actual user data for each student
                                 # in our section members list
@@ -114,6 +114,11 @@ define ['angular'], (angular) ->
                             Team.all(teamIds).then (teams) ->
 
                                 $scope.teams = teams
+                                $scope.section_teams = _.groupBy(teams, 'section')
+                                $scope.team_index = _.indexBy(teams, 'id')
+
+                            TeamMember.all().then (teamMembers) ->
+                                $scope.team_members = _.indexBy(teamMembers, 'user')
 
                         # The user has selected a specific section
                         else
@@ -124,7 +129,7 @@ define ['angular'], (angular) ->
 
                                 # Load the students for this section
                                 CourseRoster.students($scope.section.members).then (members) ->
-                                    $scope.section_members = members
+                                    $scope.section_members = _.indexBy(members, 'user')
 
                                     # Load the actual user data for each student
                                     # in our section members list
@@ -137,4 +142,35 @@ define ['angular'], (angular) ->
                                 # Load the teams for this section
                                 Team.all($scope.section.teams).then (teams) ->
                                     $scope.teams = teams
+                                    $scope.section_teams = _.groupBy(teams, 'section')
+                                    $scope.team_index = _.indexBy(teams, 'id')
 
+                                TeamMember.all().then (teamMembers) ->
+                                    $scope.team_members = _.indexBy(teamMembers, 'user')
+
+            $scope.updateUserTeam = (data, user) ->
+                unless $scope.team_members[user]?.team == data.id
+                    if $scope.team_members.hasOwnProperty(user)
+                        teamMember = $scope.team_members[user]
+                        teamMember.team = data.id
+                        TeamMember.update(teamMember)
+                            .then (result) ->
+                                console.log "Updated team membership"
+                                $scope.team_members[user].team = result.team
+
+                                Team.all(_.pluck($scope.teams, 'id'), true).then (teams) ->
+                                    $scope.teams = teams
+                                return true
+                            .catch (err) ->
+                                return "Error: " + err
+                    else
+                        teamMember = {team: data.id, user: user}
+                        TeamMember.add(teamMember)
+                            .then (result) ->
+                                console.log "Created team membership"
+                                $scope.team_members[user] = result
+                                Team.all(_.pluck($scope.teams, 'id'), true).then (teams) ->
+                                    $scope.teams = teams
+                                return true
+                            .catch (err) ->
+                                return "Error: " + err

@@ -12,8 +12,7 @@ define ['angular'], (angular) ->
         # promise services.
         #
         # Additional arguments will be lumped into "other"
-        constructor: (@Restangular, @$q, other...) ->
-
+        constructor: (@Restangular, @$q, @$rootScope, other...) ->
             # Hand off any additional arguments to any
             # sub class that overrides this method
             @__onNewInstance(other...)
@@ -43,7 +42,7 @@ define ['angular'], (angular) ->
         #
         # ids can be null, a single number, or an array
         # of numbers
-        all: (ids) =>
+        all: (ids, forceUpdate) =>
             # Let's make sure any overriden models have actually
             # defined what model to load, and any dependencies to
             # load it.
@@ -59,18 +58,27 @@ define ['angular'], (angular) ->
 
             # If we already have loaded all data, let's use
             # the cached version we already have
+            if forceUpdate
+                @items = []
+
             unless @items.length
                 console.log "Loading #{@model} data from REST API"
-                @Restangular.all(@model).getList().then (items) =>
-                    console.log "Got #{@model} data"
+                @Restangular.all(@model).getList()
+                    .then (items) =>
+                        console.log "Got #{@model} data"
 
-                    @items = items
-                    # console.log @items
+                        @items = items
+                        @$rootScope.$broadcast "#{@model}-updated", @
+                        # console.log @items
 
-                    # Complete the promise either with all items
-                    # returned, or with a filtered list of items
-                    # based on the ids supplied
-                    defer.resolve(if ids then @__getItems(ids) else @items)
+                        # Complete the promise either with all items
+                        # returned, or with a filtered list of items
+                        # based on the ids supplied
+                        defer.resolve(if ids then @__getItems(ids) else @items)
+                    .catch (err) =>
+                        defer.reject(err)
+                        @$rootScope.$broadcast "error", {service: @, error: err}
+
             else
                 console.log "Loading cached #{@model} items"
                 # Complete the promise either with all items
@@ -85,12 +93,12 @@ define ['angular'], (angular) ->
         # Retrieves a single item
         #
         # id must be a number
-        get: (id) =>
+        get: (id, forceUpdate) =>
             @__checkDependencies()
             defer = @$q.defer()
 
             match = _.findWhere(@items, {id: id})
-            if match
+            if match or forceUpdate
                 console.log "Loading cached single #{@model} item"
                 # console.log @items
                 defer.resolve(match)
@@ -113,9 +121,11 @@ define ['angular'], (angular) ->
                 .then (result) =>
                     # Add the item to the local cache
                     @items.push(result)
+                    @$rootScope.$broadcast "#{@model}-updated", @
                     defer.resolve(result)
                 .catch (err) =>
                     defer.reject(err)
+                    @$rootScope.$broadcast "error", {service: @, error: err}
             return defer.promise
 
         # Updates an existing item and issues an
@@ -134,9 +144,31 @@ define ['angular'], (angular) ->
                     # Update the local cache instance
                     index = @items.indexOf(_.findWhere(@items, {id: result.id}))
                     @items[index] = result
+                    @$rootScope.$broadcast "#{@model}-updated", @
                     defer.resolve(result)
                 .catch (err) =>
                     defer.reject(err)
+                    @$rootScope.$broadcast "error", {service: @, error: err}
+            return defer.promise
+
+        # Deletes an existing item and issues an
+        # HTTP DELETE
+        delete: (item) =>
+            defer = @$q.defer()
+
+            id = if _.isNumber(item) then item else item.id
+
+            console.log "Deleting #{@model} #{id}"
+
+            @Restangular.one(@model, id).remove().then (result) =>
+                    # Update the local cache instance
+                    index = @items.indexOf(_.findWhere(@items, {id: id}))
+                    delete @items[index]
+                    @$rootScope.$broadcast "#{@model}-updated", @
+                    defer.resolve(result)
+                .catch (err) =>
+                    defer.reject(err)
+                    @$rootScope.$broadcast "error", {service: @, error: err}
             return defer.promise
 
         # Gets all items from the local cache that
