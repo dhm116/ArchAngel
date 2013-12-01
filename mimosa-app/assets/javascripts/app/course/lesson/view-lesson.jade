@@ -76,6 +76,8 @@
             .timeline-body
               a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}', style='color: #fff;')
                 h2 {{assignments.indexOf(assignment)+1}}. {{assignment.name}}
+                  small.pad-left(style='color: white;')
+                    em Due {{moment(assignment.due_date).fromNow()}}
               .timeline-content
                 span This assignment is worth
                 span.pad-left

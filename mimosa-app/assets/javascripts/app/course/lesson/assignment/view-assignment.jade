@@ -27,7 +27,7 @@
       .row
         p(ng-show='assignment.content', btf-markdown='assignment.content', ng-cloak)
       .row
-        h3 Due on {{moment(assignment.due_date).format("LLL")}}
+        h3 Due on {{moment(assignment.due_date).format("LLL")}} ({{moment(assignment.due_date).fromNow()}})
       .row
         h3 Submit Assignment
         form.form.form-horizontal
