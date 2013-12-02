@@ -11,6 +11,7 @@
             th Points
             th Due Date
             th Submitted On
+            th Feedback
           tbody
             tr(ng-repeat='assignment in lesson_assignments[lesson.id]')
               td
@@ -30,3 +31,5 @@
                   a.btn.btn-sm.blue.pull-right(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}')
                     i.fa.fa-inbox
                     span.pad-left Submit
+              td
+                span(ng-if='getStudentSubmission(User.data.id, assignment.id)') {{grades[getStudentSubmission(User.data.id, assignment.id).id].content}}
