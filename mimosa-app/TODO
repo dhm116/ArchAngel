@@ -10,8 +10,8 @@ Todo:
     ✔ Add assignments @done (13-11-26 09:41)
     ☐ TESTS (4/5)
     ✔ View assignment submission (1) @done (13-12-01 12:51)
-    ☐ Grade report (prof + student) (1)
-    ☐ Display REST errors (5)
+    ✔ Grade report (prof + student) (1) @done (13-12-02 01:46)
+    ✔ Display REST errors (5) @done (13-12-01 23:01)
     Forums:
       ✔ Make description form entry a text area @done (13-11-26 17:16)
       ☐ Django ForumPost REST API error (4/5)
@@ -34,7 +34,7 @@ Todo:
       ☐ Converse.js for UI (3) (Chris)
     Sidebar:
      ☐ Update lesson list after adding
-     ☐ Add grades page to a course
+     ✔ Add grades page to a course @done (13-12-02 01:47)
     Email:
      ☐ Simple form for sending emails to team/professor/etc.
 

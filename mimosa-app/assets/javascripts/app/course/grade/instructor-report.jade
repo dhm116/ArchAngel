@@ -1,0 +1,42 @@
+.row-padded(ng-repeat='lesson in course_lessons[course.id]')
+  .col-md-11.col-md-offset-1
+    h4 Week {{lesson.week_no}}: {{lesson.name}}
+  .row-padded
+    .col-md-11.col-md-offset-1
+      .table-responsive
+        table.table.table-striped
+          thead
+            th Grade
+            th Assignment
+            th Student
+            th Section
+            th Due Date
+            th Submitted On
+          tfoot
+            tr(ng-repeat='assignment in lesson_assignments[lesson.id]')
+              td {{averageGrade(assignment) | number:0}}%
+              td {{assignment.name}}
+              td Class Average
+              td
+              td
+              td
+          tbody(ng-repeat='assignment in lesson_assignments[lesson.id]')
+            tr(ng-repeat='roster in course_students[course.id]')
+              td
+                a.btn.blue.btn-sm(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{getStudentSubmission(roster.user, assignment.id).id}}/grade/add/new', ng-if='getStudentSubmission(roster.user, assignment.id) != null && !grades[getStudentSubmission(roster.user, assignment.id).id]')
+                  i.fa.fa-check
+                  span.pad-left Grade
+                a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{getStudentSubmission(roster.user, assignment.id).id}}/grade/edit/{{grades[getStudentSubmission(roster.user, assignment.id).id].id}}', ng-if='grades[getStudentSubmission(roster.user, assignment.id).id]') {{grades[getStudentSubmission(roster.user, assignment.id).id].score/assignment.points * 100 | number:0}}%
+              td
+                a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}') {{assignment.name}}
+              td {{users[roster.user].last_name}}, {{users[roster.user].first_name}}
+              td {{sections[roster.section].section_no}}
+              td {{assignment.due_date | amCalendar}}
+              td
+                span(ng-if='getStudentSubmission(roster.user, assignment.id)')
+                  a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{getStudentSubmission(roster.user, assignment.id).id}}')
+                    i.fa.fa-eye
+                    span.pad-left {{getStudentSubmission(roster.user, assignment.id).submitted_date | amCalendar}}
+                  span.pad-left(ng-if='getStudentSubmission(roster.user, assignment.id).file_path')
+                    a.btn.btn-sm.blue(href='{{getStudentSubmission(roster.user, assignment.id).file_path}}')
+                      i.fa.fa-download

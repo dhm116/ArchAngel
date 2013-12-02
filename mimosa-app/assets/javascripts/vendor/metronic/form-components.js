@@ -4,7 +4,7 @@ var FormComponents = function () {
     var handleBootstrapTouchSpin = function() {
 
         $("#touchspin_demo1").TouchSpin({
-            inputGroupClass: 'input-medium',            
+            inputGroupClass: 'input-medium',
             spinUpClass: 'green',
             spinDownClass: 'green',
             min: -1000000000,
@@ -12,8 +12,8 @@ var FormComponents = function () {
             stepinterval: 50,
             maxboostedstep: 10000000,
             prefix: '$'
-        }); 
-        
+        });
+
         $("#touchspin_demo2").TouchSpin({
             inputGroupClass: 'input-medium',
             spinUpClass: 'blue',
@@ -25,14 +25,14 @@ var FormComponents = function () {
             boostat: 5,
             maxboostedstep: 10,
             postfix: '%'
-        });         
+        });
     }
 
     var handleBootstrapMaxlength = function() {
         $('#maxlength_defaultconfig').maxlength({
             limitReachedClass: "label label-danger",
         })
-    
+
         $('#maxlength_thresholdconfig').maxlength({
             limitReachedClass: "label label-danger",
             threshold: 20
@@ -56,7 +56,7 @@ var FormComponents = function () {
         $('#maxlength_placement').maxlength({
             limitReachedClass: "label label-danger",
             alwaysShow: true,
-            placement: App.isRTL() ? 'top-right' : 'top-left'
+            placement: Metronic.isRTL() ? 'top-right' : 'top-left'
         });
     }
 
@@ -98,7 +98,7 @@ var FormComponents = function () {
 
         if (jQuery().datepicker) {
             $('.date-picker').datepicker({
-                rtl: App.isRTL(),
+                rtl: Metronic.isRTL(),
                 autoclose: true
             });
             $('body').removeClass("modal-open"); // fix bug when inline picker is used in modal
@@ -126,7 +126,7 @@ var FormComponents = function () {
         }
 
         $('#defaultrange').daterangepicker({
-                opens: (App.isRTL() ? 'left' : 'right'),
+                opens: (Metronic.isRTL() ? 'left' : 'right'),
                 format: 'MM/DD/YYYY',
                 separator: ' to ',
                 startDate: moment().subtract('days', 29),
@@ -138,10 +138,10 @@ var FormComponents = function () {
                 console.log("Callback has been called!");
                 $('#defaultrange input').val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             }
-        );        
+        );
 
         $('#reportrange').daterangepicker({
-                opens: (App.isRTL() ? 'left' : 'right'),
+                opens: (Metronic.isRTL() ? 'left' : 'right'),
                 startDate: moment().subtract('days', 29),
                 endDate: moment(),
                 minDate: '01/01/2012',
@@ -190,27 +190,27 @@ var FormComponents = function () {
 
         $(".form_datetime").datetimepicker({
             autoclose: true,
-            isRTL: App.isRTL(),
+            isRTL: Metronic.isRTL(),
             format: "dd MM yyyy - hh:ii",
-            pickerPosition: (App.isRTL() ? "bottom-right" : "bottom-left")
+            pickerPosition: (Metronic.isRTL() ? "bottom-right" : "bottom-left")
         });
 
         $(".form_advance_datetime").datetimepicker({
-            isRTL: App.isRTL(),
+            isRTL: Metronic.isRTL(),
             format: "dd MM yyyy - hh:ii",
             autoclose: true,
             todayBtn: true,
             startDate: "2013-02-14 10:00",
-            pickerPosition: (App.isRTL() ? "bottom-right" : "bottom-left"),
+            pickerPosition: (Metronic.isRTL() ? "bottom-right" : "bottom-left"),
             minuteStep: 10
         });
 
         $(".form_meridian_datetime").datetimepicker({
-            isRTL: App.isRTL(),
+            isRTL: Metronic.isRTL(),
             format: "dd MM yyyy - HH:ii P",
             showMeridian: true,
             autoclose: true,
-            pickerPosition: (App.isRTL() ? "bottom-right" : "bottom-left"),
+            pickerPosition: (Metronic.isRTL() ? "bottom-right" : "bottom-left"),
             todayBtn: true
         });
 
@@ -542,7 +542,7 @@ var FormComponents = function () {
 
         $("#mask_date").inputmask("d/m/y", {
             autoUnmask: true
-        }); //direct mask        
+        }); //direct mask
         $("#mask_date1").inputmask("d/m/y", {
             "placeholder": "*"
         }); //change the placeholder
@@ -604,7 +604,7 @@ var FormComponents = function () {
                     return word.match(/[a-z].[0-9]/) && score;
                 }, 10, true);
 
-                // set as initialized 
+                // set as initialized
                 initialized = true;
             }
         });
@@ -621,15 +621,15 @@ var FormComponents = function () {
 
                 pop.popover('destroy');
                 pop.popover({
-                    'placement': (App.isRTL() ? 'left' : 'right'),
+                    'placement': (Metronic.isRTL() ? 'left' : 'right'),
                     'html': true,
                     'container': 'body',
                     'content': 'Please enter a username to check its availability.',
                 });
                 // add error class to the popover
                 pop.data('bs.popover').tip().addClass('error');
-                // set last poped popover to be closed on click(see App.js => handlePopovers function)     
-                App.setLastPopedPopover(pop);
+                // set last poped popover to be closed on click(see Metronic.js => handlePopovers function)
+                Metronic.setLastPopedPopover(pop);
                 pop.popover('show');
                 e.stopPropagation(); // prevent closing the popover
 
@@ -659,7 +659,7 @@ var FormComponents = function () {
                     pop.popover('destroy');
                     pop.popover({
                         'html': true,
-                        'placement': (App.isRTL() ? 'left' : 'right'),
+                        'placement': (Metronic.isRTL() ? 'left' : 'right'),
                         'container': 'body',
                         'content': res.message,
                     });
@@ -671,13 +671,13 @@ var FormComponents = function () {
                     pop.popover('destroy');
                     pop.popover({
                         'html': true,
-                        'placement': (App.isRTL() ? 'left' : 'right'),
+                        'placement': (Metronic.isRTL() ? 'left' : 'right'),
                         'container': 'body',
                         'content': res.message,
                     });
                     pop.popover('show');
                     pop.data('bs.popover').tip().removeClass('success').addClass('error');
-                    App.setLastPopedPopover(pop);
+                    Metronic.setLastPopedPopover(pop);
                 }
 
             }, 'json');
@@ -718,14 +718,14 @@ var FormComponents = function () {
                     input.popover('destroy');
                     input.popover({
                         'html': true,
-                        'placement': (App.isRTL() ? 'left' : 'right'),
+                        'placement': (Metronic.isRTL() ? 'left' : 'right'),
                         'container': 'body',
                         'content': res.message,
                     });
                     input.popover('show');
                     input.data('bs.popover').tip().removeClass('success').addClass('error');
 
-                    App.setLastPopedPopover(input);
+                    Metronic.setLastPopedPopover(input);
                 }
 
             }, 'json');
@@ -739,22 +739,22 @@ var FormComponents = function () {
             handleBootstrapTouchSpin();
             handleBootstrapMaxlength();
             handleSpinners();
-            handleWysihtml5();
-            handleTagsInput();
-            handleDatePickers();
+            // handleWysihtml5();
+            // handleTagsInput();
+            // handleDatePickers();
             handleTimePickers();
             handleDatetimePicker();
             handleDateRangePickers();
-            handleClockfaceTimePickers();
-            handleColorPicker();
-            handleSelect2();
-            handleSelect2Modal();
-            handleInputMasks();
-            handleIPAddressInput();
-            handleMultiSelect();
-            handlePasswordStrengthChecker();
-            handleUsernameAvailabilityChecker1();
-            handleUsernameAvailabilityChecker2();
+            // handleClockfaceTimePickers();
+            // handleColorPicker();
+            // handleSelect2();
+            // handleSelect2Modal();
+            // handleInputMasks();
+            // handleIPAddressInput();
+            // handleMultiSelect();
+            // handlePasswordStrengthChecker();
+            // handleUsernameAvailabilityChecker1();
+            // handleUsernameAvailabilityChecker2();
         }
     };
 

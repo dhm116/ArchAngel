@@ -24,11 +24,11 @@
               i.pad-left.fa.fa-caret-down
             ul.dropdown-menu(role='menu')
               li
-                a(data-named-url='course-lesson-assignment-submission', data-named-route-params='{{$routeParams}}', data-kwarg-submission_action='edit')
+                a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/edit/{{submission.id}}')
                   i.fa.fa-edit
                   span.pad-left Edit Submission
       .row
-        p(ng-show='assignment.content', btf-markdown='assignment.content', ng-cloak)
+        p(ng-show='submission.content', btf-markdown='submission.content', ng-cloak)
       .row
         h3 Due on {{moment(assignment.due_date).format("LLL")}}
       .row

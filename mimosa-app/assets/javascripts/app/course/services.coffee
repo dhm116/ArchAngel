@@ -18,7 +18,7 @@ define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
                             CourseSection.all(course.sections).then (sections) ->
 
                                 CourseRoster.all(sections.members).then (members) ->
-                                    if members.length > 0 and _.findWhere(members, {user:User.data.id, group: 'instructor'})
+                                    if members.length > 0 and _.findWhere(members, {course: courseId, user:User.data.id, group: 'instructor'})
                                         course.isInstructor = true
                                     else
                                         course.isInstructor = false

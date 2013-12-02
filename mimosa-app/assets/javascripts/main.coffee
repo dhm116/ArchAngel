@@ -77,8 +77,8 @@ require
             'app/course/lesson/assignment/controllers'
             'app/course/lesson/assignment/submission/services'
             'app/course/lesson/assignment/submission/controllers'
-            'app/course/grades/services'
-            'app/course/grades/controllers'
+            'app/course/grade/services'
+            'app/course/grade/controllers'
             'app/course/team/services'
             'app/course/team/controllers'
             'app/course/forum/services'
@@ -175,6 +175,11 @@ require
                                         submission:
                                             restful: true
                                             template: 'submission'
+                                            nested:
+                                                grade:
+                                                    restful: true
+                                                    template: 'grade'
+                                                    controller: 'GradedAssignmentSubmissionController'
                         syllabus:
                             restful: true
                             template: 'syllabus'
@@ -185,6 +190,10 @@ require
                         team:
                             restful: true
                             template: 'team'
+                grade:
+                    restful: true
+                    template: 'grade'
+                    controller: 'GradedAssignmentSubmissionController'
             }
 
             recursiveResourceFinder = (parent, resource) ->
