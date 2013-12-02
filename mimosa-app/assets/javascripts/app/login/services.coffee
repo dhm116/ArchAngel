@@ -1,7 +1,7 @@
 # define ['angular'], (angular) ->
 #     angular.module('djangoApp.services').factory 'User', (Restangular,$localStorage) ->
 define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
-    angular.module('djangoApp.services').factory 'User', ($q, Restangular,$localStorage) ->
+    angular.module('djangoApp.services').factory 'User', ($q, $rootScope, Restangular,$localStorage) ->
         class User extends ServiceBase
             model: 'users'
             token: ''
@@ -11,7 +11,7 @@ define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
             __onNewInstance: (@$localStorage, params...) =>
                 if @$localStorage.user
                     console.log "Loading user from local storage", @$localStorage.user
-                    if @$localStorage.user.hasOwnProperty('data')
+                    if @$localStorage.user?.token != null
                         _.extend(@, @$localStorage.user)
                         @__attachToken()
                     else
@@ -39,6 +39,7 @@ define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
                         # Add token to Restangular.setDefaultHeaders
                         @__attachToken()
                         defer.resolve(@authenticated)
+                        $rootScope.$broadcast 'login', @
                     .catch (response) =>
                         # console.log "Invalid username/password"
                         defer.reject(response)
@@ -53,18 +54,23 @@ define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
 
                 if @$localStorage.user
                     console.log "Deleting user from local storage"
+                    console.log @$localStorage
                     delete @$localStorage.user
+                    console.log @$localStorage
+
 
                 # Remove token from Restangular.setDefaultHeaders
                 @Restangular.setDefaultHeaders {}
                 defer.resolve()
+
+                $rootScope.$broadcast 'logout'
 
                 return defer.promise
 
             __attachToken: () =>
                 @Restangular.setDefaultHeaders {Authorization: "Token #{@token}"}
 
-        return new User(Restangular, $q, $localStorage)
+        return new User(Restangular, $q, $rootScope, $localStorage)
         # class User
         #     token: ''
         #     authenticated: false

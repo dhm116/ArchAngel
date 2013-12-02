@@ -1,0 +1,35 @@
+.row-padded(ng-repeat='lesson in course_lessons[course.id]')
+  .col-md-11.col-md-offset-1
+    h4 Week {{lesson.week_no}}: {{lesson.name}}
+  .row-padded
+    .col-md-11.col-md-offset-1
+      .table-responsive
+        table.table.table-striped
+          thead
+            th Grade
+            th Assignment
+            th Points
+            th Due Date
+            th Submitted On
+            th Feedback
+          tbody
+            tr(ng-repeat='assignment in lesson_assignments[lesson.id]')
+              td
+                .badge.badge-info(ng-if='getStudentSubmission(User.data.id, assignment.id)') {{grades[getStudentSubmission(User.data.id, assignment.id).id].score/assignment.points * 100 | number:0}}%
+              td
+                a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}') {{assignment.name}}
+              td {{assignment.points}}
+              td {{assignment.due_date | amCalendar}}
+              td
+                span(ng-if='getStudentSubmission(User.data.id, assignment.id)')
+                  a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{getStudentSubmission(User.data.id, assignment.id).id}}')
+                    i.fa.fa-eye
+                    span.pad-left {{getStudentSubmission(User.data.id, assignment.id).submitted_date | amCalendar}}
+                span(ng-if='!getStudentSubmission(User.data.id, assignment.id)')
+                  em Not submitted
+                  span.pad-left
+                  a.btn.btn-sm.blue.pull-right(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}')
+                    i.fa.fa-inbox
+                    span.pad-left Submit
+              td
+                span(ng-if='getStudentSubmission(User.data.id, assignment.id)') {{grades[getStudentSubmission(User.data.id, assignment.id).id].content}}

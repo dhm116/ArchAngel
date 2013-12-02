@@ -1,28 +1,49 @@
-.large-4.columns.hide-for-small
-  ul.side-nav
-    li
-      h3.subheader
-        i.fa.fa-folder-open
-        span.pad-left Courses
-    li.divider
-    li(ng-repeat='course in courses')
-      a.item(href='/course/view/{{course.id}}')
-        span.label.round(ng-class="{alert: course.id > 1}") 2
-        span.pad-left {{course.name}}
-        i.fa.fa-arrow-right.pad-left
-        span.pad-left Week {{moment().diff(moment(course.start_date), 'weeks')}}
-.large-8.columns
-  h1.ui.header.dividing Welcome to ArchAngel
-    span.pad-left(ng-if='isMobile')
-      i.fa.fa-mobile
-  .row
-    ul.hide-for-small
-      li(ng-repeat='user in users')
-        {{user.username}} {{user.email}}
-  .row.show-for-small
-    ul.list
-      li(ng-repeat='course in courses')
-        a(href='/course/view/{{course.id}}')
-          span {{course.name}}
-          span.chevron
-          span.count 2
+link(rel='stylesheet', href='stylesheets/vendor/metronic/pages/tasks.css')
+
+.row
+  .col-md-12
+    h3.page-title Welcome to ArchAngel
+.row
+  .col-md-12
+    .row
+      .col-lg-3.col-md-3.col-sm-6.col-xs-12
+        .dashboard-stat.blue
+          .visual
+            i.fa.fa-paste
+          .details
+            .number {{courses.length}}
+            .desc Courses
+          a.more(href='#')
+            span View more
+            i.fa.fa-arrow-circle-o-right
+    .row
+      .col-md-6.col-sm-6
+        .portlet.box.blue.calendar
+          .portlet-title
+            .caption
+              i.fa.fa-calendar
+              span.pad-left Calendar
+          .portlet-body.light-greay
+            #calendar
+      .col-md-6.col-sm-6
+        .portlet.box.green.tasks-widget
+          .portlet-title
+            .caption
+              i.fa.fa-check
+              span.pad-left Tasks
+          .portlet-body
+            .task-content
+              .scroller(style='height: 305px', data-always-visible='1', data-rail-visible='1')
+                u.task-list
+                  li
+                    .task-checkbox
+                      input.liChild(type='checkbox', value='')
+                    .task-title
+                      span.task-title-sp Present 2013 Year IPO Statistics at board meeting
+                      span.label.label-sm.label-success Company
+                      span.task-bell
+                        i.fa.fa-bell-o
+    .row
+      ul.list-group
+        li.list-group-item(ng-repeat='user in users')
+          span {{user.username}} {{user.email}}

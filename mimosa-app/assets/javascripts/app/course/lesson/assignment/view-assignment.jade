@@ -1,0 +1,90 @@
+
+.content-padded(ng-cloak)
+  .row-padded
+    include ../lesson-breadcrumb
+      append breadcrumbs
+        li
+          i.fa.fa-angle-right
+          a(href='javascript:;') Week {{lesson.week_no}} Assignment: {{assignment.name}}
+  .row-padded
+    .col-md-12
+      .row
+        .col-md-11(style='padding-left: 0px;')
+          h2.page-title Week {{lesson.week_no}} Assignment: {{assignment.name}}
+            small.pad-left {{assignment.description}}
+          hr(style='margin-bottom: 5px;')
+        .col-md-1(ng-show='isInstructor')
+          .btn-group.pull-right
+            button.btn.blue.btn-sm.dropdown-toggle(type='button', data-toggle='dropdown')
+              i.fa.fa-edit
+              span.pad-left Edit
+              i.pad-left.fa.fa-caret-down
+            ul.dropdown-menu(role='menu')
+              li
+                a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/edit/{{assignment.id}}')
+                  i.fa.fa-edit
+                  span.pad-left Edit Assignment
+      .row
+        p(ng-show='assignment.content', btf-markdown='assignment.content', ng-cloak)
+      .row
+        h3 Due on {{moment(assignment.due_date).format("LLL")}} ({{moment(assignment.due_date).fromNow()}})
+      .row
+        h3 Submit Assignment
+        form.form.form-horizontal
+          .form-group
+            label.col-sm-2.control-label Title
+            .col-sm-10
+              input.form-control(type='text', ng-model='assignmentsubmission.name', placeholder='Submission title...')
+          .form-group
+            label.col-sm-2.control-label Content
+            .col-sm-10
+              textarea.form-control(ng-model='assignmentsubmission.content', placeholder='Submission content...')
+          .form-group
+            label.col-sm-2.control-label Attachment
+            .col-sm-10
+              .fileupload.fileupload-new(data-provider='fileupload')
+                span.btn.default.btn-file
+                  span.fileupload-new
+                    i.fa.fa-paperclip
+                    span.pad-left Select File
+                  span.fileupload-exists
+                    i.fa.fa-undo
+                    span.pad-left Change
+                  input.default(type='file', ng-file-select='onFileSelect($files)')
+
+              .well.text-center(ng-file-drop='onFileSelect($files)', ng-show='dropSupported')
+                h3 Drag and Drop file here
+              .well.text-center(ng-file-drop-available='dropSupported=true', ng-show='!dropSupported') HTML5 Drop file is not supported
+          .form-group
+            .col-sm-offset-2.col-sm-3
+              button.btn.blue(ng-click='saveSubmission()')
+                i.fa.fa-save
+                span.pad-left Submit
+      .row
+        h4
+          span(ng-if='!isInstructor') Your
+          span(ng-if='isInstructor') Student
+          span.pad-left Submissions
+        .table-responsive
+          table.table.table-striped.table-hover
+            thead
+              th Grade
+              th Submission
+              th
+            tfoot
+            tbody
+              tr(ng-if='submissions.length == 0')
+                td(colspan='3')
+                  em No submissions yet
+            tr(ng-repeat='submission in submissions', ng-class='{warning: isInstructor && submission.grade.length < 1}')
+              td
+                a.btn.btn-primary.btn-sm(href='#', ng-if='isInstructor && submission.grade.length < 1')
+                  i.fa.fa-check-circle-o
+                  span.pad-left Grade
+              td
+                a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{submission.id}}')
+                  span {{submission.name}}, submitted {{submission.creation_date | amCalendar}}
+              td
+                a.pull-right(href='#', ng-click='deleteSubmission(submission)')
+                  i.fa.fa-times-circle-o
+                  span.pad-left Delete

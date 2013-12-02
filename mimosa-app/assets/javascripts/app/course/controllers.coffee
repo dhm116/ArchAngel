@@ -1,20 +1,25 @@
 define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'CourseController',
-        ($scope, $routeParams, Restangular, User, Course, CourseSection, CourseRoster, Syllabus, Lesson, Team) ->
+        ($scope, $routeParams, Restangular, User, Course, CourseSection, CourseRoster, Syllabus, Lesson, Team, TeamMember, Forum) ->
 
             # Keep track of what model we're loading
             # (not sure why...)
-            $scope.resource = $routeParams.resource
+            params = _.last($routeParams.resources)
+
+            courseParams = _.findWhere($routeParams.resources, {resource:'course'})
+            sectionParams = _.findWhere($routeParams.resources, {resource:'section'})
 
             # We'll assume we're trying to load a specific
             # course
-            courseId = Number($routeParams.id)
+            courseId = Number(courseParams.id)
+
+            $scope.resource = courseParams.resource
 
             # But if not, the course id should be defined
             # as the route parentId parameter
-            if $routeParams.resource.indexOf('course')
-                courseId = Number($routeParams.parentId)
-                $scope.resource = 'course'
+            # if courseParams.resource.indexOf('course')
+            #     courseId = Number($routeParams.parentId)
+            #     $scope.resource = 'course'
 
             # If we haven't already defined the list of
             # courses for this scope
@@ -54,10 +59,14 @@ define ['angular'], (angular) ->
                     Lesson.all($scope.course.lessons).then (lessons) ->
                         $scope.lessons = lessons
 
+                if $scope.course.forums.length > 0
+                    Forum.all($scope.course.forums).then (forums) ->
+                        $scope.forums = forums
+
                 # Create an empty list of sections and section
                 # members to avoid any null references
                 $scope.sections = []
-                $scope.section_members = []
+                # $scope.section_members = []
 
                 # Only attempt to load sections and members if
                 # there are any
@@ -68,7 +77,7 @@ define ['angular'], (angular) ->
                         $scope.sections = sections
 
                         # If the user hasn't selected a specific section
-                        unless $routeParams.resource.indexOf('section') isnt -1
+                        unless sectionParams
                             # We need to combine all of the roster references
                             # into a single list to load
                             rosterIds = []
@@ -82,7 +91,7 @@ define ['angular'], (angular) ->
                             # to the student group
                             CourseRoster.students(rosterIds).then (members) ->
                                 # This is our list of student roster objects
-                                $scope.section_members = members
+                                $scope.section_members = _.indexBy(members, 'user')
 
                                 # Load the actual user data for each student
                                 # in our section members list
@@ -95,27 +104,32 @@ define ['angular'], (angular) ->
                             # We need to combine all of the team references
                             # into a single list to load
                             teamIds = []
-                            console.log $scope.sections
+
                             teamIds.push section.teams for section in $scope.sections
 
                             # This flattens the array to keep it as a
                             # single dimension
                             teamIds = _.flatten(teamIds)
-                            console.log teamIds
+
                             Team.all(teamIds).then (teams) ->
-                                console.log teams
+
                                 $scope.teams = teams
+                                $scope.section_teams = _.groupBy(teams, 'section')
+                                $scope.team_index = _.indexBy(teams, 'id')
+
+                            TeamMember.all().then (teamMembers) ->
+                                $scope.team_members = _.indexBy(teamMembers, 'user')
 
                         # The user has selected a specific section
                         else
                             # Get this section based on the id passed in the
                             # url (we need to parse the string version)
-                            CourseSection.get(Number($routeParams.id)).then (section) ->
+                            CourseSection.get(Number(sectionParams.id)).then (section) ->
                                 $scope.section = section
 
                                 # Load the students for this section
                                 CourseRoster.students($scope.section.members).then (members) ->
-                                    $scope.section_members = members
+                                    $scope.section_members = _.indexBy(members, 'user')
 
                                     # Load the actual user data for each student
                                     # in our section members list
@@ -128,4 +142,35 @@ define ['angular'], (angular) ->
                                 # Load the teams for this section
                                 Team.all($scope.section.teams).then (teams) ->
                                     $scope.teams = teams
+                                    $scope.section_teams = _.groupBy(teams, 'section')
+                                    $scope.team_index = _.indexBy(teams, 'id')
 
+                                TeamMember.all().then (teamMembers) ->
+                                    $scope.team_members = _.indexBy(teamMembers, 'user')
+
+            $scope.updateUserTeam = (data, user) ->
+                unless $scope.team_members[user]?.team == data.id
+                    if $scope.team_members.hasOwnProperty(user)
+                        teamMember = $scope.team_members[user]
+                        teamMember.team = data.id
+                        TeamMember.update(teamMember)
+                            .then (result) ->
+                                console.log "Updated team membership"
+                                $scope.team_members[user].team = result.team
+
+                                Team.all(_.pluck($scope.teams, 'id'), true).then (teams) ->
+                                    $scope.teams = teams
+                                return true
+                            .catch (err) ->
+                                return "Error: " + err
+                    else
+                        teamMember = {team: data.id, user: user}
+                        TeamMember.add(teamMember)
+                            .then (result) ->
+                                console.log "Created team membership"
+                                $scope.team_members[user] = result
+                                Team.all(_.pluck($scope.teams, 'id'), true).then (teams) ->
+                                    $scope.teams = teams
+                                return true
+                            .catch (err) ->
+                                return "Error: " + err

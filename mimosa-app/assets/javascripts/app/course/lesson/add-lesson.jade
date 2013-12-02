@@ -1,47 +1,51 @@
 .content-padded(ng-cloak)
-  nav.breadcrumbs(ng-cloak)
-    li
-      a(href='/') Home
-    li
-      a(href='/course/view/{{course.id}}') {{course.name}}
-    li.current Lesson
-  .large-6.columns
-    .row-padded
-      h2.subheader {{action}} Lesson
-    .row-padded
-      form
-        fieldset
-          legend Lesson
-          .row
-            .large-12.columns
-              label Title
-              input(type='text', ng-model='lesson.name')
-          .row
-            .large-12.columns
-              label Description
-              input(type='text', ng-model='lesson.description')
-          .row
-            .large-12.columns
-              label Content
-              textarea(ng-model='lesson.content')
-          .row
-            .large-12.columns
-              label Week Number
-              input(type='text', ng-model='lesson.week_no')
-          .row
-            .large-6.columns
-              button.button.small(ng-click='save()')
-                i.fa.fa-save
-                span.pad-left Save Changes
-            .large-6.columns
-              button.button.small.alert
-                i.fa.fa-undo
-                span.pad-left(ng-click='undo()') Undo Changes
-  .large-6.columns
-    .row-padded
-      h2.subheader Preview
-    .row-padded.panel
-      h4 {{lesson.name}}
-        small.pad-left {{lesson.description}}
-      hr
-      p(ng-show='lesson', btf-markdown='lesson.content')
+  .row-padded
+    include ../course-breadcrumb
+      append breadcrumbs
+        li
+          i.fa.fa-angle-right
+          a(href='javascript:;') {{action}} Lesson
+  .row-padded
+    .col-md-12
+      ul.nav.nav-tabs
+        li.active
+          a(href='#edit_tab', data-toggle='tab') Lesson Content
+        li
+          a(href='#preview_tab', data-toggle='tab') Preview Lesson
+
+      .tab-content
+        .tab-pane.fade.active.in#edit_tab
+          h2.page-title {{action}} Lesson
+
+          form.form.form-horizontal
+            .form-group
+              label.col-sm-2.control-label Title
+              .col-sm-10
+                input.form-control(type='text', ng-model='lesson.name', placeholder='Lesson title...')
+            .form-group
+              label.col-sm-2.control-label Description
+              .col-sm-10
+                input.form-control(type='text', ng-model='lesson.description', placeholder='Lesson description...')
+            .form-group
+              label.col-sm-2.control-label Content
+              .col-sm-10
+                textarea.form-control(ng-model='lesson.content', placeholder='Lesson content...')
+            .form-group
+              label.col-sm-2.control-label Week Number
+              .col-sm-10
+                input.form-control(type='text', ng-model='lesson.week_no')
+            .form-group
+              .col-sm-offset-2.col-sm-3
+                button.btn.blue(ng-click='save()')
+                  i.fa.fa-save
+                  span.pad-left Save Changes
+              .col-sm-offset-1.col-sm-6
+                button.btn.red
+                  i.fa.fa-undo
+                  span.pad-left(ng-click='undo()') Undo Changes
+
+        .tab-pane.fade#preview_tab
+          h2.page-title {{lesson.name}}
+            small.pad-left {{lesson.description}}
+          hr
+          p(ng-show='lesson', btf-markdown='lesson.content')

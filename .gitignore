@@ -23,3 +23,4 @@ Thumbs.db
 .vagrant
 *.pyc
 phonegap-app
+mimosa-app/assets/javascripts/app/s3.coffee

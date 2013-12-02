@@ -1,0 +1,5 @@
+include ../course-breadcrumb
+  append breadcrumbs
+    li
+      i.fa.fa-angle-right
+      a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}') {{lesson.name}}

@@ -1,2 +1,6 @@
 include ../common/breadcrumb
-  li(ng-class="{current: resource == 'course'}"): a(href='/course/view/{{course.id}}') {{course.name}}
+  append breadcrumbs
+    li
+      a(href='/course/view/{{course.id}}') {{course.name}}
+  //- block breadcrumbs
+

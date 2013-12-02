@@ -1,37 +1,92 @@
+
 .content-padded(ng-cloak)
-  include ../course-breadcrumb
-    li.current Week {{lesson.week_no}}: {{lesson.name}}
-  .large-12.columns
-    .row
-      h2 Week {{lesson.week_no}}: {{lesson.name}}
-        small.pad-left {{lesson.description}}
-          span.pad-left(ng-show='isInstructor')
-            a.button.tiny.round(href='/course/view/{{course.id}}/lesson/edit/{{lesson.id}}')
+  .row-padded
+    include ../course-breadcrumb
+      append breadcrumbs
+        li
+          i.fa.fa-angle-right
+          a(href='javascript:;') Week {{lesson.week_no}}: {{lesson.name}}
+  .row-padded
+    .col-md-12
+      .row
+        .col-md-11(style='padding-left: 0px;')
+          h2.page-title Week {{lesson.week_no}}: {{lesson.name}}
+            small.pad-left {{lesson.description}}
+          hr(style='margin-bottom: 5px;')
+        .col-md-1(ng-show='isInstructor')
+          .btn-group.pull-right
+            button.btn.blue.btn-sm.dropdown-toggle(type='button', data-toggle='dropdown')
               i.fa.fa-edit
               span.pad-left Edit
-
-      hr
-    .row
-      dl.sub-nav
-        dt
-          i.fa.fa-book
-          span.pad-left Assignments:
-            span.pad-left(ng-show='assignments.length == 0')
-              em None
-        dd(ng-repeat='assignment in assignments')
-          a(href='#') {{assignment.name}}
-    .row
-      .large-11.large-offset-1.columns
-        p(ng-show='lesson.content', btf-markdown='lesson.content', ng-cloak)
-    .row(ng-show='assignments.length > 0')
-      h4.subheader
-        i.fa.fa-book
-        span.pad-left Assignments
-      hr
-      .large-11.large-offset-1.columns
-        .row(ng-repeat='assignment in assignments')
-          h5 {{assignments.indexOf(assignment)+1}}) {{assignment.name}}
-          p This assignment is worth
-            span.pad-left
-            span.label.round {{assignment.points}}
-            span.pad-left points and is due on {{assignment.due_date}}
+              i.pad-left.fa.fa-caret-down
+            ul.dropdown-menu(role='menu')
+              li
+                a(href='/course/view/{{course.id}}/lesson/edit/{{lesson.id}}')
+                  i.fa.fa-edit
+                  span.pad-left Edit Lesson
+              li.divider(ng-if='assignments.length > 0')
+              li
+                a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/forum/add/new')
+                  i.fa.fa-plus
+                  span.pad-left Add Forum
+              li.divider(ng-if='assignments.length > 0')
+              li
+                a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/add/new')
+                  i.fa.fa-plus
+                  span.pad-left Add Assignment
+              li.divider(ng-if='assignments.length > 0')
+              li(ng-repeat='assignment in assignments')
+                a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignments/edit/{{assignment.id}}')
+                  i.fa.fa-book
+                  span.pad-left Edit {{assignment.name}}
+      .row
+        .col-md-6(style='padding-left: 0px;')
+          .panel.panel-default
+            .panel-heading
+              h4(style='margin-top: 0px; margin-bottom: 0px;') Assignments
+            .list-group
+              a.list-group-item(href='#', ng-if='!assignments.length > 0')
+                em None
+              a.list-group-item(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}',ng-repeat='assignment in assignments')
+                i.fa.fa-book
+                span.pad-left {{assignment.name}}
+        .col-md-6(style='padding-left: 0px;')
+          .panel.panel-default
+            .panel-heading
+              h4(style='margin-top: 0px; margin-bottom: 0px;') Forums
+            .list-group
+              a.list-group-item(href='#', ng-if='!forums.length > 0')
+                em None
+              a.list-group-item(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/forum/view/{{forum.id}}',ng-repeat='forum in forums')
+                i.fa.fa-comments-o
+                span.pad-left {{forum.name}}
+      .row
+        .col-md-12(style='padding-left: 0px;')
+          p(ng-show='lesson.content', btf-markdown='lesson.content', ng-cloak)
+      .row(ng-show='assignments.length > 0')
+        h2.page-title Assignments Due
+        hr(style='margin-bottom: 5px;')
+        ul.timeline
+          li.timeline-grey(ng-repeat='assignment in assignments')
+            .timeline-time
+              span.date {{moment(assignment.due_date).format("MMM")}}
+              span.time {{moment(assignment.due_date).format("Do")}}
+            .timeline-icon
+              i.fa.fa-file-text
+            .timeline-body
+              a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}', style='color: #fff;')
+                h2 {{assignments.indexOf(assignment)+1}}. {{assignment.name}}
+                  small.pad-left(style='color: white;')
+                    em Due {{moment(assignment.due_date).fromNow()}}
+              .timeline-content
+                span This assignment is worth
+                span.pad-left
+                span.badge.badge-primary {{assignment.points}}
+                span.pad-left points.
+              .timeline-footer
+                a.nav-link.pull-right(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}')
+                  span View Assignment
+                  i.pad-left.fa.fa-arrow-circle-o-right
+                a.nav-link.pull-left(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/edit/{{assignment.id}}', ng-if='isInstructor')
+                  i.fa.fa-edit
+                  span.pad-left Edit Assignment

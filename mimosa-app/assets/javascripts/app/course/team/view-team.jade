@@ -1,0 +1,34 @@
+.content-padded(ng-cloak)
+  .row-padded
+    include ../course-breadcrumb
+      li
+        i.fa.fa-angle-right
+        a(href='javascript:;') Teams
+  .row-padded
+    h3.page-title Teams:
+      a#teams
+    ul.nav.nav-pills
+      li(ng-class='{active: team == null}')
+        a(href='/course/view/{{course.id}}') All
+      li(ng-repeat='t in teams', ng-class='{active: team.id == t.id}')
+        a(href='/course/view/{{course.id}}/team/view/{{t.id}}') {{t.team_no}}
+      table.table
+        thead
+          tr
+            th(colspan='2')
+              h4
+                i.subheader.fa.fa-group
+                span.pad-left Students
+        tbody
+          tr(ng-if='!students.length > 0')
+            td(colspan='2')
+              em No students assigned
+          tr(ng-repeat='student in students')
+            td
+              a(href='#') {{student.first_name}} {{student.last_name}}
+            td
+              a.btn.blue.btn-sm(href='mailto: {{student.email}}')
+                i.fa.fa-envelope
+              span.pad-left
+              a.btn.blue.btn-sm(href='#')
+                i.fa.fa-info

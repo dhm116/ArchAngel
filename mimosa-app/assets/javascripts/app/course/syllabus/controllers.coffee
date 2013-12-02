@@ -2,13 +2,15 @@ define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'SyllabusController',
         ($scope, $location, $routeParams, Restangular, Course, Syllabus) ->
             # console.log "Syllabus Controller", $routeParams
-            Course.get(Number($routeParams.parentId)).then (course) ->
+            courseParams = _.findWhere($routeParams.resources, {resource:'course'})
+            syllabusParams = _.findWhere($routeParams.resources, {resource:'syllabus'})
+
+            Course.get(Number(courseParams.id)).then (course) ->
                 $scope.course = course
 
-            if Number($routeParams.id?)
-                Syllabus.get(Number($routeParams.id)).then (syllabus) ->
-                    $scope.original_syllabus = syllabus
-                    $scope.syllabus = Restangular.copy(syllabus)
+            Syllabus.get(Number(syllabusParams.id)).then (syllabus) ->
+                $scope.original_syllabus = syllabus
+                $scope.syllabus = Restangular.copy(syllabus)
 
             $scope.undo = ->
                 $scope.syllabus = Restangular.copy($scope.original_syllabus)

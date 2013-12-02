@@ -1,0 +1,39 @@
+.content-padded(ng-cloak)
+  .row-padded
+    include ../course-breadcrumb
+      append breadcrumbs
+        li
+          a(href='javascript:;') {{action}} Grades
+  .row-padded
+    .col-md-11(style='padding-left: 0px;')
+      h2.page-title Grades
+  .row
+  .row(ng-repeat='course in courses')
+    .col-md-12
+      h3 {{course.name}}
+    .row-padded(ng-if='isInstructorFor[course.id]')
+      include instructor-report
+    .row-padded(ng-if='!isInstructorFor[course.id]')
+      .row-padded
+        .col-md-11.col-md-offset-1
+          h4 Current grade
+            small.pad-left
+              span.badge.badge-info {{cumulativeGrade(course).percent | number:0}}%
+              span.pad-left {{cumulativeGrade(course).score}} of {{cumulativeGrade(course).points}}pts
+          .col-md-12
+            .row
+              .progress
+                .progress-bar.progress-bar-info(role='progressbar', style='width: {{cumulativeGrade(course).percent}}%;')
+          .row.visible-md.visible-lg
+            .col-md-1.col-md-offset-6(style='padding-left: 0px;')
+              span F
+            .col-md-1(style='padding-left: 0px;')
+              span D
+            .col-md-1(style='padding-left: 0px;')
+              span C
+            .col-md-1(style='padding-left: 0px;')
+              span B
+            .col-md-1(style='padding-left: 0px;')
+              span A
+      include student-report
+  .row

@@ -1,0 +1,62 @@
+.content-padded(ng-cloak)
+  .row-padded
+    include ../lesson-breadcrumb
+      append breadcrumbs
+        li
+          i.fa.fa-angle-right
+          a(href='javascript:;') {{action}} Assignment
+  .row-padded
+    .col-md-12
+      ul.nav.nav-tabs
+        li.active
+          a(href='#edit_tab', data-toggle='tab') Assignment Content
+        li
+          a(href='#preview-tab', data-toggle='tab') Preview Assignment
+
+      .tab-content
+        .tab-pane.fade.active.in#edit_tab
+          h2.page-title {{action}} Assignment
+
+          form.form.form-horizontal
+            .form-group
+              label.col-sm-2.control-label Title
+              .col-sm-10
+                input.form-control(type='text', ng-model='assignment.name', placeholder='Assignment title...')
+            .form-group
+              label.col-sm-2.control-label Description
+              .col-sm-10
+                input.form-control(type='text', ng-model='assignment.description', placeholder='Assignment description...')
+            .form-group
+              label.col-sm-2.control-label Content
+              .col-sm-10
+                textarea.form-control(ng-model='assignment.content', placeholder='Assignment content...')
+            .form-group
+              label.col-md-2.control-label Due Date
+              .col-md-4.col-sm-10
+                .input-group.date#dueDate
+                  input.form-control(type='text', ng-model='assignment.due_date', placeholder='Assignment due date...', readonly, data-format='yyyy-MM-dd HH:mm')
+                  span.input-group-btn
+                    button.btn.default.date-set(type='button')
+                      i.fa.fa-calendar
+            .form-group
+              label.col-sm-2.control-label Points
+              .col-sm-10
+                input.form-control(type='text', ng-model='assignment.points', placeholder='Assignment points...')
+            .form-group
+              label.col-sm-2.control-label Grading Weight
+              .col-sm-10
+                input.form-control(type='text', ng-model='assignment.weight', placeholder='Grading weight...')
+            .form-group
+              .col-sm-offset-2.col-sm-3
+                button.btn.blue(ng-click='save()')
+                  i.fa.fa-save
+                    span.pad-left Save Changes
+              .col-sm-offset-1.col-sm-6
+                button.btn.row-paddedi.fa.fa-undo
+                  span.pad-left(ng-click='undo()') Undo Changes
+
+        .tab-pane.fade#preview-tab
+          h2.page-title {{assignment.name}}
+            small.pad-left {{assignment.description}}
+          hr
+          p(ng-show='assignment', btf-markdown='assignment.content')
