@@ -1,4 +1,4 @@
-.row-padded(ng-repeat='lesson in course_lessons[course.id]')
+.row-padded(ng-repeat='lesson in course_lessons[course.id]', ng-if='lesson_assignments[lesson.id] && lesson_assignments[lesson.id].length > 0')
   .col-md-11.col-md-offset-1
     h4 Week {{lesson.week_no}}: {{lesson.name}}
   .row-padded
@@ -16,16 +16,21 @@
             tr(ng-repeat='assignment in lesson_assignments[lesson.id]')
               td
                 .badge.badge-info(ng-if='grades[getStudentSubmission(User.data.id, assignment.id).id]') {{grades[getStudentSubmission(User.data.id, assignment.id).id].score/assignment.points * 100 | number:0}}%
-                .badge.badge-default(ng-if='!grades[getStudentSubmission(User.data.id, assignment.id).id]') not graded
+                .badge.badge-default(ng-if='!grades[getStudentSubmission(User.data.id, assignment.id).id]')
+                  i.fa.fa-check-circle-o(style='margin-top: 0px;', ng-if='getStudentSubmission(User.data.id, assignment.id)')
+                  i.fa.fa-clock-o(style='margin-top: 0px;', ng-if='!getStudentSubmission(User.data.id, assignment.id)')
+
               td
                 a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}') {{assignment.name}}
               td {{assignment.points}}
               td {{assignment.due_date | amCalendar}}
               td
                 span(ng-if='getStudentSubmission(User.data.id, assignment.id)')
-                  a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{getStudentSubmission(User.data.id, assignment.id).id}}')
-                    i.fa.fa-eye
-                    span.pad-left {{getStudentSubmission(User.data.id, assignment.id).submitted_date | amCalendar}}
+                  span {{getStudentSubmission(User.data.id, assignment.id).submitted_date | amCalendar}}
+                  span.pad-left.pull-right
+                    a.btn.btn-sm.blue(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{getStudentSubmission(roster.user, assignment.id).id}}')
+                      i.fa.fa-mail-forward
+                      span.pad-left View
                 span(ng-if='!getStudentSubmission(User.data.id, assignment.id)')
                   em Not submitted
                   span.pad-left

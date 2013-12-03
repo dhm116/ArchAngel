@@ -115,7 +115,7 @@ define ['angular'], (angular) ->
                 unless $scope._cumulativeGrade
                     $scope._cumulativeGrade = {}
 
-                if $scope._cumulativeGrade && $scope._cumulativeGrade[course.id]
+                if $scope._cumulativeGrade[course.id]
                     return $scope._cumulativeGrade[course.id]
 
                 totalScore = 0
@@ -129,19 +129,19 @@ define ['angular'], (angular) ->
                 for id in lessonIds
                     assignments = $scope.lesson_assignments[id]
 
-                    totalPoints += Number(a.points) for a in assignments
+                    if assignments?.length > 0
+                        totalPoints += Number(a.points) for a in assignments
 
-                    assignmentIds = _.pluck(assignments, 'id')
+                        assignmentIds = _.pluck(assignments, 'id')
 
-                    for aId in assignmentIds
-                        submissions = $scope.assignment_submissions[aId]
+                        for aId in assignmentIds
+                            submissions = $scope.assignment_submissions[aId]
 
-                        if submissions
-                            for sId in _.pluck(submissions, 'id')
-                                grade = $scope.grades[sId]
-                                if grade
-                                    totalScore += Number(grade.score)
-
+                            if submissions
+                                for sId in _.pluck(submissions, 'id')
+                                    grade = $scope.grades[sId]
+                                    if grade
+                                        totalScore += Number(grade.score)
 
                 $scope._cumulativeGrade[course.id] = {score: totalScore, points: totalPoints, percent: totalScore/totalPoints*100}
                 return $scope._cumulativeGrade[course.id]
