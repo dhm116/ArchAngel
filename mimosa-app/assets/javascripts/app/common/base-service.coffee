@@ -66,16 +66,17 @@ define ['angular'], (angular) ->
                 @Restangular.all(@model).getList()
                     .then (items) =>
                         console.log "Got #{@model} data"
+                        if items.length
+                            @items = items
 
-                        @items = items
-                        # console.log @items
+                            # Complete the promise either with all items
+                            # returned, or with a filtered list of items
+                            # based on the ids supplied
+                            defer.resolve(if ids then @__getItems(ids) else @items)
 
-                        # Complete the promise either with all items
-                        # returned, or with a filtered list of items
-                        # based on the ids supplied
-                        defer.resolve(if ids then @__getItems(ids) else @items)
-
-                        @$rootScope.$broadcast "#{@model}-updated", @
+                            @$rootScope.$broadcast "#{@model}-updated", @
+                        else
+                            defer.resolve(@items)
                     .catch (err) =>
                         defer.reject(err)
                         @$rootScope.$broadcast "error", {service: @, error: err}
