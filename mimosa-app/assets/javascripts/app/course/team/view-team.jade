@@ -1,9 +1,9 @@
 .content-padded(ng-cloak)
   .row-padded
     include ../course-breadcrumb
-      li
-        i.fa.fa-angle-right
-        a(href='javascript:;') Teams
+      append breadcrumbs
+        li
+          a(href='javascript:;') {{action}} Teams
   .row-padded
     h3.page-title Teams:
       a#teams

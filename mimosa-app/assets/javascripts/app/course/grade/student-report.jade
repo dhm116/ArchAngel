@@ -15,7 +15,8 @@
           tbody
             tr(ng-repeat='assignment in lesson_assignments[lesson.id]')
               td
-                .badge.badge-info(ng-if='getStudentSubmission(User.data.id, assignment.id)') {{grades[getStudentSubmission(User.data.id, assignment.id).id].score/assignment.points * 100 | number:0}}%
+                .badge.badge-info(ng-if='grades[getStudentSubmission(User.data.id, assignment.id).id]') {{grades[getStudentSubmission(User.data.id, assignment.id).id].score/assignment.points * 100 | number:0}}%
+                .badge.badge-default(ng-if='!grades[getStudentSubmission(User.data.id, assignment.id).id]') not graded
               td
                 a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}') {{assignment.name}}
               td {{assignment.points}}

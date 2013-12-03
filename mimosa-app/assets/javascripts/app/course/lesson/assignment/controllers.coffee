@@ -1,6 +1,6 @@
 define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'AssignmentController',
-        ($scope, $routeParams, $location, $sce, $upload, Restangular, User, Course, Lesson, Assignment, AssignmentSubmission) ->
+        ($scope, $routeParams, $location, Restangular, User, Course, Lesson, Assignment, AssignmentSubmission) ->
             courseParams = _.findWhere($routeParams.resources, {resource:'course'})
             lessonParams = _.findWhere($routeParams.resources, {resource:'lesson'})
             assignmentParams = _.findWhere($routeParams.resources, {resource:'assignment'})
@@ -14,6 +14,8 @@ define ['angular'], (angular) ->
                 # format: 'yyyy-mm-ddThh:mm' #"dd MM yyyy - hh:ii"
             }).on 'changeDate', (ev) ->
                 $scope.assignment.due_date = ev.date
+
+            # $('.fileinput').fileinput()
 
             # console.log AWS.config.credentials
             $scope.aws = AWS.config.credentials

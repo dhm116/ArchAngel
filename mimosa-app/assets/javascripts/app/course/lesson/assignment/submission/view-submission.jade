@@ -14,7 +14,7 @@
       .row
         .col-md-11(style='padding-left: 0px;')
           h2.page-title {{submission.name}}
-            small.pad-left {{submission.creation_date | amCalendar}}
+            small.pad-left Submitted {{submission.creation_date | amCalendar}}
           hr(style='margin-bottom: 5px;')
         .col-md-1(ng-show='submission.author == User.data.id')
           .btn-group.pull-right
@@ -28,62 +28,10 @@
                   i.fa.fa-edit
                   span.pad-left Edit Submission
       .row
-        p(ng-show='submission.content', btf-markdown='submission.content', ng-cloak)
-      .row
-        h3 Due on {{moment(assignment.due_date).format("LLL")}}
-      .row
-        h3 Graded Assignment
-        form.form.form-horizontal
-          .form-group
-            label.col-sm-2.control-label Instructor's Comments
-            .col-sm-10
-              textarea.form-control(ng-model='assignmentsubmission.content', placeholder='Graded Submission content...')
-          .form-group
-            label.col-sm-2.control-label Attachment
-            .col-sm-10
-              .fileupload.fileupload-new(data-provider='fileupload')
-                span.btn.default.btn-file
-                  span.fileupload-new
-                    i.fa.fa-paperclip
-                    span.pad-left Select File
-                  span.fileupload-exists
-                    i.fa.fa-undo
-                    span.pad-left Change
-                  input.default(type='file', ng-file-select='onFileSelect($files)')
-
-              .well.text-center(ng-file-drop='onFileSelect($files)', ng-show='dropSupported')
-                h3 Drag and Drop file here
-              .well.text-center(ng-file-drop-available='dropSupported=true', ng-show='!dropSupported') HTML5 Drop file is not supported
-          .form-group
-            .col-sm-offset-2.col-sm-3
-              button.btn.blue(ng-click='saveSubmission()')
-                i.fa.fa-save
-                span.pad-left Submit
-      .row
-        h4
-          span(ng-if='!isInstructor') Your
-          span(ng-if='isInstructor') Student
-          span.pad-left Submissions
-        .table-responsive
-          table.table.table-striped.table-hover
-            thead
-              th Grade
-              th Submission
-              th
-            tfoot
-            tbody
-              tr(ng-if='submissions.length == 0')
-                td(colspan='3')
-                  em No submissions yet
-            tr(ng-repeat='submission in submissions', ng-class='{warning: isInstructor && submission.grade.length < 1}')
-              td
-                a.btn.btn-primary.btn-sm(href='#', ng-if='isInstructor && submission.grade.length < 1')
-                  i.fa.fa-check-circle-o
-                  span.pad-left Grade
-              td
-                a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{submission.id}}')
-                  span {{submission.name}}, submitted {{submission.creation_date | amCalendar}}
-              td
-                a.pull-right(href='#', ng-click='deleteSubmission(submission)')
-                  i.fa.fa-times-circle-o
-                  span.pad-left Delete
+        p(ng-if='submission.content', btf-markdown='submission.content', ng-cloak)
+        p(ng-if='!submission.content')
+          em No submission text provided
+      .row(ng-if='submission.file_path')
+        a.btn.blue.btn-sm(href='{{submission.file_path}}')
+          i.fa.fa-download
+          span.pad-left Download attachment

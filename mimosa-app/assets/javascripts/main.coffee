@@ -194,6 +194,10 @@ require
                     restful: true
                     template: 'grade'
                     controller: 'GradedAssignmentSubmissionController'
+                team:
+                    restful: true
+                    template: 'team'
+                    controller: 'TeamController'
             }
 
             recursiveResourceFinder = (parent, resource) ->
@@ -331,6 +335,8 @@ require
                         $scope.courseParams = _.findWhere($routeParams.resources, {resource:'course'})
                         $scope.lessonParams = _.findWhere($routeParams.resources, {resource:'lesson'})
                         $scope.forumParams = _.findWhere($routeParams.resources, {resource:'forum'})
+                        $scope.teamParams = _.findWhere($routeParams.resources, {resource:'team'})
+                        $scope.gradeParams = _.findWhere($routeParams.resources, {resource:'grade'})
                         $scope.routeParams = $routeParams
 
 

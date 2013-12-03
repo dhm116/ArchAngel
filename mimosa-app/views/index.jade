@@ -23,7 +23,7 @@ append content
           span.pad-left.title Courses
           span.selected(ng-if='courseParams != null')
           span.arrow(ng-class='{open: courseParams != null}')
-          span.badge.badge-default {{courses.length}}
+          //- span.badge.badge-default {{courses.length}}
         ul.sub-menu
           li(ng-repeat='course in courses', ng-class='{active: (courseParams != null && courseParams.id == course.id) }')
             a(href='/course/view/{{course.id}}')
@@ -53,14 +53,16 @@ append content
                   span.pad-left {{forums[forum].name}}
                   span.selected(ng-if='forumParams != null && forumParams.id == forum')
                     i.pull-right.fa.fa-chevron-circle-right
-      li
-        a(href='/course/view/{{course.id}}/team/view/all')
+      li(ng-class='{active: teamParams != null}')
+        a(href='/team/view/all')
           i.fa.fa-group
-          span.pad-left Teams
-      li
+          span.pad-left.title Teams
+          span.selected(ng-if='teamParams != null')
+      li(ng-class='{active: gradeParams != null}')
         a(href='/grade/view/all')
           i.fa.fa-book
-          span.pad-left Grades
+          span.pad-left.title Grades
+          span.selected(ng-if='gradeParams != null')
 
   .page-content
     .growl(style='z-index: 9999;', growl)

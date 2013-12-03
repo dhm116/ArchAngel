@@ -69,7 +69,7 @@
         .timeline-body
           a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}', style='color: #fff;')
             h2 {{lesson.name}}
-          .timeline-content {{lesson.description}}
+          .timeline-content {{lesson.description | words:50}}
           .timeline-footer
             a.nav-link.pull-right(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}')
               span View lesson
