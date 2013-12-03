@@ -29,7 +29,7 @@
             .form-group
               label.col-sm-2.control-label Content
               .col-sm-10
-                textarea.form-control(ng-model='lesson.content', placeholder='Lesson content...')
+                textarea.form-control(ng-model='lesson.content', placeholder='Lesson content...', rows='15')
             .form-group
               label.col-sm-2.control-label Week Number
               .col-sm-10
@@ -46,6 +46,6 @@
 
         .tab-pane.fade#preview_tab
           h2.page-title {{lesson.name}}
-            small.pad-left {{lesson.description}}
           hr
-          p(ng-show='lesson', btf-markdown='lesson.content')
+          p(ng-if='lesson.description') {{lesson.description}}
+          p(ng-if='lesson', btf-markdown='lesson.content')

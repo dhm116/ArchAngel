@@ -13,23 +13,29 @@
         .form-group
           label.col-sm-2.control-label Instructor Comments
           .col-sm-10
-            textarea.form-control(ng-model='gradedassignmentsubmission.content', placeholder='Instructor Comments...')
+            textarea.form-control(ng-model='gradedassignmentsubmission.content', placeholder='Instructor Comments...', rows='15')
         .form-group
           label.col-sm-2.control-label Attachment
           .col-sm-10
-            .fileupload.fileupload-new(data-provider='fileupload')
-              span.btn.default.btn-file
-                span.fileupload-new
-                  i.fa.fa-paperclip
-                  span.pad-left Select File
-                span.fileupload-exists
-                  i.fa.fa-undo
-                  span.pad-left Change
-                input.default(type='file', ng-file-select='onFileSelect($files)')
-
-            .well.text-center(ng-file-drop='onFileSelect($files)', ng-show='dropSupported')
-              h3 Drag and Drop file here
-            .well.text-center(ng-file-drop-available='dropSupported=true', ng-show='!dropSupported') HTML5 Drop file is not supported
+            //- .fileinput.fileinput-new(data-provider='fileinput')
+            .row-padded
+              .input-group
+                //- .form-control.uneditable-input(data-trigger='fileinput')
+                //-   i.fa.fa-file
+                //-   span.pad-left.fileinput-filename
+                //- span.input-group-addon.btn-file
+                //-   span.fileinput-new
+                //-     i.fa.fa-paperclip
+                //-     span.pad-left Select File
+                //-   span.fileinput-exists
+                //-     i.fa.fa-undo
+                //-     span.pad-left Change
+              input.default(type='file', name='attachedSubmission', ng-file-select='onFileSelect($files)')
+              span.help-block Optionally attach a document to this submission
+            .row-padded
+              .well.text-center(ng-file-drop='onFileSelect($files)', ng-show='dropSupported')
+                h3 Drag and Drop file here
+              .well.text-center(ng-file-drop-available='dropSupported=true', ng-show='!dropSupported') HTML5 Drop file is not supported
         .form-group
           label.col-sm-2.control-label Score
           .col-sm-10
