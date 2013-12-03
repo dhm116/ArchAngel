@@ -327,9 +327,21 @@ require
 
                     $scope.$on 'error', (event, err) ->
                         # console.log err
-                        {service, error} = err
-                        for field, msg of error.data
-                            growl.addErrorMessage("#{msg.join()} - '#{field}'")
+                        if err.hasOwnProperty('service')
+                            {service, error} = err
+                            for field, msg of error.data
+                                growl.addErrorMessage("#{msg.join()} - '#{field}'")
+                        else
+                                growl.addErrorMessage(err)
+
+                    $scope.$on 'warning', (event, err) ->
+                        # console.log err
+                        if err.hasOwnProperty('service')
+                            {service, error} = err
+                            for field, msg of error.data
+                                growl.addWarningMessage("#{msg.join()} - '#{field}'")
+                        else
+                                growl.addWarningMessage(err)
 
                     updateRouteParams = () =>
                         $scope.courseParams = _.findWhere($routeParams.resources, {resource:'course'})

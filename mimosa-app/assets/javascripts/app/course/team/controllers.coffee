@@ -1,6 +1,6 @@
 define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'TeamController',
-        ($scope, $routeParams, $location, Restangular, User, Course, CourseSection, CourseRoster, Syllabus, Lesson, Team, TeamMember, Forum) ->
+        ($scope, $routeParams, $location, $q, Restangular, User, Course, CourseSection, CourseRoster, Syllabus, Lesson, Team, TeamMember, Forum) ->
 
             courseParams = _.findWhere($routeParams.resources, {resource:'course'})
             teamParams = _.findWhere($routeParams.resources, {resource:'team'})
@@ -17,67 +17,25 @@ define ['angular'], (angular) ->
 
                 # Load the desired course defined in the courseId
                 Course.get(courseId).then (course) ->
-                    # Set our scope reference to the course
-                    $scope.course = course
+                    if teamParams.action.indexOf('add') is 0
+                        console.log 'Got course to add teams to'
+                        $scope.createTeam(course)
+                            .then () ->
+                                console.log 'Made the team!'
+                                return true
+                            .catch (err) ->
+                                console.log 'Adding failed: ', err
+                                $scope.$broadcast('warning', err)
+                            .finally () ->
+                                $location.path("/course/view/#{course.id}")
+                    else if teamParams.action.indexOf('delete') is 0
+                        teamId = Number(teamParams.id)
 
-                    # Check if the current user is an instructor for
-                    # this course
-                    Course.isInstructorFor($scope.course.id).then (isInstructor) ->
-                        $scope.isInstructor = isInstructor
+                        Team.get(teamId).then (team) ->
+                            console.log 'Got team to delete', team
+                            $scope.deleteTeam(team).then () ->
+                                $location.path("/course/view/#{course.id}")
 
-                    # Create an empty list of sections and section
-                    # members to avoid any null references
-                    $scope.sections = []
-                    $scope.section_members = []
-
-                    # Only attempt to load sections and members if
-                    # there are any
-                    if $scope.course.sections.length > 0
-                        # Load all of the course sections defined for this
-                        # course
-                        CourseSection.all($scope.course.sections).then (sections) ->
-                            $scope.sections = _.indexBy(sections, 'id')
-
-                            Team.all().then (teams) ->
-                                if teamParams.action.indexOf('add') is 0
-                                    if teams.length
-                                        teams = _.groupBy(teams, 'section')
-
-                                    waitingFor = sections.length - 1
-
-                                    finishedAdding = () ->
-                                        console.log waitingFor
-                                        if waitingFor == 0
-                                            Team.all(null, true).then (teams) ->
-                                                TeamMember.all(null, true).then (members) ->
-                                                    $location.path("/course/view/#{$scope.course.id}")
-                                        else
-                                            waitingFor -= 1
-
-                                    for section in sections
-                                        team_no = if teams.hasOwnProperty(section.id) then _.last(teams[section.id]).team_no + 1 else 1
-                                        team = {
-                                            section: section.id
-                                            team_no: team_no
-                                            name: "S#{section.section_no}.#{team_no}"
-                                        }
-                                        Team.add(team)
-                                            .then (result) ->
-                                                console.log "Adding worked: ", result
-                                                # $scope.lessons.push result
-                                                $scope.sections[result.section].teams.push(result.id)
-                                            .catch (err) ->
-                                                console.log "Adding failed: ", err
-                                            .finally () ->
-                                                finishedAdding()
-                                else if teamParams.action.indexOf('delete') is 0
-                                    team = _.findWhere(teams, {id: Number(teamParams.id)})
-                                    Team.delete(team).finally () ->
-                                        Team.all(null, true).then (teams) ->
-                                            TeamMember.all(null, true).then (members) ->
-                                                $location.path("/course/view/#{$scope.course.id}")
-                    else
-                        # $scope.$broadcast 'error', {error: {}}
             else
                 Course.all().then (courses) ->
                     $scope.courses = courses
@@ -88,7 +46,110 @@ define ['angular'], (angular) ->
                                 $scope.isInstructorFor[course.id] = result
                         preserveCourse(course)
 
-                User.all().then (users) ->
-                    $scope.users = _.indexBy(users, 'id')
+                    CourseSection.all().then (sections) ->
+                        $scope.sections = _.indexBy(sections, 'id')
+                        $scope.course_sections = _.groupBy(sections, 'course')
+
+                        Team.all().then (teams) ->
+                            $scope.teams = _.indexBy(teams, 'id')
+                            $scope.section_teams = _.groupBy(teams, 'section')
+                            $scope.course_teams = _.groupBy(teams, 'course')
+
+                            TeamMember.all().then (teamMembers) ->
+                                $scope.team_members = _.groupBy(teamMembers, 'team')
+
+                                User.all().then (users) ->
+                                    $scope.users = _.indexBy(users, 'id')
+                                    $scope.courseTeamReportData course for course in courses
+            $scope.courseTeamReportData = (course) ->
+                $scope.teamReport = {}
+                unless $scope.teamReport
+                    $scope.teamReport = {}
+
+                if $scope.teamReport[course.id]
+                    return $scope.teamReport[course.id]
+
+                data = []
+                for section in $scope.course_sections[course.id]
+                    for team in $scope.section_teams[section.id]
+                        members = $scope.team_members[team.id]
+                        names = []
+                        if members
+                            for member in members
+                                user = $scope.users[member.user]
+                                names.push "#{user.first_name} #{user.last_name}"
+
+                        data.push {section: section, team: team, members: names}
+                $scope.teamReport[course.id] = data
+                return $scope.teamReport[course.id]
+
+            $scope.createTeam = (course) ->
+                sections = []
+                section_members = []
+
+                defer = $q.defer()
+
+                # Only attempt to load sections and members if
+                # there are any
+                if course.sections.length > 0
+                    # Load all of the course sections defined for this
+                    # course
+                    console.log 'Loading course sections'
+                    CourseSection.all(course.sections).then (sections) ->
+                        sections = _.indexBy(sections, 'id')
+
+                        console.log 'Loading any existing teams'
+                        Team.all().then (teams) ->
+                            console.log 'Got existing teams', teams
+                            if teams.length
+                                teams = _.groupBy(teams, 'section')
+
+                            waitingFor = _.size(sections) - 1
+
+                            console.log "We'll need to wait for #{waitingFor} sections to finish adding teams to"
+
+                            finishedAdding = () ->
+                                console.log "Waiting for #{waitingFor} sections to finish adding"
+                                if waitingFor == 0
+                                    Team.all(null, true).then (teams) ->
+                                        TeamMember.all(null, true).then (members) ->
+                                            defer.resolve({teams: teams, members: members})
+                                            # $location.path("/course/view/#{course.id}")
+                                else
+                                    waitingFor -= 1
+
+                            addTeamToSection = (section, team) ->
+                                Team.add(team)
+                                    .then (result) ->
+                                        console.log "Adding worked: ", result
+                                        section.teams.push(result.id)
+                                    .catch (err) ->
+                                        console.log "Adding failed: ", err
+                                        waitingFor -= 1
+                                   .finally () ->
+                                        finishedAdding()
+
+                            for id, section of sections
+                                console.log section
+                                console.log "Adding a team to section #{section.section_no}"
+                                team_no = if teams.hasOwnProperty(section.id) then _.last(teams[section.id]).team_no + 1 else 1
+                                console.log "Adding team ##{team_no} to section #{section.section_no}"
+                                addTeamToSection section, {
+                                    section: section.id
+                                    team_no: team_no
+                                    name: "S#{section.section_no}.#{team_no}"
+                                }
+                else
+                    defer.reject('No sections available')
+
+                return defer.promise
+
+            $scope.deleteTeam = (team) ->
+                defer = $q.defer()
+                Team.delete(team).finally () ->
+                    Team.all(null, true).then (teams) ->
+                        TeamMember.all(null, true).then (members) ->
+                            defer.resolve({teams: teams, members: members})
+                return defer.promise
 
 

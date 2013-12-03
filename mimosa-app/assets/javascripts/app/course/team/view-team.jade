@@ -6,29 +6,32 @@
           a(href='javascript:;') {{action}} Teams
   .row-padded
     h3.page-title Teams:
-      a#teams
-    ul.nav.nav-pills
-      li(ng-class='{active: team == null}')
-        a(href='/course/view/{{course.id}}') All
-      li(ng-repeat='t in teams', ng-class='{active: team.id == t.id}')
-        a(href='/course/view/{{course.id}}/team/view/{{t.id}}') {{t.team_no}}
-      table.table
-        thead
-          tr
-            th(colspan='2')
-              h4
-                i.subheader.fa.fa-group
-                span.pad-left Students
-        tbody
-          tr(ng-if='!students.length > 0')
-            td(colspan='2')
-              em No students assigned
-          tr(ng-repeat='student in students')
-            td
-              a(href='#') {{student.first_name}} {{student.last_name}}
-            td
-              a.btn.blue.btn-sm(href='mailto: {{student.email}}')
-                i.fa.fa-envelope
-              span.pad-left
-              a.btn.blue.btn-sm(href='#')
-                i.fa.fa-info
+  .row
+  .row(ng-repeat='course in courses')
+    .col-md-12
+      h3
+        a(href='/course/view/{{course.id}}') {{course.name}}
+      .row-padded(ng-if='isInstructorFor[course.id]')
+        a.btn.blue.btn-sm(href='/course/view/{{course.id}}/team/add/new')
+          i.fa.fa-plus
+          span.pad-left Add Team
+
+        table.table
+          thead
+            tr
+              th Section
+              th Team
+              th Students
+              th
+          tbody
+            tr(ng-if='!course_teams[course.id].length > 0')
+              td(colspan='4')
+                em No teams have been created
+            tr(ng-repeat='row in teamReport[course.id]')
+              td
+                span(ng-if='$first') {{row.section.section_no}}
+              td {{row.team.team_no}}
+              td
+                span.badge.badge-info {{row.members.length}}
+                span.pad-left {{row.members.join(', ')}}
+              td
