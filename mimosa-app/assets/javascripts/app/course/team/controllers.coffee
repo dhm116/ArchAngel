@@ -10,6 +10,8 @@ define ['angular'], (angular) ->
             $scope._ = _
             $scope.User = User
 
+            Holder.run()
+
             $scope.loadReportDataSources = () ->
                 Course.all().then (courses) ->
                     $scope.courses = courses
@@ -137,6 +139,12 @@ define ['angular'], (angular) ->
                         TeamMember.all(null, true).then (members) ->
                             defer.resolve({teams: teams, members: members})
                 return defer.promise
+
+            $scope.getMemberTeam = (user, course) ->
+                if $scope.member_teams
+                    member = _.findWhere($scope.member_teams[user], {course: course})
+                    if member and $scope.teams
+                        return $scope.teams[member.team]
 
             $scope.updateUserTeam = (data, course, user) ->
                 teamMember = _.findWhere($scope.member_teams[user], {course: course})

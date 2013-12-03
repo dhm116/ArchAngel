@@ -272,6 +272,12 @@ require
                 }
                 $locationProvider.html5Mode(true)
 
+            angular.module('djangoApp').directive 'bsHolder', () ->
+                return {
+                    link: (scope, element, attrs) ->
+                        Holder.run {images: element.get(0), nocss:true}
+                }
+
             angular.module('djangoApp.controllers') #, ['restangular', 'djangoApp.services'])
                 .controller 'NavbarController', ($scope,$location,$localStorage,Restangular, BASE_URL, User, Course) ->
                     $scope.$storage = $localStorage.$default {useLocalData: true}

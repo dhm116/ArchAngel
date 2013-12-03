@@ -5,7 +5,7 @@
         li
           a(href='javascript:;') {{action}} Teams
   .row-padded
-    h3.page-title Teams:
+    h2.page-title Teams:
   .row
   .row(ng-repeat='course in courses')
     .col-md-12
@@ -22,6 +22,7 @@
               th Section
               th Team
               th Students
+              th Team Resources
               th
           tbody
             tr(ng-if='!course_teams[course.id].length > 0')
@@ -37,8 +38,34 @@
                   a(href='#', onbeforesave='updateUserTeam($data, course.id, member.id)', editable-select='teams[row.team.id]', e-ng-options='t.name for t in course_teams[course.id]')
                     span {{member.first_name}} {{member.last_name}}
                   span(ng-if='!$last') ,
-
+              td
+                a.btn.btn-sm.default(href='http://appear.in/{{course.schedule_no}}-{{row.team.name}}')
+                  i.fa.fa-video-camera
+                  span.pad-left Conference
               td
                 span.pull-right
                   button.btn.btn-sm.dark(ng-click='deleteTeamAndReload(row.team)')
                     i.fa.fa-times
+      .row-padded(ng-if='!isInstructorFor[course.id]')
+        .panel.panel-default
+          .panel-heading
+            h4(style='margin-top: 0px; margin-bottom: 0px;') Team {{getMemberTeam(User.data.id, course.id).name}} Resources
+          .list-group
+            .list-group-item
+              a(href='http://appear.in/{{course.schedule_no}}-{{getMemberTeam(User.data.id, course.id).name}}')
+                i.fa.fa-video-camera
+                span.pad-left Video Conferencing
+
+        .panel.panel-default
+          .panel-heading
+            h4(style='margin-top: 0px; margin-bottom: 0px;') Team {{getMemberTeam(User.data.id, course.id).name}} Members
+          .list-group
+            .list-group-item(ng-repeat='member in team_members[getMemberTeam(User.data.id, course.id).id]')
+                .media
+                  span.pull-left
+                    img.img-rounded.media-object(data-src='holder.js/70x70', bs-holder)
+                  .media-body
+                    h4.media-heading {{users[member.user].first_name}} {{users[member.user].last_name}}
+                    a.btn.btn-sm.blue(href='mailto: {{users[member.user].email}}')
+                      i.fa.fa-envelope
+                      span.pad-left Email
