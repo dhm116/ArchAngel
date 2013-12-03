@@ -10,8 +10,8 @@
     .col-md-12
       .row
         .col-md-11(style='padding-left: 0px;')
-          h2.page-title Week {{lesson.week_no}}: {{lesson.name}}
-            small.pad-left {{lesson.description}}
+          h2.page-title {{lesson.name}}
+            small.pad-left
           hr(style='margin-bottom: 5px;')
         .col-md-1(ng-show='isInstructor')
           .btn-group.pull-right
@@ -62,7 +62,10 @@
                 span.pad-left {{forum.name}}
       .row
         .col-md-12(style='padding-left: 0px;')
-          p(ng-show='lesson.content', btf-markdown='lesson.content', ng-cloak)
+          p(ng-if='lesson.description') {{lesson.description}}
+      .row
+        .col-md-12(style='padding-left: 0px;')
+          p(ng-if='lesson.content', btf-markdown='lesson.content', ng-cloak)
       .row(ng-show='assignments.length > 0')
         h2.page-title Assignments Due
         hr(style='margin-bottom: 5px;')
