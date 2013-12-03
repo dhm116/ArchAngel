@@ -46,7 +46,7 @@
                 span.pull-right
                   button.btn.btn-sm.dark(ng-click='deleteTeamAndReload(row.team)')
                     i.fa.fa-times
-      .row-padded(ng-if='!isInstructorFor[course.id]')
+      .row-padded(ng-if='!isInstructorFor[course.id] && getMemberTeam(User.data.id, course.id)')
         .panel.panel-default
           .panel-heading
             h4(style='margin-top: 0px; margin-bottom: 0px;') Team {{getMemberTeam(User.data.id, course.id).name}} Resources
@@ -69,3 +69,5 @@
                     a.btn.btn-sm.blue(href='mailto: {{users[member.user].email}}')
                       i.fa.fa-envelope
                       span.pad-left Email
+      .row-padded(ng-if='!isInstructorFor[course.id] && !getMemberTeam(User.data.id, course.id)')
+        em You have not been assigned to any teams
