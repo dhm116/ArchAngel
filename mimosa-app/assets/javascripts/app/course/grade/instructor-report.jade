@@ -5,7 +5,7 @@
   .row-padded
     .col-md-11.col-md-offset-1
       .table-responsive
-        table.table.table-striped
+        table.table.table-striped.table-advance
           thead
             th Grade
             th Assignment
@@ -15,7 +15,9 @@
             th Submitted On
           tfoot
             tr(ng-repeat='assignment in lesson_assignments[lesson.id]')
-              td {{averageGrade(assignment) | number:0}}%
+              td.highlight
+                .info
+                span.pad-left {{averageGrade(assignment) | number:0}}%
               td {{assignment.name}}
               td Class Average
               td
