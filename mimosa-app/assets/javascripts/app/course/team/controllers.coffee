@@ -10,33 +10,7 @@ define ['angular'], (angular) ->
             $scope._ = _
             $scope.User = User
 
-            if courseParams
-                # We'll assume we're trying to load a specific
-                # course
-                courseId = Number(courseParams.id)
-
-                # Load the desired course defined in the courseId
-                Course.get(courseId).then (course) ->
-                    if teamParams.action.indexOf('add') is 0
-                        console.log 'Got course to add teams to'
-                        $scope.createTeam(course)
-                            .then () ->
-                                console.log 'Made the team!'
-                                return true
-                            .catch (err) ->
-                                console.log 'Adding failed: ', err
-                                $scope.$broadcast('warning', err)
-                            .finally () ->
-                                $location.path("/course/view/#{course.id}")
-                    else if teamParams.action.indexOf('delete') is 0
-                        teamId = Number(teamParams.id)
-
-                        Team.get(teamId).then (team) ->
-                            console.log 'Got team to delete', team
-                            $scope.deleteTeam(team).then () ->
-                                $location.path("/course/view/#{course.id}")
-
-            else
+            $scope.loadReportDataSources = () ->
                 Course.all().then (courses) ->
                     $scope.courses = courses
                     $scope.isInstructorFor = {}
@@ -50,6 +24,9 @@ define ['angular'], (angular) ->
                         $scope.sections = _.indexBy(sections, 'id')
                         $scope.course_sections = _.groupBy(sections, 'course')
 
+                        CourseRoster.all().then (members) ->
+                            $scope.section_members = _.groupBy(members, 'user')
+
                         Team.all().then (teams) ->
                             $scope.teams = _.indexBy(teams, 'id')
                             $scope.section_teams = _.groupBy(teams, 'section')
@@ -57,10 +34,12 @@ define ['angular'], (angular) ->
 
                             TeamMember.all().then (teamMembers) ->
                                 $scope.team_members = _.groupBy(teamMembers, 'team')
+                                $scope.member_teams = _.groupBy(teamMembers, 'user')
 
                                 User.all().then (users) ->
                                     $scope.users = _.indexBy(users, 'id')
                                     $scope.courseTeamReportData course for course in courses
+
             $scope.courseTeamReportData = (course) ->
                 $scope.teamReport = {}
                 unless $scope.teamReport
@@ -73,15 +52,18 @@ define ['angular'], (angular) ->
                 for section in $scope.course_sections[course.id]
                     for team in $scope.section_teams[section.id]
                         members = $scope.team_members[team.id]
-                        names = []
+                        users = []
                         if members
                             for member in members
-                                user = $scope.users[member.user]
-                                names.push "#{user.first_name} #{user.last_name}"
+                                users.push $scope.users[member.user]
 
-                        data.push {section: section, team: team, members: names}
+                        data.push {section: section, team: team, members: users}
                 $scope.teamReport[course.id] = data
                 return $scope.teamReport[course.id]
+
+            $scope.createTeamAndReload = (course) ->
+                $scope.createTeam(course).then () ->
+                    $scope.loadReportDataSources()
 
             $scope.createTeam = (course) ->
                 sections = []
@@ -144,6 +126,10 @@ define ['angular'], (angular) ->
 
                 return defer.promise
 
+            $scope.deleteTeamAndReload = (team) ->
+                $scope.deleteTeam(team).then () ->
+                    $scope.loadReportDataSources()
+
             $scope.deleteTeam = (team) ->
                 defer = $q.defer()
                 Team.delete(team).finally () ->
@@ -152,4 +138,45 @@ define ['angular'], (angular) ->
                             defer.resolve({teams: teams, members: members})
                 return defer.promise
 
+            $scope.updateUserTeam = (data, course, user) ->
+                teamMember = _.findWhere($scope.member_teams[user], {course: course})
+                console.log teamMember
+                if teamMember
+                    teamMember.team = data.id
+                    TeamMember.update(teamMember)
+                        .then (result) ->
+                            Team.all(null, true).then (teams) ->
+                                TeamMember.all(null, true).then (members) ->
+                                    $scope.loadReportDataSources()
+                        .catch (err) ->
+                            return "Error: " + err
+
+            if courseParams
+                # We'll assume we're trying to load a specific
+                # course
+                courseId = Number(courseParams.id)
+
+                # Load the desired course defined in the courseId
+                Course.get(courseId).then (course) ->
+                    if teamParams.action.indexOf('add') is 0
+                        console.log 'Got course to add teams to'
+                        $scope.createTeam(course)
+                            .then () ->
+                                console.log 'Made the team!'
+                                return true
+                            .catch (err) ->
+                                console.log 'Adding failed: ', err
+                                $scope.$broadcast('warning', err)
+                            .finally () ->
+                                $location.path("/course/view/#{course.id}")
+                    else if teamParams.action.indexOf('delete') is 0
+                        teamId = Number(teamParams.id)
+
+                        Team.get(teamId).then (team) ->
+                            console.log 'Got team to delete', team
+                            $scope.deleteTeam(team).then () ->
+                                $location.path("/course/view/#{course.id}")
+
+            else
+                $scope.loadReportDataSources()
 

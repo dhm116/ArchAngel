@@ -12,7 +12,7 @@
       h3
         a(href='/course/view/{{course.id}}') {{course.name}}
       .row-padded(ng-if='isInstructorFor[course.id]')
-        a.btn.blue.btn-sm(href='/course/view/{{course.id}}/team/add/new')
+        button.btn.blue.btn-sm(ng-click='createTeamAndReload(course)')
           i.fa.fa-plus
           span.pad-left Add Team
 
@@ -30,8 +30,15 @@
             tr(ng-repeat='row in teamReport[course.id]')
               td
                 span(ng-if='$first') {{row.section.section_no}}
-              td {{row.team.team_no}}
+              td {{row.team.name}}
               td
                 span.badge.badge-info {{row.members.length}}
-                span.pad-left {{row.members.join(', ')}}
+                span.pad-left(ng-repeat='member in row.members')
+                  a(href='#', onbeforesave='updateUserTeam($data, course.id, member.id)', editable-select='teams[row.team.id]', e-ng-options='t.name for t in course_teams[course.id]')
+                    span {{member.first_name}} {{member.last_name}}
+                  span(ng-if='!$last') ,
+
               td
+                span.pull-right
+                  button.btn.btn-sm.dark(ng-click='deleteTeamAndReload(row.team)')
+                    i.fa.fa-times
