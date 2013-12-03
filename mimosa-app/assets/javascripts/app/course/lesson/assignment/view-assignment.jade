@@ -28,7 +28,7 @@
         p(ng-show='assignment.content', btf-markdown='assignment.content', ng-cloak)
       .row
         h3 Due on {{moment(assignment.due_date).format("LLL")}} ({{moment(assignment.due_date).fromNow()}})
-      .row(ng-if='submissions.length == 0')
+      .row(ng-if='submissions.length == 0 && !isInstructor')
         h3 Submit Assignment
         form.form.form-horizontal
           .form-group
@@ -66,30 +66,11 @@
               button.btn.blue(ng-click='saveSubmission()')
                 i.fa.fa-save
                 span.pad-left Submit
-      .row
-        h4
-          span(ng-if='!isInstructor') Your Submission
-          span(ng-if='isInstructor') Student Submissions
-        .table-responsive
-          table.table.table-striped.table-hover
-            thead
-              th Grade
-              th Submission
-              th
-            tfoot
-            tbody
-              tr(ng-if='submissions.length == 0')
-                td(colspan='3')
-                  em No submissions yet
-            tr(ng-repeat='submission in submissions', ng-class='{warning: isInstructor && submission.grade.length < 1}')
-              td
-                a.btn.btn-primary.btn-sm(href='#', ng-if='isInstructor && submission.grade.length < 1')
-                  i.fa.fa-check-circle-o
-                  span.pad-left Grade
-              td
-                a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{submission.id}}')
-                  span {{submission.name}}, submitted {{submission.creation_date | amCalendar}}
-              td
-                a.pull-right(href='#', ng-click='deleteSubmission(submission)')
-                  i.fa.fa-times-circle-o
-                  span.pad-left Delete
+      .row(ng-if='!isInstructor && submissions.length > 0')
+        a.btn.blue(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{submissions[0].id}}')
+          i.fa.fa-mail-forward
+          span.pad-left View your submission
+      .row(ng-if='isInstructor')
+        a.btn.blue(href='/grade/view/all#lesson-{{lesson.id}}')
+          i.fa.fa-mail-forward
+          span.pad-left Grade submissions
