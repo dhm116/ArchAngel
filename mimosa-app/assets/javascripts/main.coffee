@@ -327,6 +327,16 @@ require
                                 if forums?.length > 0
                                     $scope.forums = _.indexBy(forums, 'id')
 
+                    $scope.$on 'lessons-updated', () ->
+                        # console.log 'Forums were updated: ', arguments
+                        Course.all(null, true).then (courses) ->
+                            $scope.courses = courses
+
+                            Lesson.all().then (lessons) ->
+                                if lessons?.length > 0
+                                    $scope.lessons = _.indexBy(lessons, 'id')
+
+
                                     # for course in courses
 
                     # params = _.last($routeParams.resources)
