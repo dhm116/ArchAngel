@@ -32,7 +32,7 @@
                 a.btn.blue.btn-sm(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{getStudentSubmission(roster.user, assignment.id).id}}/grade/add/new', ng-if='getStudentSubmission(roster.user, assignment.id) != null && !grades[getStudentSubmission(roster.user, assignment.id).id]')
                   i.fa.fa-check
                   span.pad-left Grade
-                a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{getStudentSubmission(roster.user, assignment.id).id}}/grade/edit/{{grades[getStudentSubmission(roster.user, assignment.id).id].id}}', ng-if='grades[getStudentSubmission(roster.user, assignment.id).id]')
+                a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{getStudentSubmission(roster.user, assignment.id).id}}/grade/edit/{{grades[getStudentSubmission(roster.user, assignment.id).id].id}}', ng-if='getStudentSubmission(roster.user, assignment.id) && grades[getStudentSubmission(roster.user, assignment.id).id]')
                   span.badge.badge-info {{grades[getStudentSubmission(roster.user, assignment.id).id].score/assignment.points * 100 | number:0}}%
               td
                 a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}') {{assignment.name}}
