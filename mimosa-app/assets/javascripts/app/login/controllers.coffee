@@ -2,10 +2,10 @@ define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'LoginController', ($scope, $location, $localStorage, User) ->
         $scope.$storage = $localStorage.$default(user:User.user)
 
-        # console.log $location
-
+        # Enable the 'remember me' toggle switch
         $('.make-switch')['bootstrapSwitch']()
 
+        # Scope login method to handle login form submission
         $scope.login = ->
             unless User.authenticated
                 User.login($scope.user)
