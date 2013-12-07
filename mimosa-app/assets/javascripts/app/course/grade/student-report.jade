@@ -28,7 +28,7 @@
                 span(ng-if='getStudentSubmission(User.data.id, assignment.id)')
                   span {{getStudentSubmission(User.data.id, assignment.id).submitted_date | amCalendar}}
                   span.pad-left.pull-right
-                    a.btn.btn-sm.blue(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{getStudentSubmission(roster.user, assignment.id).id}}')
+                    a.btn.btn-sm.blue(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{getStudentSubmission(User.data.id, assignment.id).id}}')
                       i.fa.fa-mail-forward
                       span.pad-left View
                 span(ng-if='!getStudentSubmission(User.data.id, assignment.id)')
