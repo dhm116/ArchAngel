@@ -1,10 +1,12 @@
 .content-padded(ng-cloak)
+  //- Breadcrumb
   .row-padded
     include ../course-breadcrumb
       append breadcrumbs
         li
           i.fa.fa-angle-right
           a(href='javascript:;') {{action}} Lesson
+  //- Tabs at tope of the page to enter or preview lesson content
   .row-padded
     .col-md-12
       ul.nav.nav-tabs
@@ -13,27 +15,33 @@
         li
           a(href='#preview_tab', data-toggle='tab') Preview Lesson
 
+      //- Edit tab
       .tab-content
         .tab-pane.fade.active.in#edit_tab
           h2.page-title {{action}} Lesson
 
           form.form.form-horizontal
+            //- Lesson Title/Name
             .form-group
               label.col-sm-2.control-label Title
               .col-sm-10
                 input.form-control(type='text', ng-model='lesson.name', placeholder='Lesson title...')
+            //- Lesson Description
             .form-group
               label.col-sm-2.control-label Description
               .col-sm-10
                 input.form-control(type='text', ng-model='lesson.description', placeholder='Lesson description...')
+            //- Lesson Content
             .form-group
               label.col-sm-2.control-label Content
               .col-sm-10
                 textarea.form-control(ng-model='lesson.content', placeholder='Lesson content...', rows='15')
+            //- Week number when lesson will occur
             .form-group
               label.col-sm-2.control-label Week Number
               .col-sm-10
                 input.form-control(type='text', ng-model='lesson.week_no')
+            //- Save and Undo Buttons
             .form-group
               .col-sm-offset-2.col-sm-3
                 button.btn.blue(ng-click='save()')
@@ -44,6 +52,7 @@
                   i.fa.fa-undo
                   span.pad-left(ng-click='undo()') Undo Changes
 
+        //- Preview Tab - view lesson content before saving changes
         .tab-pane.fade#preview_tab
           h2.page-title {{lesson.name}}
           hr

@@ -1,5 +1,5 @@
-
 .content-padded(ng-cloak)
+  //- Breadcrumb
   .row-padded
     include ../lesson-breadcrumb
       append breadcrumbs
@@ -8,26 +8,33 @@
           a(href='javascript:;') Week {{lesson.week_no}} Assignment: {{assignment.name}}
   .row-padded
     .col-md-12
+      //- Heading displaying assignment name, point value, and description
       .row
         .col-md-11(style='padding-left: 0px;')
           h2.page-title Week {{lesson.week_no}} Assignment: {{assignment.name}}
             small.pad-left {{assignment.description}}
           hr(style='margin-bottom: 5px;')
+        //- If user is the instructor, the edit button is displayed
         .col-md-1(ng-show='isInstructor')
           .btn-group.pull-right
             button.btn.blue.btn-sm.dropdown-toggle(type='button', data-toggle='dropdown')
               i.fa.fa-edit
               span.pad-left Edit
               i.pad-left.fa.fa-caret-down
+            //- Drop down menu
             ul.dropdown-menu(role='menu')
+              //- Edit Assignment option
               li
                 a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/edit/{{assignment.id}}')
                   i.fa.fa-edit
                   span.pad-left Edit Assignment
+      //- Show assignment content
       .row
         p(ng-show='assignment.content', btf-markdown='assignment.content', ng-cloak)
+      //- Show assignment due date
       .row
         h3 Due on {{moment(assignment.due_date).format("LLL")}} ({{moment(assignment.due_date).fromNow()}})
+      //- If user is a student, they can submit an assignment
       .row(ng-if='submissions.length == 0 && !isInstructor')
         h3 Submit Assignment
         form.form.form-horizontal
@@ -39,22 +46,12 @@
             label.col-sm-2.control-label Content
             .col-sm-10
               textarea.form-control(ng-model='assignmentsubmission.content', placeholder='Submission content...')
+          //- Optional file upload of submission attachment
           .form-group
             label.col-sm-2.control-label Attachment
             .col-sm-10
-              //- .fileinput.fileinput-new(data-provider='fileinput')
               .row-padded
                 .input-group
-                  //- .form-control.uneditable-input(data-trigger='fileinput')
-                  //-   i.fa.fa-file
-                  //-   span.pad-left.fileinput-filename
-                  //- span.input-group-addon.btn-file
-                  //-   span.fileinput-new
-                  //-     i.fa.fa-paperclip
-                  //-     span.pad-left Select File
-                  //-   span.fileinput-exists
-                  //-     i.fa.fa-undo
-                  //-     span.pad-left Change
                 input.default(type='file', name='attachedSubmission', ng-file-select='onFileSelect($files)')
                 span.help-block Optionally attach a document to this submission
               .row-padded
@@ -66,6 +63,9 @@
               button.btn.blue(ng-click='saveSubmission()')
                 i.fa.fa-save
                 span.pad-left Submit
+      //- If the user is a student, display their submissions for the assignment
+      //- I the user is an instructor, display student submissions for the assignment
+      //- to allow the instructor to grade them
       .row(ng-if='!isInstructor && submissions.length > 0')
         a.btn.blue(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/view/{{submissions[0].id}}')
           i.fa.fa-mail-forward

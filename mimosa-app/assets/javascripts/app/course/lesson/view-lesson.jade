@@ -1,5 +1,5 @@
-
 .content-padded(ng-cloak)
+  //- Breadcrumb
   .row-padded
     include ../course-breadcrumb
       append breadcrumbs
@@ -9,37 +9,46 @@
   .row-padded
     .col-md-12
       .row
+        //- Lesson Name
         .col-md-11(style='padding-left: 0px;')
           h2.page-title {{lesson.name}}
             small.pad-left
           hr(style='margin-bottom: 5px;')
         .col-md-1(ng-show='isInstructor')
+          //- Edit drop down button
           .btn-group.pull-right
             button.btn.blue.btn-sm.dropdown-toggle(type='button', data-toggle='dropdown')
               i.fa.fa-edit
               span.pad-left Edit
               i.pad-left.fa.fa-caret-down
             ul.dropdown-menu(role='menu')
+              //- Edit Lesson option
               li
                 a(href='/course/view/{{course.id}}/lesson/edit/{{lesson.id}}')
                   i.fa.fa-edit
                   span.pad-left Edit Lesson
               li.divider(ng-if='assignments.length > 0')
+              //- Add Forum option
               li
                 a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/forum/add/new')
                   i.fa.fa-plus
                   span.pad-left Add Forum
               li.divider(ng-if='assignments.length > 0')
+              //- Add Assignment option
               li
                 a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/add/new')
                   i.fa.fa-plus
                   span.pad-left Add Assignment
               li.divider(ng-if='assignments.length > 0')
+              //- Edit Assignment option
               li(ng-repeat='assignment in assignments')
                 a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignments/edit/{{assignment.id}}')
                   i.fa.fa-book
                   span.pad-left Edit {{assignment.name}}
       .row
+        //- Lesson's Assignment List
+        //- Displayed as an overview at the top of the lesson page
+        //- Includes links to each assignment
         .col-md-6(style='padding-left: 0px;')
           .panel.panel-default
             .panel-heading
@@ -50,6 +59,9 @@
               a.list-group-item(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}',ng-repeat='assignment in assignments')
                 i.fa.fa-book
                 span.pad-left {{assignment.name}}
+        //- Lesson's Forum List
+        //- Displayed as an overview at the top of the lesson page
+        //- Includes links to each forum
         .col-md-6(style='padding-left: 0px;')
           .panel.panel-default
             .panel-heading
@@ -60,12 +72,17 @@
               a.list-group-item(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/forum/view/{{forum.id}}',ng-repeat='forum in forums')
                 i.fa.fa-comments-o
                 span.pad-left {{forum.name}}
+      //- Lesson Description
       .row
         .col-md-12(style='padding-left: 0px;')
           p(ng-if='lesson.description') {{lesson.description}}
+      //- Lesson Content
       .row
         .col-md-12(style='padding-left: 0px;')
           p(ng-if='lesson.content', btf-markdown='lesson.content', ng-cloak)
+      //- Lesson Assignments, listed in a timeline based on when each is due
+      //- Show assignment name, due date, and point value, with link to assignment pafe
+      //- Teacher has the option to edit a lesson
       .row(ng-show='assignments.length > 0')
         h2.page-title Assignments Due
         hr(style='margin-bottom: 5px;')

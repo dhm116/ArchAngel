@@ -1,5 +1,6 @@
 
 .content-padded(ng-cloak)
+  //- Breacrumb
   .row-padded
     include ../../lesson-breadcrumb
       append breadcrumbs
@@ -11,11 +12,13 @@
           a(href='javascript:;') {{submission.name}}
   .row-padded
     .col-md-12
+      //- Heading displaying assignment submission name, creation date
       .row
         .col-md-11(style='padding-left: 0px;')
           h2.page-title {{submission.name}}
             small.pad-left Submitted {{submission.creation_date | amCalendar}}
           hr(style='margin-bottom: 5px;')
+        //- Edit button with drop down allowing user to edit assignment submission
         .col-md-1(ng-show='submission.author == User.data.id')
           .btn-group.pull-right
             button.btn.blue.btn-sm.dropdown-toggle(type='button', data-toggle='dropdown')
@@ -27,10 +30,13 @@
                 a(href='/course/view/{{course.id}}/lesson/view/{{lesson.id}}/assignment/view/{{assignment.id}}/submission/edit/{{submission.id}}')
                   i.fa.fa-edit
                   span.pad-left Edit Submission
+      //- Show submission content
       .row
         p(ng-if='submission.content', btf-markdown='submission.content', ng-cloak)
         p(ng-if='!submission.content')
+          //- Message to display if not content exists
           em No submission text provided
+      //- Show attachment file path with an option to download
       .row(ng-if='submission.file_path')
         a.btn.blue.btn-sm(href='{{submission.file_path}}')
           i.fa.fa-download

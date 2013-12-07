@@ -3,6 +3,7 @@ define ['angular'], (angular) ->
         ($scope, $routeParams, Restangular, User, Course, Lesson, Assignment, AssignmentSubmission) ->
             $scope.User = User
 
+            # Get course, lesson, assignment, and assignment submission information from parameters in the URL
             courseParams = _.findWhere($routeParams.resources, {resource:'course'})
             lessonParams = _.findWhere($routeParams.resources, {resource:'lesson'})
             assignmentParams = _.findWhere($routeParams.resources, {resource:'assignment'})

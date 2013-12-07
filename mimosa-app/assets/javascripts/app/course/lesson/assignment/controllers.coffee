@@ -1,6 +1,7 @@
 define ['angular'], (angular) ->
     return angular.module('djangoApp.controllers').controller 'AssignmentController',
         ($scope, $routeParams, $location, Restangular, User, Course, Lesson, Assignment, AssignmentSubmission) ->
+            # Get course, lesson, and assignment information from parameters in the URL
             courseParams = _.findWhere($routeParams.resources, {resource:'course'})
             lessonParams = _.findWhere($routeParams.resources, {resource:'lesson'})
             assignmentParams = _.findWhere($routeParams.resources, {resource:'assignment'})
@@ -11,15 +12,11 @@ define ['angular'], (angular) ->
             $('#dueDate').datetimepicker({
                 pickTime: false
                 autoclose: true
-                # format: 'yyyy-mm-ddThh:mm' #"dd MM yyyy - hh:ii"
             }).on 'changeDate', (ev) ->
                 $scope.assignment.due_date = ev.date
 
-            # $('.fileinput').fileinput()
-
-            # console.log AWS.config.credentials
+            # File upload
             $scope.aws = AWS.config.credentials
-            # console.log $scope.aws
             bucket = new AWS.S3 {params: {Bucket: 'archangel'}}
 
             # Load the desired course defined in the courseId
@@ -27,11 +24,14 @@ define ['angular'], (angular) ->
                 # Set our scope reference to the course
                 $scope.course = course
 
+            # Load the desired lesson defined in the lessonId
             Lesson.get(Number(lessonParams.id)).then (lesson) ->
                 $scope.lesson = lesson
+                # Check if the user is the instructor of the course
                 Course.isInstructorFor(lesson.course).then (isInstructor) ->
                     $scope.isInstructor = isInstructor
 
+            # As long as user is not adding a lesson
             unless assignmentParams.action.indexOf('add') is 0
                 Assignment.get(Number(assignmentParams.id)).then (assignment) ->
                     $scope.assignment = assignment
@@ -43,59 +43,59 @@ define ['angular'], (angular) ->
                     if $scope.assignment.submissions.length
                         AssignmentSubmission.all($scope.assignment.submissions).then (submissions) ->
                             $scope.submissions = submissions
-                            # console.log submissions
 
+                            # Get the assignment submission author's first and last name
                             User.all(_.pluck(submissions, 'author')).then (students) ->
                                 $scope.students = _.indexBy(students, 'id')
 
-
+            # Instructor wants to add an assignment
             else if assignmentParams.action.indexOf('add') is 0
+                # Set assignment parameters (lesson, author) in the scope
                 $scope.assignment = {lesson:lessonParams.id, author: User.data.id}
 
+            # If user elected to undo their work
             $scope.undo = ->
                 if $scope.original_assignment
                     $scope.assignment = Restangular.copy($scope.original_assignment)
 
+            # If user elected to save the assignment
             $scope.save = ->
+                # If they are editing an existing assignment, save the changes
                 if assignmentParams.action.indexOf('edit') is 0
                     console.log "Saving assignment changes: ", $scope.assignment
                     Assignment.update($scope.assignment)
                         .then (result) ->
                             console.log "Save worked: ", result
-                            # $scope.course.lesson.assignments.push result
                             $location.path("/course/view/#{$scope.course.id}/lesson/view/#{$scope.lesson.id}/assignment/view/#{result.id}")
                         .catch (err) ->
                             console.log "Save failed: ", err
+                # If they are adding a new assignment, save the assignment and its corresponding information
                 else if assignmentParams.action.indexOf('add') is 0
                     console.log "Saving new Assignment: ", $scope.assignment
                     Assignment.add($scope.assignment)
                         .then (result) ->
                             console.log "Adding worked: ", result
-                            # $scope.lesson.assignments.push result
                             $scope.lesson.assignments.push(result.id)
                             $location.path("/course/view/#{$scope.course.id}/lesson/view/#{$scope.lesson.id}/assignment/view/#{result.id}")
                         .catch (err) ->
                             console.log "Adding failed: ", err
 
+            # If submission was selected, set the file in the scope
             $scope.onFileSelect = (files) ->
                 $scope.assignmentsubmission.file = files[0]
 
+            # User elects to save assignment submision
             $scope.saveSubmission = () ->
-                #bucket.getSignedUrl 'putObject', {Key: "#{User.data.id}/#{new Date().getTime()}/${filename}"}, (err, url) =>
                 createSubmission = () ->
-                    # submission = {
-                    #     author: User.data.id
-                    #     assignment: $scope.assignment.id
-                    #     name: "#{User.data.first_name} #{User.data.last_name}'s submission (see attached)"
-                    #     file_path: "https://s3.amazonaws.com/archangel/#{filename}"
-                    # }
 
+                    # Add assignment submission
                     AssignmentSubmission.add($scope.assignmentsubmission)
                         .then (result) ->
                             $scope.submissions.push(result)
                             $scope.assignment.submissions.push(result.id)
                         .catch (err) ->
                             console.log err
+                # If there is an attachment to upload, prepare to upload to the server
                 if $scope.assignmentsubmission.file
                     file = $scope.assignmentsubmission.file
 
@@ -117,6 +117,7 @@ define ['angular'], (angular) ->
                 else
                     createSubmission()
 
+            # User elects to delete assignment submission
             $scope.deleteSubmission = (submission) ->
                 console.log $scope.submissions
                 delete $scope.submissions[_.indexOf($scope.submissions, submission)]
