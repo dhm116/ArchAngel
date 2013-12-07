@@ -1,13 +1,12 @@
+# ##RequireJS configuration
 # Configure RequireJS by:
 #
-# 1) Defining an alias to the
+# 1. Defining an alias to the
 #   AngularJS library path, which will help simplify
 #   future requires for angular.
-#
-# 2) Adjust the base url used for all require
+# 2. Adjust the base url used for all require
 #   statements.
-#
-# 3) Configure an angular shim in case it was not
+# 3. Configure an angular shim in case it was not
 #   defined using the define() method of RequireJS
 require.config
     paths:
@@ -17,6 +16,7 @@ require.config
         'angular': {'exports':'angular'}
     priority: ['angular']
 
+# ##Load dependencies
 # This is our main application entry-point, which
 # defines our base dependencies, a url argument
 # that will be appended to every library load request
@@ -42,16 +42,17 @@ require
     # Here we receive our defined base dependencies
     # to use in our application.
     ,(angular, templates, mobilecheck, app) ->
-
+        # ## Main.coffee has been loaded
         # Initialize the Metronic theme handlers
         # once the application is ready to render.
         $(document).ready ->
             console.log 'Initializing metronic'
+            # Metronic is our add-on theme for
+            # Twitter Bootstrap 3
             Metronic.init()
-            # FormDropzone.init()
-            # FormFileUpload.init()
             return
 
+        # ##Load local angular modules
         # Here we load our application's angular
         # services and controllers. We do this
         # after angular has been loaded to avoid
@@ -84,23 +85,15 @@ require
             'app/course/forum/services'
             'app/course/forum/controllers'
         ], ->
-
+            # ##All dependencies have been loaded
             # Use the browser user-agent or the screen
             # size to determine if we should render
             # mobile-specific views.
             isMobile = mobilecheck.isMobile()
 
-            # Grab a reference to our Amazon S3 storage
-            # bucket for handling uploads
-            # bucket = new AWS.S3 {params: {Bucket: 'archangel'}}
-
-            # Just a test to verify connectivity to S3
-            # bucket.listObjects (err, data) ->
-            #     console.log "S3 Results: ", err, " ", data
-
             # Simple helper method for Restangular to
             # load all data for the provided resource
-            # and add it to the local $scope.
+            # and add it to the local `$scope` .
             getAllData = (service, $scope, resource) ->
                 service.all(resource).getList().then (items) ->
                     $scope[resource] = items
@@ -124,28 +117,30 @@ require
             # templates to load for a given URL.
             #
             # The pattern is:
-            # <required> [model]:
-            #       <required> template: 'name of template to load'
-            #       <optional> controller: 'name of controller to load'
-            #       <optional> restful: true/false
-            #       <optional> nested:
-            #                       -- repeated --
+            # - test `model` (**_required_**):
+            #   - `template` (**_required_**): the name of the template to load
+            #   - `controller` (*optional*): the name of the controller to load. If
+            #     undefined, a controller named ModelController will be used (
+            #     e.g. `YogurtController` if the model was defined as `yogurt`)
+            #   - `restful` (*optional*): true/false
+            #   - `nested` (*optional*):
+            #     - -- repeated --
             #
             # The login route will end up looking like:
-            #   http://<hostname>/login
+            #   `http://my.site.com/login`
             #
-            # Defining "result: true" will result in
+            # Defining `restful: true` will result in
             # the following route being generated:
-            #   http://<hostname>/<model name>/[action]/[id]
+            #   `http://my.site.com/model_name/[action]/[id]`
             #
             # Restful routes allow for the following patterns:
-            #   http://<hostname>/course/view/1
-            #   http://<hostname>/course/add/new
-            #   http://<hostname>/course/edit/5
+            #   `http://my.site.com/course/view/1`
+            #   `http://my.site.com/course/add/new`
+            #   `http://my.site.com/course/edit/5`
             #
             # as well as the following nested patterns:
-            #   http://<hostname>/course/view/1/lesson/view/1
-            #   http://<hostname>/course/view/1/syllabus/edit/2
+            #   `http://my.site.com/course/view/1/lesson/view/1`
+            #   `http://my.site.com/course/view/1/syllabus/edit/2`
             routeMap = {
                 login:
                     template: 'login'
@@ -153,7 +148,6 @@ require
                 course:
                     restful: true
                     template: 'course'
-                    # controller: 'CourseController'
                     nested:
                         section:
                             restful: true
@@ -162,7 +156,6 @@ require
                         lesson:
                             restful: true
                             template: 'lesson'
-                            # controller: 'LessonController'
                             nested:
                                 forum:
                                     restful: true
@@ -170,7 +163,6 @@ require
                                 assignment:
                                     restful: true
                                     template: 'assignment'
-                            #        controller: 'AssignmentController'
                                     nested:
                                         submission:
                                             restful: true
@@ -183,7 +175,6 @@ require
                         syllabus:
                             restful: true
                             template: 'syllabus'
-                            # controller: 'SyllabusController'
                         forum:
                             restful: true
                             template: 'forum'
@@ -200,32 +191,56 @@ require
                     controller: 'TeamController'
             }
 
+            # ###Recursive Resource Finder
+            # Simple helper method to assist in traversing the
+            # URL to locate the `routeMap` configuration of the
+            # target resource.
+            #
+            # Returns an object containing the **name** of the
+            # resource located, the **configuration** defined
+            # and a **named route** for use with the angular
+            # named route module.
+            #
+            # First, we loop through each resource defined in the parent
+            # configuration node. Keys (`item`) will be the name of the
+            # resource in the configuration. Values (`options`) will be the
+            # configuration defined for that resource. We check if this item
+            # matches our target resource and return it if it matches. If not,
+            # we'll check if this item has any nested resources defined.
+            #
+            # Nested resources will recursively call `recurseResourceFinder` (
+            # hence the name) until the route configuration has no more nested
+            # resources defined.
+            #
+            # If the result is a nested route, we add the parent resource to the
+            # beginning of the resulting named route to keep everything in context
+            # later on.
+            #
+            # If no results are found, we return null
             recursiveResourceFinder = (parent, resource) ->
                 for item, options of parent
                     if item.indexOf(resource) is 0 and resource.indexOf(item) is 0
-                        # console.log "Found #{resource}!", item, options
                         return {resource: item, options: options, routeName: item}
                     else if options.nested?
-                        # console.log "Searching for nested resource in #{item}: ",options
                         nested = recursiveResourceFinder(options.nested, resource)
                         if nested
                             nested.routeName = "#{item}-#{nested.routeName}"
                             return nested
                 return null
 
+            # ###Create Route
+            # Simple helper method for registering and handling routes defined
+            # in the routeMap configuration with the angular routing service
+            #
+            # * `$routeProvider` is a reference to the angular route service
+            # * `route` is the URL to listen for (e.g. /something/:id)
+            # * `name` is the name of the `routeMap` resource associated with
+            #   this route
+            # * `data` is the configuration data
             createRoute = ($routeProvider, route, name, data) ->
                 console.log "Building routes for #{name} (#{data.namedRoute}): #{route}"
                 $routeProvider.when route, {
                     template: ($routeParams) ->
-                        # resource = ""
-                        # locationParts = window.location.pathname.split('/')
-                        # if locationParts.length > 3
-                        #     resource = locationParts[-3..-3] + ""
-                        #     $routeParams.parentResource = locationParts[1..1] + ""
-                        # else
-                        #     resource = locationParts[-1..-1] + ""
-
-                        # $routeParams.resource = resource
                         $routeParams.resources = []
                         if _.keys($routeParams).length > 1
                             for key,val of $routeParams when key isnt 'resources'
@@ -235,7 +250,6 @@ require
                                     existing = {resource:resource}
                                     $routeParams.resources.push existing
                                 existing[type] = val
-                                # delete $routeParams[key]
                         else
                             locationParts = window.location.pathname.split('/')
                             $routeParams.resources.push {resource: locationParts[-1..-1]+""}
@@ -244,13 +258,17 @@ require
                             param = _.last($routeParams.resources)
                             resource = param.resource
                             options = routeMap[resource] or recursiveResourceFinder(routeMap, resource)?.options
-                            # console.log "Options for #{resource}", options
                             return getTemplate(unless options.restful then options.template else "#{param.action}-#{options.template}")
                         return
                     controller: if data.controller then data.controller else "#{name[0].toUpperCase()}#{name[1..-1]}Controller"
                     name: data.namedRoute
                 }
 
+            # ###Recursive Route Builder
+            # This helper method  takes the main `routeMap` configuration
+            # and recursively constructs the URL's for any nested resources
+            # defined. This method will call `createRoute` for each route
+            # constructed.
             recursiveRouteBuilder = ($routeProvider, routes, baseURL, parentResource) ->
                 for name, data of routes
                     route = baseURL + "/#{name}"
@@ -262,23 +280,47 @@ require
                     if data.nested?
                         recursiveRouteBuilder($routeProvider, data.nested, route, data.namedRoute + "-")
 
+            # ##Main Application Configuration
+            # Here we define our application-specific configuration parameters
+            # for our main Angular module, `djangoApp`.
+            #
+            # We use this configuration method to construct and register our
+            # routes using the `recursiveRouteBuilder` method. We will also
+            # register our default route handler using `$routeProvider.otherwise`
+            # to avoid `404 Page Missing` errors.
+            #
+            # **_Note_** setting `$locationProvider.html5Mode(true)` will allow
+            # the angular routing module to intercept URL's that look like
+            # `http://my.site.com/some/page/item/id` instead of
+            # `http://my.site.com/some#page/item/id`
             app.config ($routeProvider, $locationProvider) ->
-
                 recursiveRouteBuilder($routeProvider, routeMap, "")
 
                 $routeProvider.otherwise {
-                        template: getTemplate('main-screen') #templates['main-screen']
+                        template: getTemplate('main-screen')
                         controller: 'ArchangelController'
                 }
                 $locationProvider.html5Mode(true)
 
+            # ##Custom Directives
+            # This `bsHolder` angular directive is a workaround for
+            # an incompatability between angular and the holder.js
+            # image placeholder library.
+            #
+            # To use, simply define `bs-holder` on any element
             angular.module('djangoApp').directive 'bsHolder', () ->
                 return {
                     link: (scope, element, attrs) ->
                         Holder.run {images: element.get(0), nocss:true}
                 }
 
-            angular.module('djangoApp.controllers') #, ['restangular', 'djangoApp.services'])
+            # ##Local Angular Controllers
+            angular.module('djangoApp.controllers')
+                # ###Top Navbar Controller
+                # This is just a simple controller for the top navbar on
+                # the site. Most of the parameters and helper methods
+                # are remnants of the site using Foundation and Ratchet
+                # for the UI.
                 .controller 'NavbarController', ($scope,$location,$localStorage,Restangular, BASE_URL, User, Course) ->
                     $scope.$storage = $localStorage.$default {useLocalData: true}
                     $scope.isMobile = isMobile
@@ -287,10 +329,6 @@ require
                     $scope.$on 'logout', =>
                         $location.path('/login')
 
-                    # Course.all().then (courses) ->
-                    #     $scope.courses = courses
-
-                    # $scope.useLocalData = $localStorage.useLocalData
                     $scope.updateDataURL = () ->
                         $scope.$storage.useLocalData = !$scope.$storage.useLocalData
 
@@ -302,15 +340,27 @@ require
 
                         $location.path('/')
 
+                # ###Sidebar Controller
+                # This sidebar controller helps keep the sidebar up-to-date
+                # with model changes that affect any course links being
+                # displayed.
                 .controller 'SidebarController', ($scope, $location, $routeParams, Restangular, growl, User, Course, Lesson, Forum) ->
                     $scope.isMobile = isMobile
                     $scope.user = User
                     $scope.moment = moment
 
+                    # When the user logs in, lets make sure to pull the
+                    # latest list of courses for them. Forcing an update
+                    # with `true` in the call will help prevent caching
+                    # issues if a different user had been logged in
+                    # previously.
                     $scope.$on 'login', =>
-                        Course.all().then (courses) ->
+                        Course.all(null, true).then (courses) ->
                             $scope.courses = courses
 
+                    # When the user logs out, make sure we clear out all
+                    # `$scope` data for the sidebar so nothing is left
+                    # over for the next login.
                     $scope.$on 'logout', =>
                         $scope.courses = []
                         $scope.courseParams = null
@@ -318,8 +368,15 @@ require
                         $scope.forumParams = null
                         $scope.routeParams = null
 
+                    # Because we're indexing the forums by their ID to
+                    # help display them easily for each course, we need
+                    # to listen for any model updates so that we can re-run
+                    # the index and update the scope. In case there were any
+                    # additions or deletions from a course, we force-update
+                    # the courses as well - this also helps keep the UI in
+                    # sync with the backend and funky things happen if this
+                    # doesn't occur.
                     $scope.$on 'forums-updated', () ->
-                        # console.log 'Forums were updated: ', arguments
                         Course.all(null, true).then (courses) ->
                             $scope.courses = courses
 
@@ -327,8 +384,9 @@ require
                                 if forums?.length > 0
                                     $scope.forums = _.indexBy(forums, 'id')
 
+                    # Just like with the forums, we need to update the courses
+                    # and re-index the lessons on any model updates.
                     $scope.$on 'lessons-updated', () ->
-                        # console.log 'Forums were updated: ', arguments
                         Course.all(null, true).then (courses) ->
                             $scope.courses = courses
 
@@ -336,13 +394,13 @@ require
                                 if lessons?.length > 0
                                     $scope.lessons = _.indexBy(lessons, 'id')
 
-
-                                    # for course in courses
-
-                    # params = _.last($routeParams.resources)
-
+                    # Here we hook into the global scope `error` event so that
+                    # we can display them to the user. The errors produced by
+                    # `Restangular` follow a schema provided by the django
+                    # response, so first we check to see if the error was generated
+                    # by one of our services; if not, we just display the error
+                    # provided.
                     $scope.$on 'error', (event, err) ->
-                        # console.log err
                         if err.hasOwnProperty('service')
                             {service, error} = err
                             for field, msg of error.data
@@ -350,8 +408,9 @@ require
                         else
                                 growl.addErrorMessage(err)
 
+                    # Same with the errors, this hooks into the global `warning`
+                    # event for displaying warnings to the user.
                     $scope.$on 'warning', (event, err) ->
-                        # console.log err
                         if err.hasOwnProperty('service')
                             {service, error} = err
                             for field, msg of error.data
@@ -359,6 +418,9 @@ require
                         else
                                 growl.addWarningMessage(err)
 
+                    # This method helps encapsulate loading all of the potential
+                    # route parameters that the template will use to determine what
+                    # page the user is on.
                     updateRouteParams = () =>
                         $scope.courseParams = _.findWhere($routeParams.resources, {resource:'course'})
                         $scope.lessonParams = _.findWhere($routeParams.resources, {resource:'lesson'})
@@ -367,19 +429,24 @@ require
                         $scope.gradeParams = _.findWhere($routeParams.resources, {resource:'grade'})
                         $scope.routeParams = $routeParams
 
-
+                    # If the user is authenticated, go ahead and load up the list
+                    # of courses, lessons and forums to populate the navigation
+                    # links.
                     if User.authenticated
                         Course.all().then (courses) ->
                             $scope.courses = courses
 
                             lessonIds = []
+                            # Here we are collecting all of the lesson ids for each
+                            # course being displayed.
                             lessonIds.push course.lessons for course in $scope.courses
 
-                            # This flattens the array to keep it as a
-                            # single dimension
+                            # This flattens the lesson ids array to keep it as a
+                            # single dimension.
                             lessonIds = _.flatten(lessonIds)
 
                             forumIds = []
+                            # We'll do the same thing with the forums
                             forumIds.push course.forums for course in $scope.courses
 
                             # This flattens the array to keep it as a
@@ -391,10 +458,16 @@ require
                             Forum.all(forumIds).then (forums) ->
                                 $scope.forums = _.indexBy(forums, 'id')
 
+                    # After the URL changes, make sure we reload the route
+                    # parameters to keep the UI navigation up-to-date
                     $scope.$on '$routeChangeSuccess', () =>
-                        # console.log "route changed", arguments
                         updateRouteParams()
 
+                # ###Homepage Controller
+                # This controller is referenced by `views/main-screen.jade` and
+                # handles redirecting users that haven't logged in yet, as well
+                # as initializing any Metronic javascript libraries used on the
+                # home screen.
                 .controller 'ArchangelController', ($scope, $location, Restangular, User, Course) ->
                     $scope.isMobile = isMobile
                     $scope.user = User
@@ -406,12 +479,10 @@ require
                         Tasks.initDashboardWidget()
                         Course.all().then (courses) ->
                             $scope.courses = courses
-                        #     for course in $scope.courses
-                        #         Course.upcomingAssignments(course.id).then (upcoming) =>
-                        #             course.upcoming = upcoming
-                        # $scope.moment = moment
-                        # unless isMobile
-                        #     getAllData(Restangular, $scope, 'users')
 
 
+            # ##Bootstrap our Angular App
+            # This helps to work around the known issue of using angular along
+            # with requirejs, as you would normally declare ng-app in the main
+            # `html` element
             angular.bootstrap document, ['djangoApp']
