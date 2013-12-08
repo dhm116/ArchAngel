@@ -1,11 +1,7 @@
 define ['angular'], (angular) ->
+    # ##Course controller
     return angular.module('djangoApp.controllers').controller 'CourseController',
         ($scope, $routeParams, Restangular, User, Course, CourseSection, CourseRoster, Syllabus, Lesson, Team, TeamMember, Forum) ->
-
-            # Keep track of what model we're loading
-            # (not sure why...)
-            params = _.last($routeParams.resources)
-
             courseParams = _.findWhere($routeParams.resources, {resource:'course'})
             sectionParams = _.findWhere($routeParams.resources, {resource:'section'})
 

@@ -1,4 +1,8 @@
 define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
+    # ##Roster service
+    # The course roster determines which users belong to which
+    # sections of a course, as well as what their role in the
+    # course is.
     angular.module('djangoApp.services').factory 'CourseRoster', ($q, $rootScope, Restangular) ->
         class CourseRoster extends ServiceBase
             model: 'courserosters'
@@ -10,27 +14,3 @@ define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
                 return defer.promise
 
         return new CourseRoster(Restangular, $q, $rootScope)
-        # class CourseRoster
-        #     rosters: []
-
-        #     get: (ids) =>
-        #         d = $q.defer()
-
-        #         if typeof ids is 'string'
-        #             ids = [ids]
-
-        #         unless @rosters.length
-        #             console.log "Loading course rosters"
-        #             Restangular.all('courserosters').getList().then (rosters) =>
-        #                 @rosters = rosters
-        #                 d.resolve(@__getRoster(ids))
-        #         else
-        #             d.resolve(@__getRoster(ids))
-        #         return d.promise
-
-        #     __getRoster: (ids) =>
-        #         return _.filter @rosters, (roster) =>
-        #             _.contains(ids, roster.id)
-
-
-        # return new CourseRoster()

@@ -1,9 +1,8 @@
 define ['angular'], (angular) ->
+    # ##Course section controller
+    # This controller is not currently used
     return angular.module('djangoApp.controllers').controller 'CourseSectionController', ($scope, $routeParams, Restangular, Course, CourseSection) ->
-        # $scope.user = User
-        # Restangular.setBaseUrl 'http://macpro.local:8000/'
-        # getAllData(Restangular, $scope, 'users')
-        # getAllData(Restangular, $scope, 'courses')
+
         Course.all().then (courses) ->
             $scope.courses = courses
 

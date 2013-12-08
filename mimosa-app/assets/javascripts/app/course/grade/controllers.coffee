@@ -1,9 +1,11 @@
 define ['angular'], (angular) ->
+    # ##Graded assignment submission controller
     return angular.module('djangoApp.controllers').controller 'GradedAssignmentSubmissionController',
         ($scope, $routeParams, $location, Restangular, User, Course, CourseRoster, CourseSection, Lesson, Assignment, AssignmentSubmission, GradedAssignmentSubmission) ->
             # Keep track of what model we're loading
             params = _.last($routeParams.resources)
 
+            # Pull out our URL parameters to load the appropriate models.
             courseParams = _.findWhere($routeParams.resources, {resource:'course'})
             lessonParams = _.findWhere($routeParams.resources, {resource:'lesson'})
             assignmentParams = _.findWhere($routeParams.resources, {resource:'assignment'})
@@ -11,23 +13,31 @@ define ['angular'], (angular) ->
             gradeParams = _.findWhere($routeParams.resources, {resource:'grade'})
 
             $scope.resource = params.resource
+            # Humanize the action for our resource in case the user is
+            # adding or editing an item.
             $scope.action = gradeParams.action[0].toUpperCase() + gradeParams.action[1..-1]
+            # Provide the UI access to the `moment` and `_` libraries.
             $scope.moment = moment
             $scope._ = _
             $scope.User = User
 
+            # If a course was defined in the URL, we're adding/editing
+            # a grade for a specific assignment submission.
             if courseParams
                 Course.get(Number(courseParams.id)).then (course) ->
-                    # $scope.course = course
+
                     Course.isInstructorFor(course.id).then (isInstructor) ->
                         $scope.isInstructor = isInstructor
 
                     Lesson.get(Number(lessonParams.id)).then (lesson) ->
-                        # $scope.lesson = lesson
 
                         Assignment.get(Number(assignmentParams.id)).then (assignment) ->
                             $scope.assignment = assignment
+                            # Create our 'spinner' that adds increment and
+                            # decrement buttons for mobile device ease-of-use.
                             $('#points').spinner({min: 0, max: assignment.points});
+                            # Event listener to udpate the angular model when the
+                            # spinner changes the value
                             $('#points').on 'changed', (e, val) ->
                                 $scope.$apply ->
                                     $scope.gradedassignmentsubmission.score = val
@@ -35,6 +45,8 @@ define ['angular'], (angular) ->
                             AssignmentSubmission.get(Number(submissionParams.id)).then (submission) ->
                                 $scope.submission = submission
 
+                                # If we aren't editing an existing grade, create a new
+                                # grade object for the form.
                                 unless gradeParams.action.indexOf('edit') is 0
                                     $scope.gradedassignmentsubmission = {
                                         score: $scope.assignment.points
@@ -53,6 +65,10 @@ define ['angular'], (angular) ->
                 $scope.courses = courses
                 $scope.isInstructorFor = {}
                 for course in courses
+                    # Creating an in-line method for handing the
+                    # promise returned helps ensure that we won't
+                    # lose the reference to the course that the
+                    # result is associated with.
                     preserveCourse = (course) ->
                         Course.isInstructorFor(course.id).then (result) ->
                             $scope.isInstructorFor[course.id] = result
@@ -84,12 +100,16 @@ define ['angular'], (angular) ->
             User.all().then (users) ->
                 $scope.users = _.indexBy(users, 'id')
 
+            # Helper method for obtaining the assignment submission for
+            # the provided user and assignment.
             $scope.getStudentSubmission = (userId, assignmentId) ->
                 unless $scope.student_submissions
                     return null
                 else
                     return _.findWhere($scope.student_submissions[userId], {assignment: assignmentId})
 
+            # Helper method for determining the class average grade for
+            # the provided assignment.
             $scope.averageGrade = (assignment) ->
                 unless $scope.assignment_submissions
                     return null
@@ -111,6 +131,8 @@ define ['angular'], (angular) ->
                 average = sum/grades.length
                 return average*100/assignment.points
 
+            # Helper method for determining the overall course grade
+            # for the provided course and currently logged in user.
             $scope.cumulativeGrade = (course) ->
                 unless $scope._cumulativeGrade
                     $scope._cumulativeGrade = {}
@@ -130,6 +152,7 @@ define ['angular'], (angular) ->
                     assignments = $scope.lesson_assignments[id]
 
                     if assignments?.length > 0
+                        # Sum the possible points
                         totalPoints += Number(a.points) for a in assignments
 
                         assignmentIds = _.pluck(assignments, 'id')
@@ -141,11 +164,13 @@ define ['angular'], (angular) ->
                                 for sId in _.pluck(submissions, 'id')
                                     grade = $scope.grades[sId]
                                     if grade
+                                        # Sum the actual points earned
                                         totalScore += Number(grade.score)
 
                 $scope._cumulativeGrade[course.id] = {score: totalScore, points: totalPoints, percent: totalScore/totalPoints*100}
                 return $scope._cumulativeGrade[course.id]
 
+            # Helper method for saving the changes to the grade form.
             $scope.save = ->
                 if gradeParams.action.indexOf("edit") is 0
                     console.log "Saving grade changes: ", $scope.gradedassignmentsubmission

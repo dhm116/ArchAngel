@@ -1,4 +1,5 @@
 define ['angular'], (angular) ->
+    # ##Login controller
     return angular.module('djangoApp.controllers').controller 'LoginController', ($scope, $location, $localStorage, User) ->
         $scope.$storage = $localStorage.$default(user:User.user)
 
