@@ -177,7 +177,6 @@ define ['angular'], (angular) ->
                     GradedAssignmentSubmission.update($scope.gradedassignmentsubmission)
                         .then (result) ->
                             console.log "Save worked: ", result
-                            # $scope.course.lessons.push result
                             $location.path("/grade/view/all")
                         .catch (err) ->
                             console.log "Save failed: ", err
@@ -186,7 +185,6 @@ define ['angular'], (angular) ->
                     GradedAssignmentSubmission.add($scope.gradedassignmentsubmission)
                         .then (result) ->
                             console.log "Adding worked: ", result
-                            # $scope.lessons.push result
                             $scope.submission.grade.push(result.id)
                             $location.path("/grade/view/all")
                         .catch (err) ->
