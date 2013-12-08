@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>app.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="../../../docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="app.html">
+                assets/javascripts/app/app.coffee
+              </a>
+            
+              
+              <a class="source" href="common/base-service.html">
+                assets/javascripts/app/common/base-service.coffee
+              </a>
+            
+              
+              <a class="source" href="course/controllers.html">
+                assets/javascripts/app/course/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="course/forum/controllers.html">
+                assets/javascripts/app/course/forum/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="course/forum/services.html">
+                assets/javascripts/app/course/forum/services.coffee
+              </a>
+            
+              
+              <a class="source" href="course/grade/controllers.html">
+                assets/javascripts/app/course/grade/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="course/grade/services.html">
+                assets/javascripts/app/course/grade/services.coffee
+              </a>
+            
+              
+              <a class="source" href="course/lesson/assignment/controllers.html">
+                assets/javascripts/app/course/lesson/assignment/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="course/lesson/assignment/services.html">
+                assets/javascripts/app/course/lesson/assignment/services.coffee
+              </a>
+            
+              
+              <a class="source" href="course/lesson/assignment/submission/controllers.html">
+                assets/javascripts/app/course/lesson/assignment/submission/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="course/lesson/assignment/submission/services.html">
+                assets/javascripts/app/course/lesson/assignment/submission/services.coffee
+              </a>
+            
+              
+              <a class="source" href="course/lesson/controllers.html">
+                assets/javascripts/app/course/lesson/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="course/lesson/services.html">
+                assets/javascripts/app/course/lesson/services.coffee
+              </a>
+            
+              
+              <a class="source" href="course/roster/services.html">
+                assets/javascripts/app/course/roster/services.coffee
+              </a>
+            
+              
+              <a class="source" href="course/section/controllers.html">
+                assets/javascripts/app/course/section/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="course/section/services.html">
+                assets/javascripts/app/course/section/services.coffee
+              </a>
+            
+              
+              <a class="source" href="course/services.html">
+                assets/javascripts/app/course/services.coffee
+              </a>
+            
+              
+              <a class="source" href="course/syllabus/controllers.html">
+                assets/javascripts/app/course/syllabus/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="course/syllabus/services.html">
+                assets/javascripts/app/course/syllabus/services.coffee
+              </a>
+            
+              
+              <a class="source" href="course/team/controllers.html">
+                assets/javascripts/app/course/team/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="course/team/services.html">
+                assets/javascripts/app/course/team/services.coffee
+              </a>
+            
+              
+              <a class="source" href="login/controllers.html">
+                assets/javascripts/app/login/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="login/services.html">
+                assets/javascripts/app/login/services.coffee
+              </a>
+            
+              
+              <a class="source" href="mobile-check.html">
+                assets/javascripts/app/mobile-check.coffee
+              </a>
+            
+              
+              <a class="source" href="s3.html">
+                assets/javascripts/app/s3.coffee
+              </a>
+            
+              
+              <a class="source" href="../main.html">
+                assets/javascripts/main.coffee
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>app.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>define [<span class="string">'angular'</span>, <span class="string">'templates'</span>, <span class="string">'app/mobile-check'</span>], <span class="function"><span class="params">(angular, templates, mobilecheck)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h2 id="angular-configuration">Angular Configuration</h2>
+<p>Here is where we configure default parameters for <code>Restangular</code></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    angular.<span class="built_in">module</span>(<span class="string">'configuration'</span>, [<span class="string">'restangular'</span>,<span class="string">'ngStorage'</span>])
+        .config <span class="function"><span class="params">(RestangularProvider)</span> -&gt;</span>
+            RestangularProvider.setRequestSuffix <span class="string">'/?format=json'</span>
+        .constant(<span class="string">'BASE_URL'</span>, {
+            <span class="attribute">local</span>: <span class="string">'http://localhost:8000'</span>
+            <span class="attribute">cloud</span>: <span class="string">'http://django-archangel.rhcloud.com'</span>
+        })</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>When the application runs, set a few other configuration
+parameters based on what’s in <code>$localStorage</code></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        .run <span class="function"><span class="params">(Restangular, $localStorage, BASE_URL, editableOptions)</span> -&gt;</span>
+            Restangular.setBaseUrl <span class="keyword">if</span> $localStorage.useLocalData <span class="keyword">then</span> BASE_URL.local <span class="keyword">else</span> BASE_URL.cloud
+            editableOptions.theme = <span class="string">'bs3'</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <h2 id="archangel-angular-modules">ArchAngel angular modules</h2>
+<p>Here we define our <code>djangoApp.services</code> module namespace,
+along with any angular libraries we want to be available
+for dependency injection.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    angular.<span class="built_in">module</span>(<span class="string">'djangoApp.services'</span>, [<span class="string">'configuration'</span>, <span class="string">'ngStorage'</span>])</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Here is our controller namespace. There are many more angular
+libraries available for dependency injection because our controllers
+are much more involed in interacting with the DOM.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    angular.<span class="built_in">module</span>(<span class="string">'djangoApp.controllers'</span>, [<span class="string">'restangular'</span>, <span class="string">'djangoApp.services'</span>, <span class="string">'configuration'</span>, <span class="string">'ngStorage'</span>, <span class="string">'angularFileUpload'</span>])</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>And, finally, we define the root <code>djangoApp</code> namespace with any
+angular libraries we would like to make available.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">return</span> angular.<span class="built_in">module</span>(<span class="string">'djangoApp'</span>, [<span class="string">'ngRoute'</span>, <span class="string">'angularMoment'</span>,<span class="string">'djangoApp.controllers'</span>,<span class="string">'chieffancypants.loadingBar'</span>,<span class="string">'btford.markdown'</span>, <span class="string">'zj.namedRoutes'</span>, <span class="string">'ngSanitize'</span>, <span class="string">'xeditable'</span>, <span class="string">'angular-growl'</span>, <span class="string">'ngAnimate'</span>, <span class="string">'truncate'</span>])</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

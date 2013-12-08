@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>controllers.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="../../../../docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="../app.html">
+                assets/javascripts/app/app.coffee
+              </a>
+            
+              
+              <a class="source" href="../common/base-service.html">
+                assets/javascripts/app/common/base-service.coffee
+              </a>
+            
+              
+              <a class="source" href="controllers.html">
+                assets/javascripts/app/course/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="forum/controllers.html">
+                assets/javascripts/app/course/forum/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="forum/services.html">
+                assets/javascripts/app/course/forum/services.coffee
+              </a>
+            
+              
+              <a class="source" href="grade/controllers.html">
+                assets/javascripts/app/course/grade/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="grade/services.html">
+                assets/javascripts/app/course/grade/services.coffee
+              </a>
+            
+              
+              <a class="source" href="lesson/assignment/controllers.html">
+                assets/javascripts/app/course/lesson/assignment/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="lesson/assignment/services.html">
+                assets/javascripts/app/course/lesson/assignment/services.coffee
+              </a>
+            
+              
+              <a class="source" href="lesson/assignment/submission/controllers.html">
+                assets/javascripts/app/course/lesson/assignment/submission/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="lesson/assignment/submission/services.html">
+                assets/javascripts/app/course/lesson/assignment/submission/services.coffee
+              </a>
+            
+              
+              <a class="source" href="lesson/controllers.html">
+                assets/javascripts/app/course/lesson/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="lesson/services.html">
+                assets/javascripts/app/course/lesson/services.coffee
+              </a>
+            
+              
+              <a class="source" href="roster/services.html">
+                assets/javascripts/app/course/roster/services.coffee
+              </a>
+            
+              
+              <a class="source" href="section/controllers.html">
+                assets/javascripts/app/course/section/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="section/services.html">
+                assets/javascripts/app/course/section/services.coffee
+              </a>
+            
+              
+              <a class="source" href="services.html">
+                assets/javascripts/app/course/services.coffee
+              </a>
+            
+              
+              <a class="source" href="syllabus/controllers.html">
+                assets/javascripts/app/course/syllabus/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="syllabus/services.html">
+                assets/javascripts/app/course/syllabus/services.coffee
+              </a>
+            
+              
+              <a class="source" href="team/controllers.html">
+                assets/javascripts/app/course/team/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="team/services.html">
+                assets/javascripts/app/course/team/services.coffee
+              </a>
+            
+              
+              <a class="source" href="../login/controllers.html">
+                assets/javascripts/app/login/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="../login/services.html">
+                assets/javascripts/app/login/services.coffee
+              </a>
+            
+              
+              <a class="source" href="../mobile-check.html">
+                assets/javascripts/app/mobile-check.coffee
+              </a>
+            
+              
+              <a class="source" href="../s3.html">
+                assets/javascripts/app/s3.coffee
+              </a>
+            
+              
+              <a class="source" href="../../main.html">
+                assets/javascripts/main.coffee
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>controllers.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>define [<span class="string">'angular'</span>], <span class="function"><span class="params">(angular)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h2 id="course-controller">Course controller</h2>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">return</span> angular.<span class="built_in">module</span>(<span class="string">'djangoApp.controllers'</span>).controller <span class="string">'CourseController'</span>,
+        <span class="function"><span class="params">($scope, $routeParams, Restangular, User, Course, CourseSection, CourseRoster, Syllabus, Lesson, Team, TeamMember, Forum)</span> -&gt;</span>
+            courseParams = _.findWhere($routeParams.resources, {<span class="attribute">resource</span>:<span class="string">'course'</span>})
+            sectionParams = _.findWhere($routeParams.resources, {<span class="attribute">resource</span>:<span class="string">'section'</span>})</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>We’ll assume we’re trying to load a specific
+course</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            courseId = Number(courseParams.id)
+
+            $scope.resource = courseParams.resource</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>But if not, the course id should be defined
+as the route parentId parameter
+if courseParams.resource.indexOf(‘course’)
+    courseId = Number($routeParams.parentId)
+    $scope.resource = ‘course’</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>If we haven’t already defined the list of
+courses for this scope</p>
+<p>This may only be necessary to filter the
+list of courses a user participates in</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="keyword">unless</span> $scope.courses</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Load all of the courses</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                Course.all<span class="function"><span class="params">()</span>.<span class="title">then</span> <span class="params">(courses)</span> -&gt;</span>
+                    $scope.courses = courses</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Define an empty syllabus object so we don’t
+have any null references</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            $scope.syllabus = {}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Load the desired course defined in the courseId</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            Course.get<span class="function"><span class="params">(courseId)</span>.<span class="title">then</span> <span class="params">(course)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Set our scope reference to the course</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                $scope.course = course</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Check if the current user is an instructor for
+this course</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                Course.isInstructorFor<span class="function"><span class="params">($scope.course.id)</span>.<span class="title">then</span> <span class="params">(isInstructor)</span> -&gt;</span>
+                    $scope.isInstructor = isInstructor</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Load the syllabus for this course</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                Syllabus.get<span class="function"><span class="params">($scope.course.syllabus)</span>.<span class="title">then</span> <span class="params">(syllabus)</span> -&gt;</span>
+                    $scope.syllabus = syllabus</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Create an empty list of lessons to avoid any
+null references</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                $scope.lessons = []</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Only attempt to load lessons for this course
+if there are any</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                <span class="keyword">if</span> $scope.course.lessons.length &gt; <span class="number">0</span>
+                    Lesson.all<span class="function"><span class="params">($scope.course.lessons)</span>.<span class="title">then</span> <span class="params">(lessons)</span> -&gt;</span>
+                        $scope.lessons = lessons
+
+                <span class="keyword">if</span> $scope.course.forums.length &gt; <span class="number">0</span>
+                    Forum.all<span class="function"><span class="params">($scope.course.forums)</span>.<span class="title">then</span> <span class="params">(forums)</span> -&gt;</span>
+                        $scope.forums = forums</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Create an empty list of sections and section
+members to avoid any null references</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                $scope.sections = []</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>$scope.section_members = []</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Only attempt to load sections and members if
+there are any</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                <span class="keyword">if</span> $scope.course.sections.length &gt; <span class="number">0</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Load all of the course sections defined for this
+course</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                    CourseSection.all<span class="function"><span class="params">($scope.course.sections)</span>.<span class="title">then</span> <span class="params">(sections)</span> -&gt;</span>
+                        $scope.sections = sections</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>If the user hasn’t selected a specific section</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                        <span class="keyword">unless</span> sectionParams</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>We need to combine all of the roster references
+into a single list to load</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                            rosterIds = []
+                            rosterIds.push section.members <span class="keyword">for</span> section <span class="keyword">in</span> $scope.sections</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>This flattens the array to keep it as a
+single dimension</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                            rosterIds = _.flatten(rosterIds)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>Retrieve just the roster entries that belong
+to the student group</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                            CourseRoster.students<span class="function"><span class="params">(rosterIds)</span>.<span class="title">then</span> <span class="params">(members)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>This is our list of student roster objects</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                                $scope.section_members = _.indexBy(members, <span class="string">'user'</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>Load the actual user data for each student
+in our section members list</p>
+<p>Pluck out just the user parameter, as that
+is the reference to the user id</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                                User.all<span class="function"><span class="params">(_.pluck(members, <span class="string">'user'</span>))</span>.<span class="title">then</span> <span class="params">(students)</span> -&gt;</span>
+                                    $scope.students = students</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>We need to combine all of the team references
+into a single list to load</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                            teamIds = []
+
+                            teamIds.push section.teams <span class="keyword">for</span> section <span class="keyword">in</span> $scope.sections</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>This flattens the array to keep it as a
+single dimension</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                            teamIds = _.flatten(teamIds)
+
+                            Team.all<span class="function"><span class="params">(teamIds)</span>.<span class="title">then</span> <span class="params">(teams)</span> -&gt;</span>
+
+                                $scope.teams = teams
+                                $scope.section_teams = _.groupBy(teams, <span class="string">'section'</span>)
+                                $scope.team_index = _.indexBy(teams, <span class="string">'id'</span>)
+
+                            TeamMember.all<span class="function"><span class="params">()</span>.<span class="title">then</span> <span class="params">(teamMembers)</span> -&gt;</span>
+                                $scope.team_members = _.indexBy(teamMembers, <span class="string">'user'</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>The user has selected a specific section</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                        <span class="keyword">else</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>Get this section based on the id passed in the
+url (we need to parse the string version)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                            CourseSection.get<span class="function"><span class="params">(Number(sectionParams.id))</span>.<span class="title">then</span> <span class="params">(section)</span> -&gt;</span>
+                                $scope.section = section</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>Load the students for this section</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                                CourseRoster.students<span class="function"><span class="params">($scope.section.members)</span>.<span class="title">then</span> <span class="params">(members)</span> -&gt;</span>
+                                    $scope.section_members = _.indexBy(members, <span class="string">'user'</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>Load the actual user data for each student
+in our section members list</p>
+<p>Pluck out just the user parameter, as that
+is the reference to the user id</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                                    User.all<span class="function"><span class="params">(_.pluck(members, <span class="string">'user'</span>))</span>.<span class="title">then</span> <span class="params">(students)</span> -&gt;</span>
+                                        $scope.students = students</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>Load the teams for this section</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                                Team.all<span class="function"><span class="params">($scope.section.teams)</span>.<span class="title">then</span> <span class="params">(teams)</span> -&gt;</span>
+                                    $scope.teams = teams
+                                    $scope.section_teams = _.groupBy(teams, <span class="string">'section'</span>)
+                                    $scope.team_index = _.indexBy(teams, <span class="string">'id'</span>)
+
+                                TeamMember.all<span class="function"><span class="params">()</span>.<span class="title">then</span> <span class="params">(teamMembers)</span> -&gt;</span>
+                                    $scope.team_members = _.indexBy(teamMembers, <span class="string">'user'</span>)
+
+            $scope.<span class="function"><span class="title">updateUserTeam</span> = <span class="params">(data, user)</span> -&gt;</span>
+                <span class="keyword">unless</span> $scope.team_members[user]?.team == data.id
+                    <span class="keyword">if</span> $scope.team_members.hasOwnProperty(user)
+                        teamMember = $scope.team_members[user]
+                        teamMember.team = data.id
+                        TeamMember.update(teamMember)
+                            .<span class="keyword">then</span> <span class="function"><span class="params">(result)</span> -&gt;</span>
+                                console.log <span class="string">"Updated team membership"</span>
+                                $scope.team_members[user].team = result.team
+
+                                Team.all<span class="function"><span class="params">(_.pluck($scope.teams, <span class="string">'id'</span>), <span class="literal">true</span>)</span>.<span class="title">then</span> <span class="params">(teams)</span> -&gt;</span>
+                                    $scope.teams = teams
+                                <span class="keyword">return</span> <span class="literal">true</span>
+                            .<span class="keyword">catch</span> <span class="function"><span class="params">(err)</span> -&gt;</span>
+                                <span class="keyword">return</span> <span class="string">"Error: "</span> + err
+                    <span class="keyword">else</span>
+                        teamMember = {<span class="attribute">team</span>: data.id, <span class="attribute">user</span>: user}
+                        TeamMember.add(teamMember)
+                            .<span class="keyword">then</span> <span class="function"><span class="params">(result)</span> -&gt;</span>
+                                console.log <span class="string">"Created team membership"</span>
+                                $scope.team_members[user] = result
+                                Team.all<span class="function"><span class="params">(_.pluck($scope.teams, <span class="string">'id'</span>), <span class="literal">true</span>)</span>.<span class="title">then</span> <span class="params">(teams)</span> -&gt;</span>
+                                    $scope.teams = teams
+                                <span class="keyword">return</span> <span class="literal">true</span>
+                            .<span class="keyword">catch</span> <span class="function"><span class="params">(err)</span> -&gt;</span>
+                                <span class="keyword">return</span> <span class="string">"Error: "</span> + err</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

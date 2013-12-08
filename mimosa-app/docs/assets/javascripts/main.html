@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>main.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="../../docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="app/app.html">
+                assets/javascripts/app/app.coffee
+              </a>
+            
+              
+              <a class="source" href="app/common/base-service.html">
+                assets/javascripts/app/common/base-service.coffee
+              </a>
+            
+              
+              <a class="source" href="app/course/controllers.html">
+                assets/javascripts/app/course/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="app/course/forum/controllers.html">
+                assets/javascripts/app/course/forum/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="app/course/forum/services.html">
+                assets/javascripts/app/course/forum/services.coffee
+              </a>
+            
+              
+              <a class="source" href="app/course/grade/controllers.html">
+                assets/javascripts/app/course/grade/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="app/course/grade/services.html">
+                assets/javascripts/app/course/grade/services.coffee
+              </a>
+            
+              
+              <a class="source" href="app/course/lesson/assignment/controllers.html">
+                assets/javascripts/app/course/lesson/assignment/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="app/course/lesson/assignment/services.html">
+                assets/javascripts/app/course/lesson/assignment/services.coffee
+              </a>
+            
+              
+              <a class="source" href="app/course/lesson/assignment/submission/controllers.html">
+                assets/javascripts/app/course/lesson/assignment/submission/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="app/course/lesson/assignment/submission/services.html">
+                assets/javascripts/app/course/lesson/assignment/submission/services.coffee
+              </a>
+            
+              
+              <a class="source" href="app/course/lesson/controllers.html">
+                assets/javascripts/app/course/lesson/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="app/course/lesson/services.html">
+                assets/javascripts/app/course/lesson/services.coffee
+              </a>
+            
+              
+              <a class="source" href="app/course/roster/services.html">
+                assets/javascripts/app/course/roster/services.coffee
+              </a>
+            
+              
+              <a class="source" href="app/course/section/controllers.html">
+                assets/javascripts/app/course/section/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="app/course/section/services.html">
+                assets/javascripts/app/course/section/services.coffee
+              </a>
+            
+              
+              <a class="source" href="app/course/services.html">
+                assets/javascripts/app/course/services.coffee
+              </a>
+            
+              
+              <a class="source" href="app/course/syllabus/controllers.html">
+                assets/javascripts/app/course/syllabus/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="app/course/syllabus/services.html">
+                assets/javascripts/app/course/syllabus/services.coffee
+              </a>
+            
+              
+              <a class="source" href="app/course/team/controllers.html">
+                assets/javascripts/app/course/team/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="app/course/team/services.html">
+                assets/javascripts/app/course/team/services.coffee
+              </a>
+            
+              
+              <a class="source" href="app/login/controllers.html">
+                assets/javascripts/app/login/controllers.coffee
+              </a>
+            
+              
+              <a class="source" href="app/login/services.html">
+                assets/javascripts/app/login/services.coffee
+              </a>
+            
+              
+              <a class="source" href="app/mobile-check.html">
+                assets/javascripts/app/mobile-check.coffee
+              </a>
+            
+              
+              <a class="source" href="app/s3.html">
+                assets/javascripts/app/s3.coffee
+              </a>
+            
+              
+              <a class="source" href="main.html">
+                assets/javascripts/main.coffee
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>main.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <h2 id="requirejs-configuration">RequireJS configuration</h2>
+<p>Configure RequireJS by:</p>
+<ol>
+<li>Defining an alias to the
+AngularJS library path, which will help simplify
+future requires for angular.</li>
+<li>Adjust the base url used for all require
+statements.</li>
+<li>Configure an angular shim in case it was not
+defined using the define() method of RequireJS</li>
+</ol>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>require.config
+    <span class="attribute">paths</span>:
+        <span class="attribute">angular</span>: <span class="string">'vendor/angular/angular'</span>
+    <span class="attribute">baseUrl</span>: <span class="string">'javascripts'</span>
+    <span class="attribute">shim</span>:
+        <span class="string">'angular'</span>: {<span class="string">'exports'</span>:<span class="string">'angular'</span>}
+    <span class="attribute">priority</span>: [<span class="string">'angular'</span>]</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h2 id="load-dependencies">Load dependencies</h2>
+<p>This is our main application entry-point, which
+defines our base dependencies, a url argument
+that will be appended to every library load request
+that helps to prevent browser caching and a jQuery
+alias to simplify any future references.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="built_in">require</span>
+    <span class="attribute">urlArgs</span>: <span class="string">"b=<span class="subst">#{(<span class="keyword">new</span> Date()).getTime()}</span>"</span>
+    <span class="attribute">paths</span>:
+        <span class="attribute">jquery</span>: <span class="string">'vendor/jquery/jquery.min'</span>
+    ,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>These are our core dependencies - our application
+will delay being loaded until all of these have
+been retrieved and are ready.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    [
+        <span class="string">'angular'</span>
+        <span class="string">'templates'</span>
+        <span class="string">'app/mobile-check'</span>
+        <span class="string">'app/app'</span>
+        <span class="string">'app/s3'</span>
+    ]</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Here we receive our defined base dependencies
+to use in our application.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    ,<span class="function"><span class="params">(angular, templates, mobilecheck, app)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <h2 id="main-coffee-has-been-loaded">Main.coffee has been loaded</h2>
+<p>Initialize the Metronic theme handlers
+once the application is ready to render.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        $(<span class="built_in">document</span>).ready<span class="function"> -&gt;</span>
+            console.log <span class="string">'Initializing metronic'</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Metronic is our add-on theme for
+Twitter Bootstrap 3</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            Metronic.init()
+            <span class="keyword">return</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <h2 id="load-local-angular-modules">Load local angular modules</h2>
+<p>Here we load our application’s angular
+services and controllers. We do this
+after angular has been loaded to avoid
+any race conditions since RequireJS
+does not load in any guaranteed order.</p>
+<p>Note that we don’t handle these libraries
+in the callback because they already have
+registered themselves with angular.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="built_in">require</span> [
+            <span class="string">'app/login/services'</span>
+            <span class="string">'app/login/controllers'</span>
+            <span class="string">'app/course/services'</span>
+            <span class="string">'app/course/controllers'</span>
+            <span class="string">'app/course/roster/services'</span>
+            <span class="string">'app/course/section/services'</span>
+            <span class="string">'app/course/section/controllers'</span>
+            <span class="string">'app/course/syllabus/controllers'</span>
+            <span class="string">'app/course/syllabus/services'</span>
+            <span class="string">'app/course/lesson/services'</span>
+            <span class="string">'app/course/lesson/controllers'</span>
+            <span class="string">'app/course/lesson/assignment/services'</span>
+            <span class="string">'app/course/lesson/assignment/controllers'</span>
+            <span class="string">'app/course/lesson/assignment/submission/services'</span>
+            <span class="string">'app/course/lesson/assignment/submission/controllers'</span>
+            <span class="string">'app/course/grade/services'</span>
+            <span class="string">'app/course/grade/controllers'</span>
+            <span class="string">'app/course/team/services'</span>
+            <span class="string">'app/course/team/controllers'</span>
+            <span class="string">'app/course/forum/services'</span>
+            <span class="string">'app/course/forum/controllers'</span>
+        ],<span class="function"> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <h2 id="all-dependencies-have-been-loaded">All dependencies have been loaded</h2>
+<p>Use the browser user-agent or the screen
+size to determine if we should render
+mobile-specific views.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            isMobile = mobilecheck.isMobile()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Simple helper method for Restangular to
+load all data for the provided resource
+and add it to the local <code>$scope</code> .</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="function"><span class="title">getAllData</span> = <span class="params">(service, $scope, resource)</span> -&gt;</span>
+                service.all<span class="function"><span class="params">(resource)</span>.<span class="title">getList</span><span class="params">()</span>.<span class="title">then</span> <span class="params">(items)</span> -&gt;</span>
+                    $scope[resource] = items</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Simple helper method for selectively
+returning the mobile-specific template
+if needed and one exists.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="function"><span class="title">getTemplate</span> = <span class="params">(name)</span> -&gt;</span>
+                template = templates[name]</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>We check to see if the compiled Jade
+templates library contains a mobile
+version of the requested template name.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                <span class="keyword">if</span> isMobile <span class="keyword">and</span> templates.hasOwnProperty(<span class="string">"<span class="subst">#{name}</span>_mobile"</span>)
+                    template = templates[<span class="string">"<span class="subst">#{name}</span>_mobile"</span>]
+
+                <span class="keyword">return</span> template</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>This map of URL routes helps the angular
+router determine which controllers and
+templates to load for a given URL.</p>
+<p>The pattern is:</p>
+<ul>
+<li>test <code>model</code> (<strong><em>required</em></strong>):<ul>
+<li><code>template</code> (<strong><em>required</em></strong>): the name of the template to load</li>
+<li><code>controller</code> (<em>optional</em>): the name of the controller to load. If
+undefined, a controller named ModelController will be used (
+e.g. <code>YogurtController</code> if the model was defined as <code>yogurt</code>)</li>
+<li><code>restful</code> (<em>optional</em>): true/false</li>
+<li><code>nested</code> (<em>optional</em>):<ul>
+<li>— repeated —</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>The login route will end up looking like:
+  <code>http://my.site.com/login</code></p>
+<p>Defining <code>restful: true</code> will result in
+the following route being generated:
+  <code>http://my.site.com/model_name/[action]/[id]</code></p>
+<p>Restful routes allow for the following patterns:
+  <code>http://my.site.com/course/view/1</code>
+  <code>http://my.site.com/course/add/new</code>
+  <code>http://my.site.com/course/edit/5</code></p>
+<p>as well as the following nested patterns:
+  <code>http://my.site.com/course/view/1/lesson/view/1</code>
+  <code>http://my.site.com/course/view/1/syllabus/edit/2</code></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            routeMap = {
+                <span class="attribute">login</span>:
+                    <span class="attribute">template</span>: <span class="string">'login'</span>
+                    <span class="attribute">controller</span>: <span class="string">'LoginController'</span>
+                <span class="attribute">course</span>:
+                    <span class="attribute">restful</span>: <span class="literal">true</span>
+                    <span class="attribute">template</span>: <span class="string">'course'</span>
+                    <span class="attribute">nested</span>:
+                        <span class="attribute">section</span>:
+                            <span class="attribute">restful</span>: <span class="literal">true</span>
+                            <span class="attribute">template</span>: <span class="string">'course'</span>
+                            <span class="attribute">controller</span>: <span class="string">'CourseController'</span>
+                        <span class="attribute">lesson</span>:
+                            <span class="attribute">restful</span>: <span class="literal">true</span>
+                            <span class="attribute">template</span>: <span class="string">'lesson'</span>
+                            <span class="attribute">nested</span>:
+                                <span class="attribute">forum</span>:
+                                    <span class="attribute">restful</span>: <span class="literal">true</span>
+                                    <span class="attribute">template</span>: <span class="string">'forum'</span>
+                                <span class="attribute">assignment</span>:
+                                    <span class="attribute">restful</span>: <span class="literal">true</span>
+                                    <span class="attribute">template</span>: <span class="string">'assignment'</span>
+                                    <span class="attribute">nested</span>:
+                                        <span class="attribute">submission</span>:
+                                            <span class="attribute">restful</span>: <span class="literal">true</span>
+                                            <span class="attribute">template</span>: <span class="string">'submission'</span>
+                                            <span class="attribute">nested</span>:
+                                                <span class="attribute">grade</span>:
+                                                    <span class="attribute">restful</span>: <span class="literal">true</span>
+                                                    <span class="attribute">template</span>: <span class="string">'grade'</span>
+                                                    <span class="attribute">controller</span>: <span class="string">'GradedAssignmentSubmissionController'</span>
+                        <span class="attribute">syllabus</span>:
+                            <span class="attribute">restful</span>: <span class="literal">true</span>
+                            <span class="attribute">template</span>: <span class="string">'syllabus'</span>
+                        <span class="attribute">forum</span>:
+                            <span class="attribute">restful</span>: <span class="literal">true</span>
+                            <span class="attribute">template</span>: <span class="string">'forum'</span>
+                        <span class="attribute">team</span>:
+                            <span class="attribute">restful</span>: <span class="literal">true</span>
+                            <span class="attribute">template</span>: <span class="string">'team'</span>
+                <span class="attribute">grade</span>:
+                    <span class="attribute">restful</span>: <span class="literal">true</span>
+                    <span class="attribute">template</span>: <span class="string">'grade'</span>
+                    <span class="attribute">controller</span>: <span class="string">'GradedAssignmentSubmissionController'</span>
+                <span class="attribute">team</span>:
+                    <span class="attribute">restful</span>: <span class="literal">true</span>
+                    <span class="attribute">template</span>: <span class="string">'team'</span>
+                    <span class="attribute">controller</span>: <span class="string">'TeamController'</span>
+            }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <h3 id="recursive-resource-finder">Recursive Resource Finder</h3>
+<p>Simple helper method to assist in traversing the
+URL to locate the <code>routeMap</code> configuration of the
+target resource.</p>
+<p>Returns an object containing the <strong>name</strong> of the
+resource located, the <strong>configuration</strong> defined
+and a <strong>named route</strong> for use with the angular
+named route module.</p>
+<p>First, we loop through each resource defined in the parent
+configuration node. Keys (<code>item</code>) will be the name of the
+resource in the configuration. Values (<code>options</code>) will be the
+configuration defined for that resource. We check if this item
+matches our target resource and return it if it matches. If not,
+we’ll check if this item has any nested resources defined.</p>
+<p>Nested resources will recursively call <code>recurseResourceFinder</code> (
+hence the name) until the route configuration has no more nested
+resources defined.</p>
+<p>If the result is a nested route, we add the parent resource to the
+beginning of the resulting named route to keep everything in context
+later on.</p>
+<p>If no results are found, we return null</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="function"><span class="title">recursiveResourceFinder</span> = <span class="params">(parent, resource)</span> -&gt;</span>
+                <span class="keyword">for</span> item, options <span class="keyword">of</span> parent
+                    <span class="keyword">if</span> item.indexOf(resource) <span class="keyword">is</span> <span class="number">0</span> <span class="keyword">and</span> resource.indexOf(item) <span class="keyword">is</span> <span class="number">0</span>
+                        <span class="keyword">return</span> {<span class="attribute">resource</span>: item, <span class="attribute">options</span>: options, <span class="attribute">routeName</span>: item}
+                    <span class="keyword">else</span> <span class="keyword">if</span> options.nested?
+                        nested = recursiveResourceFinder(options.nested, resource)
+                        <span class="keyword">if</span> nested
+                            nested.routeName = <span class="string">"<span class="subst">#{item}</span>-<span class="subst">#{nested.routeName}</span>"</span>
+                            <span class="keyword">return</span> nested
+                <span class="keyword">return</span> <span class="literal">null</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <h3 id="create-route">Create Route</h3>
+<p>Simple helper method for registering and handling routes defined
+in the routeMap configuration with the angular routing service</p>
+<ul>
+<li><code>$routeProvider</code> is a reference to the angular route service</li>
+<li><code>route</code> is the URL to listen for (e.g. /something/:id)</li>
+<li><code>name</code> is the name of the <code>routeMap</code> resource associated with
+this route</li>
+<li><code>data</code> is the configuration data</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="function"><span class="title">createRoute</span> = <span class="params">($routeProvider, route, name, data)</span> -&gt;</span>
+                console.log <span class="string">"Building routes for <span class="subst">#{name}</span> (<span class="subst">#{data.namedRoute}</span>): <span class="subst">#{route}</span>"</span>
+                $routeProvider.<span class="keyword">when</span> route, {
+                    <span class="attribute">template</span>: <span class="function"><span class="params">($routeParams)</span> -&gt;</span>
+                        $routeParams.resources = []
+                        <span class="keyword">if</span> _.keys($routeParams).length &gt; <span class="number">1</span>
+                            <span class="keyword">for</span> key,val <span class="keyword">of</span> $routeParams <span class="keyword">when</span> key <span class="keyword">isnt</span> <span class="string">'resources'</span>
+                                [resource, type] = key.split(<span class="string">'_'</span>)
+                                existing = _.findWhere($routeParams.resources,{<span class="attribute">resource</span>:resource})
+                                <span class="keyword">unless</span> existing
+                                    existing = {<span class="attribute">resource</span>:resource}
+                                    $routeParams.resources.push existing
+                                existing[type] = val
+                        <span class="keyword">else</span>
+                            locationParts = window.location.pathname.split(<span class="string">'/'</span>)
+                            $routeParams.resources.push {<span class="attribute">resource</span>: locationParts[-<span class="number">1.</span>.-<span class="number">1</span>]+<span class="string">""</span>}
+
+                        <span class="keyword">if</span> $routeParams.resources.length &gt; <span class="number">0</span>
+                            param = _.last($routeParams.resources)
+                            resource = param.resource
+                            options = routeMap[resource] <span class="keyword">or</span> recursiveResourceFinder(routeMap, resource)?.options
+                            <span class="keyword">return</span> getTemplate(<span class="keyword">unless</span> options.restful <span class="keyword">then</span> options.template <span class="keyword">else</span> <span class="string">"<span class="subst">#{param.action}</span>-<span class="subst">#{options.template}</span>"</span>)
+                        <span class="keyword">return</span>
+                    <span class="attribute">controller</span>: <span class="keyword">if</span> data.controller <span class="keyword">then</span> data.controller <span class="keyword">else</span> <span class="string">"<span class="subst">#{name[<span class="number">0</span>].toUpperCase()}</span><span class="subst">#{name[<span class="number">1.</span>.-<span class="number">1</span>]}</span>Controller"</span>
+                    <span class="attribute">name</span>: data.namedRoute
+                }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <h3 id="recursive-route-builder">Recursive Route Builder</h3>
+<p>This helper method  takes the main <code>routeMap</code> configuration
+and recursively constructs the URL’s for any nested resources
+defined. This method will call <code>createRoute</code> for each route
+constructed.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="function"><span class="title">recursiveRouteBuilder</span> = <span class="params">($routeProvider, routes, baseURL, parentResource)</span> -&gt;</span>
+                <span class="keyword">for</span> name, data <span class="keyword">of</span> routes
+                    route = baseURL + <span class="string">"/<span class="subst">#{name}</span>"</span>
+                    <span class="keyword">if</span> data.restful
+                        route += <span class="string">"/:<span class="subst">#{name}</span>_action/:<span class="subst">#{name}</span>_id"</span>
+                    data.namedRoute = (parentResource <span class="keyword">or</span> <span class="string">''</span>) + name
+                    createRoute($routeProvider, route, name, data)
+
+                    <span class="keyword">if</span> data.nested?
+                        recursiveRouteBuilder($routeProvider, data.nested, route, data.namedRoute + <span class="string">"-"</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <h2 id="main-application-configuration">Main Application Configuration</h2>
+<p>Here we define our application-specific configuration parameters
+for our main Angular module, <code>djangoApp</code>.</p>
+<p>We use this configuration method to construct and register our
+routes using the <code>recursiveRouteBuilder</code> method. We will also
+register our default route handler using <code>$routeProvider.otherwise</code>
+to avoid <code>404 Page Missing</code> errors.</p>
+<p><strong><em>Note</em></strong> setting <code>$locationProvider.html5Mode(true)</code> will allow
+the angular routing module to intercept URL’s that look like
+<code>http://my.site.com/some/page/item/id</code> instead of
+<code>http://my.site.com/some#page/item/id</code></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            app.config <span class="function"><span class="params">($routeProvider, $locationProvider)</span> -&gt;</span>
+                recursiveRouteBuilder($routeProvider, routeMap, <span class="string">""</span>)
+
+                $routeProvider.otherwise {
+                        <span class="attribute">template</span>: getTemplate(<span class="string">'main-screen'</span>)
+                        <span class="attribute">controller</span>: <span class="string">'ArchangelController'</span>
+                }
+                $locationProvider.html5Mode(<span class="literal">true</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <h2 id="custom-directives">Custom Directives</h2>
+<p>This <code>bsHolder</code> angular directive is a workaround for
+an incompatability between angular and the holder.js
+image placeholder library.</p>
+<p>To use, simply define <code>bs-holder</code> on any element</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            angular.<span class="built_in">module</span><span class="function"><span class="params">(<span class="string">'djangoApp'</span>)</span>.<span class="title">directive</span> '<span class="title">bsHolder</span>', <span class="params">()</span> -&gt;</span>
+                <span class="keyword">return</span> {
+                    <span class="attribute">link</span>: <span class="function"><span class="params">(scope, element, attrs)</span> -&gt;</span>
+                        Holder.run {<span class="attribute">images</span>: element.get(<span class="number">0</span>), <span class="attribute">nocss</span>:<span class="literal">true</span>}
+                }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <h2 id="local-angular-controllers">Local Angular Controllers</h2>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            angular.<span class="built_in">module</span>(<span class="string">'djangoApp.controllers'</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <h3 id="top-navbar-controller">Top Navbar Controller</h3>
+<p>This is just a simple controller for the top navbar on
+the site. Most of the parameters and helper methods
+are remnants of the site using Foundation and Ratchet
+for the UI.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                .controller <span class="string">'NavbarController'</span>, <span class="function"><span class="params">($scope,$location,$localStorage,Restangular, BASE_URL, User, Course)</span> -&gt;</span>
+                    $scope.$storage = $localStorage.$<span class="reserved">default</span> {<span class="attribute">useLocalData</span>: <span class="literal">true</span>}
+                    $scope.isMobile = isMobile
+                    $scope.user = User
+
+                    $scope.$<span class="literal">on</span> <span class="string">'logout'</span>,<span class="function"> =&gt;</span>
+                        $location.path(<span class="string">'/login'</span>)
+
+                    $scope.<span class="function"><span class="title">updateDataURL</span> = <span class="params">()</span> -&gt;</span>
+                        $scope.$storage.useLocalData = !$scope.$storage.useLocalData
+
+                        url = <span class="string">'http://localhost:8000'</span>
+                        <span class="keyword">unless</span> $scope.$storage.useLocalData
+                            url = <span class="string">'http://django-archangel.rhcloud.com'</span>
+
+                        Restangular.setBaseUrl <span class="string">"<span class="subst">#{url}</span>/"</span>
+
+                        $location.path(<span class="string">'/'</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <h3 id="sidebar-controller">Sidebar Controller</h3>
+<p>This sidebar controller helps keep the sidebar up-to-date
+with model changes that affect any course links being
+displayed.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                .controller <span class="string">'SidebarController'</span>, <span class="function"><span class="params">($scope, $location, $routeParams, Restangular, growl, User, Course, Lesson, Forum)</span> -&gt;</span>
+                    $scope.isMobile = isMobile
+                    $scope.user = User
+                    $scope.moment = moment</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>When the user logs in, lets make sure to pull the
+latest list of courses for them. Forcing an update
+with <code>true</code> in the call will help prevent caching
+issues if a different user had been logged in
+previously.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                    $scope.$<span class="literal">on</span> <span class="string">'login'</span>,<span class="function"> =&gt;</span>
+                        Course.all<span class="function"><span class="params">(<span class="literal">null</span>, <span class="literal">true</span>)</span>.<span class="title">then</span> <span class="params">(courses)</span> -&gt;</span>
+                            $scope.courses = courses</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>When the user logs out, make sure we clear out all
+<code>$scope</code> data for the sidebar so nothing is left
+over for the next login.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                    $scope.$<span class="literal">on</span> <span class="string">'logout'</span>,<span class="function"> =&gt;</span>
+                        $scope.courses = []
+                        $scope.courseParams = <span class="literal">null</span>
+                        $scope.lessonParams = <span class="literal">null</span>
+                        $scope.forumParams = <span class="literal">null</span>
+                        $scope.routeParams = <span class="literal">null</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>Because we’re indexing the forums by their ID to
+help display them easily for each course, we need
+to listen for any model updates so that we can re-run
+the index and update the scope. In case there were any
+additions or deletions from a course, we force-update
+the courses as well - this also helps keep the UI in
+sync with the backend and funky things happen if this
+doesn’t occur.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                    $scope.$<span class="literal">on</span> <span class="string">'forums-updated'</span>, <span class="function"><span class="params">()</span> -&gt;</span>
+                        Course.all<span class="function"><span class="params">(<span class="literal">null</span>, <span class="literal">true</span>)</span>.<span class="title">then</span> <span class="params">(courses)</span> -&gt;</span>
+                            $scope.courses = courses
+
+                            Forum.all<span class="function"><span class="params">()</span>.<span class="title">then</span> <span class="params">(forums)</span> -&gt;</span>
+                                <span class="keyword">if</span> forums?.length &gt; <span class="number">0</span>
+                                    $scope.forums = _.indexBy(forums, <span class="string">'id'</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>Just like with the forums, we need to update the courses
+and re-index the lessons on any model updates.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                    $scope.$<span class="literal">on</span> <span class="string">'lessons-updated'</span>, <span class="function"><span class="params">()</span> -&gt;</span>
+                        Course.all<span class="function"><span class="params">(<span class="literal">null</span>, <span class="literal">true</span>)</span>.<span class="title">then</span> <span class="params">(courses)</span> -&gt;</span>
+                            $scope.courses = courses
+
+                            Lesson.all<span class="function"><span class="params">()</span>.<span class="title">then</span> <span class="params">(lessons)</span> -&gt;</span>
+                                <span class="keyword">if</span> lessons?.length &gt; <span class="number">0</span>
+                                    $scope.lessons = _.indexBy(lessons, <span class="string">'id'</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>Here we hook into the global scope <code>error</code> event so that
+we can display them to the user. The errors produced by
+<code>Restangular</code> follow a schema provided by the django
+response, so first we check to see if the error was generated
+by one of our services; if not, we just display the error
+provided.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                    $scope.$<span class="literal">on</span> <span class="string">'error'</span>, <span class="function"><span class="params">(event, err)</span> -&gt;</span>
+                        <span class="keyword">if</span> err.hasOwnProperty(<span class="string">'service'</span>)
+                            {service, error} = err
+                            <span class="keyword">for</span> field, msg <span class="keyword">of</span> error.data
+                                growl.addErrorMessage(<span class="string">"<span class="subst">#{msg.join()}</span> - '<span class="subst">#{field}</span>'"</span>)
+                        <span class="keyword">else</span>
+                                growl.addErrorMessage(err)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>Same with the errors, this hooks into the global <code>warning</code>
+event for displaying warnings to the user.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                    $scope.$<span class="literal">on</span> <span class="string">'warning'</span>, <span class="function"><span class="params">(event, err)</span> -&gt;</span>
+                        <span class="keyword">if</span> err.hasOwnProperty(<span class="string">'service'</span>)
+                            {service, error} = err
+                            <span class="keyword">for</span> field, msg <span class="keyword">of</span> error.data
+                                growl.addWarningMessage(<span class="string">"<span class="subst">#{msg.join()}</span> - '<span class="subst">#{field}</span>'"</span>)
+                        <span class="keyword">else</span>
+                                growl.addWarningMessage(err)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>This method helps encapsulate loading all of the potential
+route parameters that the template will use to determine what
+page the user is on.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                    <span class="function"><span class="title">updateRouteParams</span> = <span class="params">()</span> =&gt;</span>
+                        $scope.courseParams = _.findWhere($routeParams.resources, {<span class="attribute">resource</span>:<span class="string">'course'</span>})
+                        $scope.lessonParams = _.findWhere($routeParams.resources, {<span class="attribute">resource</span>:<span class="string">'lesson'</span>})
+                        $scope.forumParams = _.findWhere($routeParams.resources, {<span class="attribute">resource</span>:<span class="string">'forum'</span>})
+                        $scope.teamParams = _.findWhere($routeParams.resources, {<span class="attribute">resource</span>:<span class="string">'team'</span>})
+                        $scope.gradeParams = _.findWhere($routeParams.resources, {<span class="attribute">resource</span>:<span class="string">'grade'</span>})
+                        $scope.routeParams = $routeParams</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>If the user is authenticated, go ahead and load up the list
+of courses, lessons and forums to populate the navigation
+links.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                    <span class="keyword">if</span> User.authenticated
+                        Course.all<span class="function"><span class="params">()</span>.<span class="title">then</span> <span class="params">(courses)</span> -&gt;</span>
+                            $scope.courses = courses
+
+                            lessonIds = []</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>Here we are collecting all of the lesson ids for each
+course being displayed.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                            lessonIds.push course.lessons <span class="keyword">for</span> course <span class="keyword">in</span> $scope.courses</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>This flattens the lesson ids array to keep it as a
+single dimension.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                            lessonIds = _.flatten(lessonIds)
+
+                            forumIds = []</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <p>We’ll do the same thing with the forums</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                            forumIds.push course.forums <span class="keyword">for</span> course <span class="keyword">in</span> $scope.courses</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p>This flattens the array to keep it as a
+single dimension</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                            forumIds = _.flatten(forumIds)
+
+                            Lesson.all<span class="function"><span class="params">(lessonIds)</span>.<span class="title">then</span> <span class="params">(lessons)</span> -&gt;</span>
+                                $scope.lessons = _.indexBy(lessons, <span class="string">'id'</span>)
+                            Forum.all<span class="function"><span class="params">(forumIds)</span>.<span class="title">then</span> <span class="params">(forums)</span> -&gt;</span>
+                                $scope.forums = _.indexBy(forums, <span class="string">'id'</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-33">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-33">&#182;</a>
+              </div>
+              <p>After the URL changes, make sure we reload the route
+parameters to keep the UI navigation up-to-date</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                    $scope.$<span class="literal">on</span> <span class="string">'$routeChangeSuccess'</span>, <span class="function"><span class="params">()</span> =&gt;</span>
+                        updateRouteParams()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <h3 id="homepage-controller">Homepage Controller</h3>
+<p>This controller is referenced by <code>views/main-screen.jade</code> and
+handles redirecting users that haven’t logged in yet, as well
+as initializing any Metronic javascript libraries used on the
+home screen.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                .controller <span class="string">'ArchangelController'</span>, <span class="function"><span class="params">($scope, $location, Restangular, User, Course)</span> -&gt;</span>
+                    $scope.isMobile = isMobile
+                    $scope.user = User
+
+                    <span class="keyword">unless</span> User.authenticated
+                        $location.path(<span class="string">'/login'</span>)
+                    <span class="keyword">else</span>
+                        Index.initCalendar()
+                        Tasks.initDashboardWidget()
+                        Course.all<span class="function"><span class="params">()</span>.<span class="title">then</span> <span class="params">(courses)</span> -&gt;</span>
+                            $scope.courses = courses</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
+              </div>
+              <h2 id="bootstrap-our-angular-app">Bootstrap our Angular App</h2>
+<p>This helps to work around the known issue of using angular along
+with requirejs, as you would normally declare ng-app in the main
+<code>html</code> element</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            angular.bootstrap <span class="built_in">document</span>, [<span class="string">'djangoApp'</span>]</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
