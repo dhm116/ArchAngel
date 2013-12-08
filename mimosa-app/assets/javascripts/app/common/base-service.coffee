@@ -1,6 +1,9 @@
 'use strict'
 
 define ['angular'], (angular) ->
+    # ##Base Service
+    # This service contains the core logic for handling our
+    # restful resources using `Restangular` .
     class BaseService
         items: []
         $q: null
@@ -8,24 +11,24 @@ define ['angular'], (angular) ->
         defer: null
 
         # Primary constructor for the Base Service class,
-        # relying upon (at a minimum) the Restangular and
-        # promise services.
+        # relying upon (at a minimum) the `Restangular` ,
+        # `$rootScope` and promise (`$q`) services.
         #
-        # Additional arguments will be lumped into "other"
+        # Additional arguments will be lumped into "other".
         constructor: (@Restangular, @$q, @$rootScope, other...) ->
             # Hand off any additional arguments to any
-            # sub class that overrides this method
+            # sub class that overrides this method.
             @__onNewInstance(other...)
             return
 
         # Intended to be overridden by sub classes.
         #
-        # Used during instantiation of the class
+        # Used during instantiation of the class.
         __onNewInstance: () =>
             return
 
         # Verify any dependent properties have been
-        # defined by the sub class
+        # defined by the sub class.
         __checkDependencies: =>
             errors = []
             unless @model
@@ -40,29 +43,36 @@ define ['angular'], (angular) ->
         # Retrieves all items and optionally returns
         # a subset matching the supplied ids.
         #
-        # ids can be null, a single number, or an array
-        # of numbers
+        # `ids` can be null, a single number, or an array
+        # of numbers.
+        #
+        # `forceUpdate` is a boolean that will refresh the
+        # local object cache for this model.
         all: (ids, forceUpdate) =>
             # Let's make sure any overriden models have actually
             # defined what model to load, and any dependencies to
             # load it.
             @__checkDependencies()
 
-            # Set up our promise object to return async results
+            # Set up our promise object to return async results.
             defer = @$q.defer()
 
-            # Let's choose to only handle arrays
+            # Let's choose to only handle arrays.
             unless _.isArray(ids)
-                # But only if they actually provided some ids
+                # But only if they actually provided some ids.
                 ids = [ids] if ids?
 
             # If we already have loaded all data, let's use
-            # the cached version we already have
+            # the cached version we already have.
             if forceUpdate
                 @items = []
 
+            # If we have no cached data, make a new request.
             unless @items.length
                 console.log "Loading #{@model} data from REST API"
+                # It's safe to call `Restangular.all` because the
+                # back-end is scoping all results to those that
+                # the logged in users is authorized to see.
                 @Restangular.all(@model).getList()
                     .then (items) =>
                         console.log "Got #{@model} data"
@@ -94,7 +104,10 @@ define ['angular'], (angular) ->
 
         # Retrieves a single item
         #
-        # id must be a number
+        # `id` must be a number
+        #
+        # `forceUpdate` is a boolean that will refresh the
+        # local object cache for this model.
         get: (id, forceUpdate) =>
             @__checkDependencies()
             defer = @$q.defer()
@@ -102,16 +115,11 @@ define ['angular'], (angular) ->
             match = _.findWhere(@items, {id: id})
             if match or forceUpdate
                 console.log "Loading cached single #{@model} item"
-                # console.log @items
                 defer.resolve(match)
             else
                 console.log "Loading single #{@model} from REST API"
-                # @Restangular.one(@model, id).get().then (item) =>
-                #     console.log "Got single #{@model} data"
                 @items = []
                 @all().then =>
-                    # unless _.contains(@items, item)
-                        # @items.push item
                     defer.resolve(_.findWhere(@items, {id: id}))
 
             return defer.promise
@@ -139,8 +147,6 @@ define ['angular'], (angular) ->
                 request = item.put()
             else
                 defer.reject(new Error('An existing restangular object is required for updating'))
-            #     console.log "Loading reference to #{@model}.#{item.id}: ", item
-            #     request = @Restangular.one(@model, item.id).put(item)
 
             request.then (result) =>
                     # Update the local cache instance

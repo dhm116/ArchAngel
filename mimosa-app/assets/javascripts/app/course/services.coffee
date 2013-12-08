@@ -1,23 +1,34 @@
 define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
     angular.module('djangoApp.services').factory 'Course', ($q, $rootScope, Restangular, CourseSection, CourseRoster, Lesson, Assignment, User) ->
+        # ##Course service
         class Course extends ServiceBase
             model: 'courses'
 
             __onNewInstance: () =>
+                # Make sure all local data is removed when the user
+                # logs out.
                 $rootScope.$on 'logout', () =>
                     console.log "Detected user logout event, deleting data"
                     @items = []
 
+            # Helper method for identifying if the current user is
+            # an instructor for the course with the matching `courseId` .
             isInstructorFor: (courseId) =>
                 defer = @$q.defer()
                 @get(courseId).then (course) =>
+                    # Check and see if we've already determined this.
                     if course.hasOwnProperty('isInstructor')
                         defer.resolve(course.isInstructor)
                     else
+                        # Make sure this course actually has some sections
+                        # defined.
                         if course.sections.length > 0
+                            # Load all of the course sections for this course.
                             CourseSection.all(course.sections).then (sections) ->
-
+                                # Load the course rosters as well.
                                 CourseRoster.all(sections.members).then (members) ->
+                                    # Try to find the current user in the roster for any
+                                    # section and find out if they have an `instructor` role.
                                     if members.length > 0 and _.findWhere(members, {course: courseId, user:User.data.id, group: 'instructor'})
                                         course.isInstructor = true
                                     else
@@ -25,6 +36,7 @@ define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
                                     defer.resolve(course.isInstructor)
                 return defer.promise
 
+            # **Note**: We're not currently using this method
             upcomingAssignments: (courseId) =>
                 defer = @$q.defer()
 
@@ -45,40 +57,3 @@ define ['angular', 'app/common/base-service'], (angular, ServiceBase) ->
 
                 return defer.promise
         return new Course(Restangular, $q, $rootScope)
-        # class Course
-        #     courses: []
-        #     d: null
-
-        #     constructor: ->
-
-        #     all: () =>
-        #         unless @d
-        #             @d = $q.defer()
-
-        #             unless @courses.length
-        #                 Restangular.all('courses').getList().then (items) =>
-        #                     @courses = items
-        #                     # console.log "In async course service", @courses
-        #                     console.log 'Getting list of courses'
-        #                     @d.resolve(@courses)
-        #             else
-        #                 console.log 'Using cached course list'
-        #                 console.log @courses
-        #                 @d.resolve(@courses)
-
-        #         return @d.promise
-
-        #     get: (id) =>
-        #         d = $q.defer()
-
-        #         unless @courses.length
-        #             @all().then (courses) =>
-        #                 d.resolve(@__getCourse(id))
-        #         else
-        #             d.resolve(@__getCourse(id))
-        #         return d.promise
-
-        #     __getCourse: (id) =>
-        #         return _.findWhere @courses, {id: id}
-
-        # return new Course()

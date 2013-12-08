@@ -1,4 +1,6 @@
 define [], () ->
+    # This class is a simple helper utility to allow us
+    # to react to small screen-sized devices if needed.
     class mobilecheck
         constructor: () ->
 
